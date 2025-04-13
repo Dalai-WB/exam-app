@@ -1,13 +1,13 @@
 export const environment = {
-    production: true,
-    apiUrl: 'https://exam-app-backend-9f57.onrender.com/',
-    firebase: { 
-        "projectId": "exap-app-ddc39",
-        "appId": "1:213528201316:web:1efff733e338474ea8b771",
-        "storageBucket": "exap-app-ddc39.appspot.com",
-        "apiKey": "AIzaSyAL_4cAqVn-FZNenQLI0R3OWEs8jiuz090",
-        "authDomain": "exap-app-ddc39.firebaseapp.com",
-        "messagingSenderId": "213528201316",
-        "measurementId": "G-063D75HC31",
-    }
+  production: true,
+  apiUrl: 'https://exam-app-backend-9f57.onrender.com/',
+  firebase: {
+    apiKey: 'AIzaSyAq5z__fMXIVGbx47WIJzhrLz-oGcc5-Cg',
+    authDomain: 'exam-app-784a9.firebaseapp.com',
+    projectId: 'exam-app-784a9',
+    storageBucket: 'exam-app-784a9.firebasestorage.app',
+    messagingSenderId: '424294302342',
+    appId: '1:424294302342:web:422710ece1f671604ac707',
+    measurementId: 'G-03SCV7CQQQ',
+  },
 };
