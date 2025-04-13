@@ -1,0 +1,50 @@
+.register-background {
+    flex: 1;
+    height: 100vh;
+
+    .background-image {
+        min-height: 100%;
+        max-height: 100%;
+        min-width: 100%;
+    }
+}
+
+.custom-background {
+    flex: 1;
+
+}
+
+.register-title {
+    background: linear-gradient(to right, #7ed4ad, #426e5a);
+    /* Gradient background */
+    -webkit-background-clip: text;
+    /* Clip background to the text */
+    background-clip: text;
+    /* Fallback for non-webkit browsers */
+    -webkit-text-fill-color: transparent;
+    /* Make the text transparent to show the background */
+    text-fill-color: transparent;
+    /* Fallback */
+}
+
+.register-text {
+    color: #7ed4ad;
+}
+
+.input-style {
+    border-bottom: #7ed4ad 2px solid;
+    border-radius: 10px;
+}
+
+.register-button {
+    background-color: #7ed4ad;
+}
+
+.main-logo {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 9999;
+    width: 250px;
+    margin-right: 8px;
+}

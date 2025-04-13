@@ -1,5 +1,11 @@
-<div class="flex justify-center p-8">
-  <div class="grid grid-cols-4 gap-14">
-    <app-card *ngFor="let topic of topics" [topic]="topic"></app-card>
+<div class="container-body">
+  <div class="flex justify-center">
+    <h2 class="main-title">Сорилууд</h2>
+  </div>
+  <div class="flex justify-center p-8">
+    <div class="grid grid-cols-5 gap-20">
+      <app-card *ngFor="let exam of exams" [exam]="exam" [badgeValue]="exam.score"></app-card>
+      <app-card *ngIf="isAdmin" [exam]="adminExam"></app-card>
+    </div>
   </div>
 </div>

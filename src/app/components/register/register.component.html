@@ -1,39 +1,62 @@
-<section class="bg-gray-50 dark:bg-gray-900">
-	<div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+<section class="flex">
+	<div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 custom-background">
 		<div
-			class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+			class="w-full bg-white rounded-lg md:mt-0 sm:max-w-md xl:p-0">
 			<div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-				<h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-					Бүртгэл үүсгэх
+				<h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl register-title text-center">
+					Бүртгүүлэх
 				</h1>
-				<form class="space-y-4 md:space-y-6" action="#">
+				<div class="space-y-4 md:space-y-6" action="#">
+					<p-selectButton 
+						[options]="stateOptions" 
+						[(ngModel)]="role" 
+						optionLabel="label" 
+						optionValue="value" 
+						allowEmpty="false"
+						styleClass="custom-selection"
+						(click)="onRoleChange()" />
+					<div *ngIf="role !== 'teacher'">
+						<label for="email" class="block mb-2 text-sm font-medium text-gray-900 register-text">Багш</label>
+						<p-dropdown 
+							styleClass="custom-drop"
+							[options]="teachers" 
+							[(ngModel)]="selectedTeacher" 
+							optionLabel="username"
+							optionValue="_id"
+							placeholder="Багш сонгох"
+							[filter]="true"/>
+					</div>
 					<div>
-						<label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">И-майл</label>
+						<label for="email" class="block mb-2 text-sm font-medium text-gray-900 register-text">И-майл</label>
 						<input [(ngModel)]="email" type="email" name="email" id="email"
-							class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-sky-600 focus:border-sky-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+							class="input-style bg-gray-50 text-gray-900 sm:text-sm rounded-lg focus:ring-sky-600 focus:border-sky-600 block w-full p-2.5"
 							placeholder="name@company.com" required="">
 					</div>
 					<div>
-						<label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Нууц үг</label>
+						<label for="password" class="block mb-2 text-sm font-medium text-gray-900 register-text">Нууц үг</label>
 						<input [(ngModel)]="password" type="password" name="password" id="password" placeholder="••••••••"
-							class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-sky-600 focus:border-sky-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+							class="bg-gray-50 input-style text-gray-900 sm:text-sm rounded-lg focus:ring-sky-600 focus:border-sky-600 block w-full p-2.5"
 							required="">
 					</div>
 					<div>
-						<label for="confirm-password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Нууц үг
+						<label for="confirm-password" class="block mb-2 text-sm font-medium text-gray-900 register-text">Нууц үг
 							баталгаажуулах</label>
-						<input [(ngModel)]="confirmPassword" type="confirm-password" name="confirm-password" id="confirm-password"
+						<input [(ngModel)]="confirmPassword" type="password" name="confirm-password" id="confirm-password"
 							placeholder="••••••••"
-							class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-sky-600 focus:border-sky-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+							class="bg-gray-50 input-style text-gray-900 sm:text-sm rounded-lg focus:ring-sky-600 focus:border-sky-600 block w-full p-2.5"
 							required="">
 					</div>
 					<button (click)="onRegister()" type="submit"
-						class="w-full text-white bg-sky-600 hover:bg-sky-700 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-sky-600 dark:hover:bg-sky-700 dark:focus:ring-sky-800">Бүртгүүлэх</button>
-					<p class="text-sm font-light text-gray-500 dark:text-gray-400">
-						Бүртгэлтэй юу? <a href="#" class="font-medium text-sky-600 hover:underline dark:text-sky-500">Нэвтрэх</a>
+						class="w-full text-white bg-sky-600 hover:bg-sky-700 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center register-button">Бүртгүүлэх</button>
+					<p class="text-sm font-light register-text">
+						Бүртгэлтэй юу? <a href="#" class="font-medium hover:cursor-pointer underline register-text">Нэвтрэх</a>
 					</p>
-				</form>
+				</div>
 			</div>
 		</div>
 	</div>
+	<div class="register-background">
+        <img src="../../../assets/images/register-background.png" class="background-image" alt="">
+        <img src="../../../assets/images/main-black 2.svg" class="main-logo">
+    </div>
 </section>

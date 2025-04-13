@@ -1,3 +1,17 @@
 .navbar {
-    height: calc((100vh - 4rem));
+  height: 100vh;
+  background-color: #7ed4ad;
+}
+
+.logout-button {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: 1rem;
+}
+
+.inside-button {
+  flex: 1;
+  display: flex;
+  justify-content: center;
 }

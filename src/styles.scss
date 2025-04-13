@@ -1,5 +1,49 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-@import "primeng/resources/themes/lara-light-blue/theme.css";
-@import "primeng/resources/primeng.css";
+// styles.scss
+@layer tailwind-base, primeng, tailwind-utilities;
+
+@layer tailwind-base {
+  @tailwind base;
+}
+
+@layer primeng; //not necessary I think
+
+@layer tailwind-utilities {
+  @tailwind components;
+  @tailwind utilities;
+}
+@import "primeicons/primeicons.css";
+
+.unanswered {
+  border-bottom: 2px solid black;
+  border-radius: 8px
+}
+
+.incorrect {
+  border-bottom: 2px solid red;
+  border-radius: 8px
+}
+
+$--primary-color: #7ED4AD;
+
+.custom-selection.p-selectbutton.p-buttonset.p-component {
+  & div:first-child {
+    width: 50%;
+  }
+  & div:last-child {
+    width: 50%;
+  }
+}
+
+.custom-selection.p-selectbutton .p-button.p-highlight {
+  background: #7ED4AD;
+  border-color: #7ED4AD;
+  color: #ffffff;
+}
+
+.custom-selection .p-button:focus {
+  box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #b2e5ce, 0 1px 2px 0 black;
+}
+
+.custom-drop.p-dropdown.p-component.p-inputwrapper.p-inputwrapper-filled {
+  width: 100%;
+}

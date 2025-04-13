@@ -1,0 +1,105 @@
+.exam-cont {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.res-cont {
+    width: 30%;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.exam-create-container {
+    padding: 2rem 4rem;
+    // background-color: #7ed4ad;
+    // height: 100vh;
+    color: white;
+    width: 70%;
+    height: 100vh;
+}
+
+.exam-create-header {
+    background-color: #7ed4ad;
+    border-radius: 8px;
+    padding: 2rem 4rem;
+    margin-bottom: 16px;
+
+    .exam-create-header-top {
+        margin-bottom: 1rem;
+        display: flex;
+        justify-content: center;
+
+        h3 {
+            font-size: 32px;
+        }
+    }
+}
+
+.exam-create-questions {
+    background-color: #7ed4ad;
+    border-radius: 8px;
+    padding: 2rem 4rem;
+
+}
+
+.form-element {
+    display: flex;
+    flex-direction: column;
+}
+
+.choices {
+    padding: 1rem;
+
+    .choice-head {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .sub-choice {
+        margin-left: 2rem;
+        padding: 8px 4px;
+
+        input {
+            margin-left: 4px;
+        }
+    }
+}
+
+.input {
+    color: black !important;
+}
+
+.exam-create-footer {
+    margin-top: 16px;
+    background-color: #7ed4ad;
+    border-radius: 8px;
+    padding: 2rem 4rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.text-wrap {
+    white-space: pre-wrap;
+    /* Preserves whitespace and wraps text */
+    word-break: break-word;
+    /* Allows breaking long words */
+    max-width: 100%;
+    /* Prevents overflowing */
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+    /* Semi-transparent white */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    /* Ensure it overlays all other content */
+}

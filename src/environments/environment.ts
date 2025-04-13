@@ -1,5 +1,6 @@
 export const environment = {
-    production: false,
+    production: true,
+    apiUrl: 'https://exam-app-backend-9f57.onrender.com/',
     firebase: { 
         "projectId": "exap-app-ddc39",
         "appId": "1:213528201316:web:1efff733e338474ea8b771",
