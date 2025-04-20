@@ -99,6 +99,26 @@ export class ExamCreateComponent {
             choicesArray.push(this.fb.control(choice, Validators.required));
           });
 
+          if (question.answerType === 'fill' && question.correctAnswer) {
+            const fillTestAnswersArray = questionGroup.get('fillTestAnswers') as FormArray;
+
+            const parsedAnswers = question.correctAnswer.split(';').map((entry: string) => {
+              const [labelPart, rest] = entry.split('=');
+              const [answer, point] = rest.split('&');
+              return { label: labelPart, answer, point };
+            });
+
+            parsedAnswers.forEach((parsed:any) => {
+              fillTestAnswersArray.push(
+                this.fb.group({
+                  label: [parsed.label],
+                  answer: [parsed.answer],
+                  point: [parsed.point]
+                })
+              );
+            });
+          }
+
           this.questions.push(questionGroup);
         });
       },
@@ -161,6 +181,7 @@ export class ExamCreateComponent {
       answerType: ['', Validators.required],
       questionPoint: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
       solution: ['', Validators.required],
+      fillTestAnswers: this.fb.array([])
     });
   }
 
@@ -189,6 +210,21 @@ export class ExamCreateComponent {
   // Submit the form
   submit(): void {
     this.isLoading = true;
+    const questionsFormArray = this.examForm.get('questions') as FormArray;
+
+    questionsFormArray.controls.forEach((questionGroup: AbstractControl) => {
+      const answerType = questionGroup.get('answerType')?.value;
+
+      if (answerType === 'fill') {
+        const fillTestAnswers = questionGroup.get('fillTestAnswers')?.value || [];
+
+        const correctAnswerString = fillTestAnswers
+          .map((choice: any) => `${choice.label}=${choice.answer}&${choice.point}`)
+          .join(';');
+
+        questionGroup.get('correctAnswer')?.setValue(correctAnswerString);
+      }
+    });
     if (this.examForm.valid) {
       this.isFinished = true;
       // Send form data to the backend
@@ -249,5 +285,23 @@ export class ExamCreateComponent {
 
   onAnswerClick() {
     this.isVisible = true
+  }
+
+  getFillTestAnswers(question: any): FormArray {
+    return question.get('fillTestAnswers') as FormArray;
+  }
+
+  addFillTestAnswer(questionIndex: number): void {
+    const fillTestAnswer = this.questions.at(questionIndex).get('fillTestAnswers') as FormArray;
+    fillTestAnswer.push(this.fb.group({
+      label: ['', Validators.required],
+      answer: ['', Validators.required],
+      point: ['', Validators.required],
+    }))
+  }
+
+  removeFillTestAnswer(questionIndex: number, choiceIndex: number): void {
+    const answers = this.questions.at(questionIndex).get('fillTestAnswers') as FormArray;
+    answers.removeAt(choiceIndex);
   }
 }

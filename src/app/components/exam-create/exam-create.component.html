@@ -85,9 +85,19 @@
                   </ng-template>
                 </p-dropdown>
               </div>
-              <div *ngIf="getAnswerType(activeIndex).value === 'fill'" class="form-element">
+              <div *ngIf="getAnswerType(activeIndex).value === 'fill'" class="form-element" formArrayName="fillTestAnswers">
                 <label>Зөв хариулт:</label>
-                <input pInputText formControlName="correctAnswer" type="text" />
+                <!-- <input pInputText formControlName="correctAnswer" type="text" /> -->
+                <div class="choices">
+                  <div class="choice-head">
+                    <label>Хариултууд:</label>
+                    <p-button icon="pi pi-plus" [rounded]="true" [text]="true" (click)="addFillTestAnswer(i)"/>
+                  </div>
+                  <div *ngFor="let testAnswer of getFillTestAnswers(question).controls; let k = index" [formGroupName]="k">
+                    <input pInputText formControlName="label" type="text">: <input pInputText formControlName="answer" type="text"> Оноо: <input pInputText formControlName="point" type="text">
+                    <p-button icon="pi pi-times" [rounded]="true" [text]="true" severity="danger" (click)="removeFillTestAnswer(i,k)"/>
+                  </div>
+                </div>
               </div>
             </p-accordionTab>
           </p-accordion>
