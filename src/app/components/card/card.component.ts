@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-card',
@@ -12,7 +13,7 @@ export class CardComponent {
   @Input() badgeValue: number | null = null;
   role: String = '';
 
-  constructor(private router: Router, private auth: AuthenticationService) { }
+  constructor(private router: Router, private auth: AuthenticationService, private msg: MessageService) { }
 
   ngOnInit() {
     console.log(this.badgeValue);
@@ -20,6 +21,15 @@ export class CardComponent {
   }
 
   onGetDetail() {
+    if (this.exam.status === 'locked') {
+      this.msg.add({
+        severity: 'warn',
+        summary: 'Анхааруулга',
+        detail: 'Өмнөх сорилоо өгсний дараа дараагийн сорилоо хийнэ үү!',
+      });
+      return
+    }
+
     if (!this.exam['_id']) {
       this.router.navigate(['/exam']);
       return;
