@@ -19,6 +19,7 @@ export class ExamCreateComponent {
   examForm: FormGroup;
   isEditMode: boolean = false;
   examId: string | null = null;
+  isVisible: boolean = false;
 
   categories: String[] = [
     'Тоон ба үсэгт илэрхийлэл',
@@ -89,6 +90,7 @@ export class ExamCreateComponent {
             category: question.category,
             answerType: question.answerType,
             questionPoint: question.questionPoint,
+            solution: question.solution,
           });
 
           // Add choices
@@ -124,6 +126,10 @@ export class ExamCreateComponent {
     return this.questions.at(index).get('questionText') as FormControl
   }
 
+  getQuestionSolution(index: any): FormControl {
+    return this.questions.at(index).get('solution') as FormControl
+  }
+
   getQuestion(index: any): FormGroup {
     return this.questions.at(index) as FormGroup
   }
@@ -154,6 +160,7 @@ export class ExamCreateComponent {
       category: ['', Validators.required],
       answerType: ['', Validators.required],
       questionPoint: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
+      solution: ['', Validators.required],
     });
   }
 
@@ -238,5 +245,9 @@ export class ExamCreateComponent {
   activeIndexChange(event: any) {
     // console.log(event);
     this.activeIndex = event ?? this.activeIndex;
+  }
+
+  onAnswerClick() {
+    this.isVisible = true
   }
 }

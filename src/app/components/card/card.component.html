@@ -1,8 +1,7 @@
 <div
   (click)="onGetDetail()"
   [ngClass]="{
-    'hover:cursor-pointer': exam.status !== 'locked',
-    'opacity-60': exam.status === 'locked'
+    'opacity-60': exam.status === 'locked' && this.role === 'student'
   }"
   class="h-24 w-48 max-w-sm rounded-lg shadow hover:cursor-pointer customized-card flex justify-center items-center"
   pBadge [value]="badgeValue ?? 0" severity="success" [badgeDisabled]="badgeValue === null"

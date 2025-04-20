@@ -21,7 +21,7 @@ export class CardComponent {
   }
 
   onGetDetail() {
-    if (this.exam.status === 'locked') {
+    if (this.exam.status === 'locked' && this.role === 'student') {
       this.msg.add({
         severity: 'warn',
         summary: 'Анхааруулга',
