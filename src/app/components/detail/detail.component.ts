@@ -24,6 +24,7 @@ export class DetailComponent implements OnInit, OnDestroy {
   isFill: boolean = false;
   exam: any;
   questionText: string = '';
+  solution: string = '';
 
   timeLeft: number = 5400;
   timerInterval: any;
@@ -33,7 +34,7 @@ export class DetailComponent implements OnInit, OnDestroy {
   attempt: any;
   isReview: boolean = false;
   isVisible: boolean = false;
-  answerString: String = ''
+  answerString: string = ''
 
   constructor(
     private route: ActivatedRoute,
@@ -227,7 +228,8 @@ export class DetailComponent implements OnInit, OnDestroy {
             selectedAnswer: [{value: responseQuestion.selectedAnswer, disabled: true}, Validators.required],
             correctAnswer: {value: responseQuestion.question.correctAnswer.replace(/&\d/g, ''), disabled: true},
             _id: [questionData._id, Validators.required],
-            isCorrect: responseQuestion.isCorrect
+            isCorrect: responseQuestion.isCorrect,
+            solution: responseQuestion.question.solution
           })
         );
       });
@@ -251,7 +253,8 @@ export class DetailComponent implements OnInit, OnDestroy {
   }
 
   onAnswerClick() {
-    this.answerString = '\\(\\begin{pmatrix}   1 & 0\\\\    -1 & 1 \\end{pmatrix}\\cdot \\begin{pmatrix}   1 & 3 & 5\\\\    2 & 4 & 6 \\end{pmatrix}\\) үржүүлэх үйлдлийг гүйцэтгэ.';
+    const responses = this.attempt.responses as any[];
+    this.answerString = responses.find(res => res.question._id === this.exam.questions[this.pageIndex - 1]['_id']).question.solution;
     this.isVisible = true;
   }
 }

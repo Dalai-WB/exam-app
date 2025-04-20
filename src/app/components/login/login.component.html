@@ -9,7 +9,7 @@
                 <h1 class="text-xl font-bold leading-tight tracking-tight md:text-2xl login-title text-center">
                     Нэвтрэх
                 </h1>
-                <form class="space-y-4 md:space-y-6" action="#">
+                <form class="space-y-4 md:space-y-6" (ngSubmit)="onLogin()">
                     <div>
                         <label for="email" class="block mb-2 text-sm font-medium login-text">И-майл</label>
                         <input [(ngModel)]="email" type="email" name="email" id="email" class="bg-gray-50 input-style text-gray-900 sm:text-sm rounded-lg focus:ring-sky-600 focus:border-sky-600 block w-full p-2.5" placeholder="name@company.com" required="">
@@ -29,7 +29,9 @@
                         </div>
                         <a href="#" class="text-sm font-medium login-text hover:underline">Нууц үг мартсан?</a>
                     </div>
-                    <div (click)="onLogin()" class="w-full text-white login-button focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-lg px-5 py-2.5 text-center hover:cursor-pointer">Нэвтрэх</div>
+                    <button type="submit" class="w-full text-white login-button focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-lg px-5 py-2.5 text-center hover:cursor-pointer">
+                        Нэвтрэх
+                    </button>                      
                     <p class="text-sm font-light login-text">
                         Бүртгэл байхгүй юу? <span (click)="onRegister()" class="font-medium login-text underline hover:cursor-pointer">Бүртгүүлэх</span>
                     </p>
