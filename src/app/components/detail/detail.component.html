@@ -1,19 +1,28 @@
-<div class="flex" [formGroup]="examForm">
-  <div class="flex flex-col w-64 px-4 tex-gray-900 custom-navbar">
-    <div class="mb-1 mt-2">
-      <img src="../../../assets/images/main-black 2.svg" style="color: white;" alt="" width="200px">
+<div class="flex h-screen" [formGroup]="examForm">
+  <!-- Sidebar -->
+  <div 
+    [ngClass]="{
+      'block fixed z-40 top-0 left-0 h-full bg-primary-color w-64 px-4 pt-4 transition-transform duration-300': true,
+      'translate-x-0': isSidebarOpen,
+      '-translate-x-full': !isSidebarOpen,
+      'lg:translate-x-0 lg:static': true
+    }"
+    class="custom-navbar"
+  >
+    <div class="mb-2">
+      <img src="../../../assets/images/main-black 2.svg" alt="Logo" width="180px" />
     </div>
-    <nav aria-label="Page navigation" class="p-7">
+    <nav class="p-4">
       <ul class="flex flex-wrap gap-3">
         <li
           *ngFor="let question of arr; let i = index"
           (click)="onPageClick(question)"
           [ngClass]="{
             'unanswered': !questions.controls[i].get('selectedAnswer')?.value,
-            'correct': this.isReview && questions.controls[i].get('isCorrect')?.value === true,
-            'incorrect': this.isReview && questions.controls[i].get('isCorrect')?.value === false
+            'correct': isReview && questions.controls[i].get('isCorrect')?.value === true,
+            'incorrect': isReview && questions.controls[i].get('isCorrect')?.value === false
           }"
-          class="hover: cursor-pointer"
+          class="cursor-pointer"
         >
           <a [class]="pageIndex === question ? activePage : regularPage">
             {{ question }}
@@ -22,97 +31,114 @@
       </ul>
     </nav>
   </div>
-  <div>
-    <div class="flex flex-col justify-between h-screen main-test-area">
-      <div>
-        <div class="flex items-center m-6">
-          <div class="border-2 border-primary-color p-2 rounded-md">
-            <h2 class="text-xl text-primary-color font-bold p-1">
-              {{ exam.examName }}
-            </h2>
-          </div>
-          <div class="flex-grow border-b border-primary-color"></div>
-          <div class="border-2 border-primary-color p-2 rounded-md">
-            <h2 class="text-xl text-primary-color font-bold p-1">
-              {{ formattedTime }}
-            </h2>
-          </div>
+
+  <!-- Main Test Area -->
+  <div class="flex-1 flex flex-col main-test-area relative overflow-auto">
+    <!-- Top Navbar for Small Screens -->
+    <div class="lg:hidden flex items-center justify-between p-4 bg-white border-b">
+      <button (click)="toggleSidebar()" class="text-gray-700 focus:outline-none">
+        <i class="pi pi-bars text-2xl"></i>
+      </button>
+      <h2 class="text-primary-color font-bold text-xl">{{ exam?.examName }}</h2>
+      <h2 class="text-primary-color font-bold text-xl">{{ formattedTime }}</h2>
+    </div>
+
+    <!-- Main Content -->
+    <div class="flex flex-col justify-between flex-1">
+      <!-- Exam Header -->
+      <div class="hidden lg:flex items-center m-6 justify-between">
+        <div class="border-2 border-primary-color p-2 rounded-md">
+          <h2 class="text-xl text-primary-color font-bold p-1">{{ exam.examName }}</h2>
+        </div>
+        <div class="border-2 border-primary-color p-2 rounded-md">
+          <h2 class="text-xl text-primary-color font-bold p-1">{{ formattedTime }}</h2>
         </div>
       </div>
-      <div formArrayName="questions">
-        <div class="mb-10 px-24 flex justify-between content-center">
-          <div class="flex gap-5 content-center">
-            <span
-              class="flex items-center justify-center px-4 h-10 w-12 border bg-white border-primary-color text-primary-color text-lg rounded-md"
-              >{{ pageIndex }}</span
-            >
-            <span class="text-wrap"
-              ><app-math-jax-paragraph
-                [mathString]="replaceDollarPairsRecursively(questionText)"
-              ></app-math-jax-paragraph
-            ></span>
+
+      <!-- Question Content -->
+      <div formArrayName="questions" class="custom-background flex items-center">
+        <div>
+          <!-- Question Header -->
+          <div class="mb-10 px-4 sm:px-8 lg:px-24 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
+            <div class="flex gap-3 sm:gap-5 items-center">
+              <span class="flex items-center justify-center px-3 sm:px-4 h-10 w-10 sm:w-12 border bg-white border-primary-color text-primary-color text-lg rounded-md">
+                {{ pageIndex }}
+              </span>
+              <span class="break-words max-w-full">
+                <app-math-jax-paragraph [mathString]="replaceDollarPairsRecursively(questionText)"></app-math-jax-paragraph>
+              </span>
+            </div>
+
+            <!-- Button only in review -->
+            <p-button 
+              *ngIf="isReview" 
+              class="ml-0 lg:ml-1 w-full lg:w-auto" 
+              label="Бодолт" 
+              [text]="true" 
+              severity="success" 
+              (click)="onAnswerClick()"
+            />
           </div>
-          <p-button *ngIf="isReview" class="ml-1" label="Бодолт" [text]="true" severity="success" (click)="onAnswerClick()"/>
-        </div>
-        <div class="px-24">
-          <ul *ngIf="!isFill" [formGroup]="arrFormGroup">
-            <li
-              *ngFor="let answer of answers; let i = index"
-              class="flex justify-start custom-li w-full ml-12 py-2"
-            >
-              <div class="flex items-center ps-3">
-                <input
-                  [id]="'horizontal-list-radio-license-' + i"
-                  type="radio"
-                  [value]="answer"
-                  formControlName="selectedAnswer"
-                  name="selectedAnswer"
-                  class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 dark:bg-gray-600 dark:border-gray-500 focus:outline-none focus:box-shadow-none"
-                  (keydown)="preventArrowKeys($event)"
-                />
-                <label
-                  [for]="'horizontal-list-radio-license-' + i"
-                  class="w-full py-3 ms-2 text-lg"
-                >
-                  <app-math-jax-paragraph
-                    [mathString]="replaceDollarPairsRecursively(answers[i])"
-                  ></app-math-jax-paragraph>
-                </label>
-                <i *ngIf="isReview && getCheck(answer)" class="pi pi-check ml-1" style="color: green"></i>
+
+          <!-- Answer Section -->
+          <div class="px-4 sm:px-8 lg:px-24">
+            <!-- Multiple Choice -->
+            <ul *ngIf="!isFill" [formGroup]="arrFormGroup">
+              <li
+                *ngFor="let answer of answers; let i = index"
+                class="flex flex-col sm:flex-row items-start sm:items-center custom-li w-full ml-0 sm:ml-6 py-2"
+              >
+                <div class="flex items-center sm:items-center gap-2 ps-0 sm:ps-3 w-full">
+                  <input
+                    [id]="'horizontal-list-radio-license-' + i"
+                    type="radio"
+                    [value]="answer"
+                    formControlName="selectedAnswer"
+                    name="selectedAnswer"
+                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:outline-none"
+                    (keydown)="preventArrowKeys($event)"
+                  />
+                  <label
+                    [for]="'horizontal-list-radio-license-' + i"
+                    class="py-2 text-base sm:text-lg w-full"
+                  >
+                    <app-math-jax-paragraph [mathString]="replaceDollarPairsRecursively(answers[i])"></app-math-jax-paragraph>
+                  </label>
+                  <i *ngIf="isReview && getCheck(answer)" class="pi pi-check ml-1" style="color: green"></i>
+                </div>
+              </li>
+            </ul>
+
+            <!-- Fill in the Blank -->
+            <div *ngIf="isFill" [formGroup]="arrFormGroup" class="flex flex-col gap-2 mt-4">
+              <input pInputText formControlName="selectedAnswer" type="text" class="w-full sm:w-1/2" />
+              <div *ngIf="isReview" class="flex flex-col sm:flex-row items-start sm:items-center gap-2">
+                <label>Зөв хариу:</label>
+                <input pInputText formControlName="correctAnswer" type="text" class="w-full sm:w-1/2" />
               </div>
-            </li>
-          </ul>
-          <div *ngIf="isFill" [formGroup]="arrFormGroup" class="flex flex-col gap-2">
-            <input pInputText formControlName="selectedAnswer" type="text" />
-            <div *ngIf="isReview" class="flex items-center gap-2">
-              <label for="">Зөв хариу:</label>
-              <input pInputText formControlName="correctAnswer" type="text" />
             </div>
           </div>
         </div>
       </div>
-      <div>
-        <div class="flex justify-between mx-6 mb-5">
-          <a
-            (click)="onPreviousClick()"
-            class="hover: cursor-pointer flex items-center justify-center px-4 h-10 text-base font-medium text-white bg-primary-color border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700"
-          >
-            Өмнөх
-          </a>
 
-          <a
-            (click)="onNextClick()"
-            class="hover: cursor-pointer flex items-center justify-center px-4 h-10 ms-3 text-base font-medium text-white bg-primary-color border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700"
-          >
-            {{this.exam ? this.pageIndex == this.exam.questions.length ? 'Дуусгах' : 'Дараах' : 'Дараах' }}
-          </a>
-        </div>
+      <!-- Navigation Buttons -->
+      <div class="flex justify-between mx-6 mb-5">
+        <a (click)="onPreviousClick()" class="btn-primary">Өмнөх</a>
+        <a (click)="onNextClick()" class="btn-primary">
+          {{ exam ? (pageIndex === exam.questions.length ? 'Дуусгах' : 'Дараах') : 'Дараах' }}
+        </a>
       </div>
     </div>
   </div>
 </div>
 
-
+<!-- Dialog -->
 <p-dialog header="Бодолт" [modal]="true" [(visible)]="isVisible" [style]="{ width: '30rem' }">
   <app-math-jax-paragraph [mathString]="answerString"></app-math-jax-paragraph>
 </p-dialog>
+
+<div 
+  class="fixed inset-0 bg-black opacity-50 z-30 lg:hidden"
+  *ngIf="isSidebarOpen"
+  (click)="isSidebarOpen = false"
+></div>

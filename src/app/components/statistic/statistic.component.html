@@ -1,21 +1,19 @@
-<div>
-  <div class="flex">
-    <app-sidebar></app-sidebar>
-    <div class="statistic-container">
-      <div class="card">
-        <div *ngIf="isTeacher" class="flex gap-2 items-center">
-          <label class="block mb-2 text-sm font-medium text-gray-900 register-text">Сурагч:</label>
-          <p-dropdown
-            [options]="students" 
-            optionLabel="username" 
-            optionValue="fireId" 
-            placeholder="Сурагч сонгоно уу"
-            (onChange)="onStudentSelected($event)"
-            filter="true"/>
-        </div>
-        <div class="chart-container">
-          <p-chart type="bar" [data]="basicData" [options]="basicOptions" />
-        </div>
+<div class="app-layout">
+  <app-sidebar></app-sidebar>
+  <div class="statistic-container">
+    <div class="card">
+      <div *ngIf="isTeacher" class="dropdown-container">
+        <label class="register-text">Сурагч:</label>
+        <p-dropdown
+          [options]="students" 
+          optionLabel="username" 
+          optionValue="fireId" 
+          placeholder="Сурагч сонгоно уу"
+          (onChange)="onStudentSelected($event)"
+          filter="true"/>
+      </div>
+      <div class="chart-container">
+        <p-chart type="bar" [data]="basicData" [options]="basicOptions" />
       </div>
     </div>
   </div>
