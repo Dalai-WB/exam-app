@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { DetailService } from '../../services/detail.service';
@@ -35,6 +35,8 @@ export class DetailComponent implements OnInit, OnDestroy {
   isReview: boolean = false;
   isVisible: boolean = false;
   answerString: string = ''
+
+  fillTypeKeyControlsList: { key: string; control: FormControl }[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -76,6 +78,7 @@ export class DetailComponent implements OnInit, OnDestroy {
 
   adminStart() {
     this.populateQuestions(false);
+    this.updateFillTypeKeyControls()
     this.isAdmin = true;
     this.isExamEnded = true;
   }
@@ -83,11 +86,13 @@ export class DetailComponent implements OnInit, OnDestroy {
   studentStart() {
     if (this.attempt === null) {
       this.populateQuestions(false);
+      this.updateFillTypeKeyControls()
       this.startTimer();
     } else {
       this.isReview = true;
       this.isExamEnded = true;
       this.populateQuestions(true);
+      this.updateFillTypeKeyControls()
     }
   }
 
@@ -110,6 +115,19 @@ export class DetailComponent implements OnInit, OnDestroy {
   }
 
   saveResponses() {
+    this.questions.controls.forEach((questionGroup: AbstractControl) => {
+      const group = questionGroup as FormGroup;
+      const fillGroup = group.get('fillTypeKeys') as FormGroup;
+
+      if (fillGroup && fillGroup.controls) {
+        const fillValues = Object.entries(fillGroup.controls).map(([key, control]) => {
+          const value = control.value ?? '';
+          return `${key}=${value}`;
+        }).join(';');
+
+        group.get('selectedAnswer')?.setValue(fillValues);
+      }
+    });
     console.log(this.examForm);
     if (this.examForm.valid) {
       clearInterval(this.timerInterval);
@@ -147,6 +165,7 @@ export class DetailComponent implements OnInit, OnDestroy {
     this.questionText = this.exam.questions[this.pageIndex - 1].questionText;
     this.answers = this.exam.questions[this.pageIndex - 1].choices;
     this.isFill = this.exam.questions[this.pageIndex - 1].answerType === 'fill';
+    this.updateFillTypeKeyControls()
   }
 
   onNextClick() {
@@ -155,6 +174,7 @@ export class DetailComponent implements OnInit, OnDestroy {
       this.questionText = this.exam.questions[this.pageIndex - 1].questionText;
       this.answers = this.exam.questions[this.pageIndex - 1].choices;
       this.isFill = this.exam.questions[this.pageIndex - 1].answerType === 'fill';
+      this.updateFillTypeKeyControls()
     } else {
       this.endExam();
     }
@@ -166,6 +186,7 @@ export class DetailComponent implements OnInit, OnDestroy {
       this.questionText = this.exam.questions[this.pageIndex - 1].questionText;
       this.answers = this.exam.questions[this.pageIndex - 1].choices;
       this.isFill = this.exam.questions[this.pageIndex - 1].answerType === 'fill';
+      this.updateFillTypeKeyControls()
     }
   }
 
@@ -225,11 +246,12 @@ export class DetailComponent implements OnInit, OnDestroy {
         const responseQuestion = responses.find(res => res.question._id === questionData._id)
         this.questions.push(
           this.fb.group({
-            selectedAnswer: [{value: responseQuestion.selectedAnswer, disabled: true}, Validators.required],
-            correctAnswer: {value: responseQuestion.question.correctAnswer.replace(/&\d/g, ''), disabled: true},
+            selectedAnswer: [{ value: responseQuestion.selectedAnswer, disabled: true }, Validators.required],
+            correctAnswer: { value: responseQuestion.question.correctAnswer.replace(/&\d/g, ''), disabled: true },
             _id: [questionData._id, Validators.required],
             isCorrect: responseQuestion.isCorrect,
-            solution: responseQuestion.question.solution
+            solution: responseQuestion.question.solution,
+            fillTypeKeys: this.getFillTypeKeyFormGroupWithResult(responseQuestion)
           })
         );
       });
@@ -240,9 +262,91 @@ export class DetailComponent implements OnInit, OnDestroy {
             selectedAnswer: [null, Validators.required],
             _id: [questionData._id, Validators.required],
             answerType: [questionData.answerType, Validators.required],
+            fillTypeKeys: this.getFillTypeKeyFormGroup(questionData.fillTypeKeys)
           })
         );
       });
+    }
+  }
+
+  getFillTypeKeyFormGroup(fillTypeKeys: any[]): FormGroup | null {
+    if (fillTypeKeys.length > 0) {
+      const fillTypeKeyFormGroup = this.fb.group({})
+      fillTypeKeys.forEach(key => {
+        fillTypeKeyFormGroup.addControl(key, this.fb.control('', [Validators.required]))
+      })
+      return fillTypeKeyFormGroup
+    } else {
+      return null
+    }
+  }
+
+  getFillTypeKeyFormGroupWithResult(questionRes: any): FormGroup | null {
+    if (
+      questionRes.question.answerType !== 'fill' ||
+      !Array.isArray(questionRes.question.fillTypeKeys)
+    ) {
+      return null;
+    }
+
+    const group = this.fb.group({});
+
+    // Parse selected answers (e.g., "A=1;B=2")
+    const selectedMap: Record<string, string> = {};
+    if (questionRes.selectedAnswer) {
+      questionRes.selectedAnswer.split(';').forEach((pair: string) => {
+        const [key, value] = pair.split('=');
+        if (key && value) {
+          selectedMap[key.trim()] = value.trim();
+        }
+      });
+    }
+
+    // Parse correct answers (e.g., "A=1&1;B=2&1") → extract just the value before &
+    const correctMap: Record<string, string> = {};
+    if (questionRes.question.correctAnswer) {
+      questionRes.question.correctAnswer.split(';').forEach((pair: string) => {
+        const [key, valueWithMeta] = pair.split('=');
+        if (key && valueWithMeta) {
+          const value = valueWithMeta.split('&')[0];
+          correctMap[key.trim()] = value.trim();
+        }
+      });
+    }
+
+    // Create disabled controls with visual correctness checking
+    questionRes.question.fillTypeKeys.forEach((key: string) => {
+      const selected = selectedMap[key] || '';
+      const correct = correctMap[key] || '';
+
+      const control = this.fb.control(
+        { value: selected, disabled: true },
+        Validators.required
+      );
+
+      if (selected === correct) {
+        control.setErrors({ correct: true });
+      } else {
+        control.setErrors({ incorrect: true });
+      }
+
+      group.addControl(key, control);
+    });
+
+    return group;
+  }
+
+  updateFillTypeKeyControls() {
+    const formGroup = this.questions.at(this.pageIndex - 1) as FormGroup;
+    const group = formGroup.get('fillTypeKeys') as FormGroup;
+
+    if (group && group.controls) {
+      this.fillTypeKeyControlsList = Object.entries(group.controls).map(([key, control]) => ({
+        key,
+        control: control as FormControl
+      }));
+    } else {
+      this.fillTypeKeyControlsList = [];
     }
   }
 
@@ -259,7 +363,7 @@ export class DetailComponent implements OnInit, OnDestroy {
   }
 
 
-  
+
   isSidebarOpen: boolean = false;
   toggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;
