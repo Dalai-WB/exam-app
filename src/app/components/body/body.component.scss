@@ -1,7 +1,39 @@
-.main-title {
-  margin-top: 3rem;
-  margin-bottom: 1rem;
-  color: #7ed4ad;
-  font-size: 41px;
-  font-weight: bold;
+.container-body {
+  flex: 1;
+  padding: 2rem;
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+  }
+
+  .main-title {
+    font-size: 2.5rem;
+    text-align: center;
+    color: #7ed4ad;
+    font-weight: bold;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+
+    @media (max-width: 768px) {
+      font-size: 1.75rem;
+    }
+  }
+
+  .exam-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 2rem;
+
+    @media (max-width: 1200px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    @media (max-width: 768px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (max-width: 480px) {
+      grid-template-columns: 1fr;
+    }
+  }
 }

@@ -257,4 +257,11 @@ export class DetailComponent implements OnInit, OnDestroy {
     this.answerString = responses.find(res => res.question._id === this.exam.questions[this.pageIndex - 1]['_id']).question.solution;
     this.isVisible = true;
   }
+
+
+  
+  isSidebarOpen: boolean = false;
+  toggleSidebar() {
+    this.isSidebarOpen = !this.isSidebarOpen;
+  }
 }

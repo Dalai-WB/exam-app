@@ -1,3 +1,8 @@
-app-body {
-  flex: 1;
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 }

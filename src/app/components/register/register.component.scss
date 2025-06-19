@@ -1,50 +1,47 @@
 .register-background {
-    flex: 1;
-    height: 100vh;
+  height: 100vh;
 
-    .background-image {
-        min-height: 100%;
-        max-height: 100%;
-        min-width: 100%;
-    }
+  .background-image {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+  }
+
+  .main-logo {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 10;
+    width: 200px;
+    margin: 1rem;
+  }
 }
 
 .custom-background {
     flex: 1;
-
+    padding: 1.5rem;
 }
 
 .register-title {
-    background: linear-gradient(to right, #7ed4ad, #426e5a);
-    /* Gradient background */
-    -webkit-background-clip: text;
-    /* Clip background to the text */
-    background-clip: text;
-    /* Fallback for non-webkit browsers */
-    -webkit-text-fill-color: transparent;
-    /* Make the text transparent to show the background */
-    text-fill-color: transparent;
-    /* Fallback */
+  background: linear-gradient(to right, #7ed4ad, #426e5a);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-fill-color: transparent;
 }
 
 .register-text {
-    color: #7ed4ad;
+  color: #7ed4ad;
 }
 
 .input-style {
-    border-bottom: #7ed4ad 2px solid;
-    border-radius: 10px;
+  background-color: #f9f9f9;
+  border-bottom: 2px solid #7ed4ad;
+  border-radius: 10px;
+  color: #333;
 }
 
 .register-button {
-    background-color: #7ed4ad;
-}
-
-.main-logo {
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: 9999;
-    width: 250px;
-    margin-right: 8px;
+  background-color: #7ed4ad;
+  transition: background-color 0.3s ease;
 }
