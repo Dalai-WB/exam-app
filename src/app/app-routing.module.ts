@@ -15,6 +15,7 @@ import { statisticResolver } from './resolvers/statistic.resolver';
 import { RequestComponent } from './components/request/request.component';
 import { requestResolver } from './resolvers/request.resolver';
 import { leaveCreateExamGuard } from './guards/leave-create-exam.guard';
+import { ProfileComponent } from './components/profile/profile.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [authGuard] },
@@ -26,6 +27,10 @@ const routes: Routes = [
     component: DetailComponent,
     resolve: { exam: detailResolver },
     canDeactivate: [leaveExamGuard],
+  },
+  {
+    path: 'profile',
+    component: ProfileComponent,
   },
   { path: 'exam', component: ExamCreateComponent, canActivate: [adminGuard], canDeactivate: [leaveCreateExamGuard] },
   { path: 'exam/:id', component: ExamCreateComponent, canActivate: [adminGuard], canDeactivate: [leaveCreateExamGuard] },

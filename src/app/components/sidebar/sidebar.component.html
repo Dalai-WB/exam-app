@@ -2,12 +2,13 @@
   <div class="mb-5 mt-2">
     <img src="../../../assets/images/main-black 2.svg" style="color: white;" alt="" width="200px">
   </div>
-  <div class="flex flex-wrap mt-8">
+  <div class="flex flex-wrap mt-8 cursor-pointer" (click)="onProfile()">
     <div class="w-full">
       <img src="../../../assets/images/Unknown_person.jpg" class="mx-auto w-20 h-20 rounded-full" />
     </div>
     <div class="w-full flex justify-center">
-      <span class="py-4 font-semibold text-l text-white text-center">{{ username }}</span>
+      <span [ngClass]="{'selected': router.url === '/profile'}"
+        class="py-4 font-semibold text-l text-white text-center">{{ username }}</span>
     </div>
     <!-- <div class="w-full bg-neutral-200 dark:bg-neutral-600 rounded-lg">
       <div class="bg-white p-0.5 text-center text-xs font-medium leading-none text-sky-100 rounded-lg"
@@ -19,7 +20,9 @@
 
   <div class="mt-10 mb-4 border-t pt-4">
     <ul class="ml-4">
-      <li [ngClass]="{'selected': router.url === '/home'}" class="mb-2 px-4 py-4 text-gray-100 flex flex-row  border-gray-300 hover:text-black hover-section-hover hover:font-bold rounded rounded-lg cursor-pointer" (click)="onHome()">
+      <li [ngClass]="{'selected': router.url === '/home'}"
+        class="mb-2 px-4 py-4 text-gray-100 flex flex-row  border-gray-300 hover:text-black hover-section-hover hover:font-bold rounded rounded-lg cursor-pointer"
+        (click)="onHome()">
         <span>
           <svg class="fill-current h-5 w-5 " viewBox="0 0 24 24">
             <path d="M16 20h4v-4h-4m0-2h4v-4h-4m-6-2h4V4h-4m6
@@ -70,7 +73,8 @@
           <span class="ml-2">Статистик</span>
         </a>
       </li>
-      <li *ngIf="this.role === 'admin'" [ngClass]="{'hover-section font-bold text-black': router.url === '/requests'}" (click)="onRequests()"
+      <li *ngIf="this.role === 'admin'" [ngClass]="{'hover-section font-bold text-black': router.url === '/requests'}"
+        (click)="onRequests()"
         class="mb-2 px-4 py-4 text-gray-100 flex flex-row  border-gray-300 hover:text-black   hover-section-hover  hover:font-bold rounded rounded-lg cursor-pointer">
         <span>
           <svg class="fill-current h-5 w-5 " viewBox="0 0 24 24">

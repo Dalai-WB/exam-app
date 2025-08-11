@@ -40,6 +40,10 @@ import { RequestComponent } from './components/request/request.component';
 import { TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { ProfileComponent } from './components/profile/profile.component';
+import { CardModule } from 'primeng/card';
+import { DividerModule } from 'primeng/divider';
+import { TagModule } from 'primeng/tag';
 
 @NgModule({
   declarations: [
@@ -56,6 +60,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     ExamCreateComponent,
     StatisticComponent,
     RequestComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -82,6 +87,9 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     TableModule,
     TooltipModule,
     ProgressSpinnerModule,
+    CardModule,
+    DividerModule,
+    TagModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
   ],

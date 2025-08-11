@@ -23,6 +23,10 @@ export class SidebarComponent {
     this.role = this.auth.getUserRole() ?? '';
   }
 
+  onProfile() {
+    this.router.navigate(['profile']);
+  }
+
   onStatistic() {
     this.router.navigate(['statistic']);
   }
