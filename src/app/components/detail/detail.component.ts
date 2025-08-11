@@ -16,9 +16,9 @@ export class DetailComponent implements OnInit, OnDestroy {
   examForm: FormGroup;
   pageIndex: number = 1;
   activePage: string =
-    'flex items-center justify-center px-4 h-10 border hover:bg-blue-100 hover:text-blue-700 border-gray-700 bg-gray-200 text-blue-600 w-12 rounded-md';
+    'flex items-center justify-center px-4 h-10 w-12 text-white rounded-md page-active';
   regularPage: string =
-    'flex items-center justify-center px-4 h-10 leading-tight text-white hover:text-white w-12 rounded-md';
+    'flex items-center justify-center px-4 h-10 leading-tight text-white hover:text-white w-12 rounded-md page-back';
   arr: number[] = [];
   answers: string[] = [];
   isFill: boolean = false;

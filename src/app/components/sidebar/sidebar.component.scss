@@ -1,6 +1,6 @@
 .navbar {
   width: 260px;
-  background-color: #7ed4ad;
+  background-color: #42A5F5;
   height: 100vh;
   padding: 1rem;
   box-sizing: border-box;
@@ -49,4 +49,17 @@
   @media (max-width: 768px) {
     padding-bottom: 0.5rem;
   }
+}
+
+.hover-section {
+  background-color: #42A5F5;
+}
+
+.hover-section-hover:hover {
+  background-color: #3b95dd
+}
+
+.selected {
+  font-weight: bold;
+  color: black;
 }

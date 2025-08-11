@@ -19,7 +19,7 @@
 
   <div class="mt-10 mb-4 border-t pt-4">
     <ul class="ml-4">
-      <li [ngClass]="{'bg-gray-300 font-bold text-black': router.url === '/home'}" class="mb-2 px-4 py-4 text-gray-100 flex flex-row  border-gray-300 hover:text-black   hover:bg-gray-300  hover:font-bold rounded rounded-lg cursor-pointer" (click)="onHome()">
+      <li [ngClass]="{'selected': router.url === '/home'}" class="mb-2 px-4 py-4 text-gray-100 flex flex-row  border-gray-300 hover:text-black hover-section-hover hover:font-bold rounded rounded-lg cursor-pointer" (click)="onHome()">
         <span>
           <svg class="fill-current h-5 w-5 " viewBox="0 0 24 24">
             <path d="M16 20h4v-4h-4m0-2h4v-4h-4m-6-2h4V4h-4m6
@@ -32,7 +32,7 @@
         </a>
       </li>
       <li
-        class="mb-2 px-4 py-4 text-gray-100 flex flex-row  border-gray-300 hover:text-black   hover:bg-gray-300  hover:font-bold rounded rounded-lg cursor-pointer">
+        class="mb-2 px-4 py-4 text-gray-100 flex flex-row  border-gray-300 hover:text-black   hover-section-hover  hover:font-bold rounded rounded-lg cursor-pointer">
         <span>
           <svg class="fill-current h-5 w-5 " viewBox="0 0 24 24">
             <path d="M16 20h4v-4h-4m0-2h4v-4h-4m-6-2h4V4h-4m6
@@ -45,7 +45,7 @@
         </a>
       </li>
       <li
-        class="mb-2 px-4 py-4 text-gray-100 flex flex-row  border-gray-300 hover:text-black   hover:bg-gray-300  hover:font-bold rounded rounded-lg cursor-pointer">
+        class="mb-2 px-4 py-4 text-gray-100 flex flex-row  border-gray-300 hover:text-black   hover-section-hover  hover:font-bold rounded rounded-lg cursor-pointer">
         <span>
           <svg class="fill-current h-5 w-5 " viewBox="0 0 24 24">
             <path d="M16 20h4v-4h-4m0-2h4v-4h-4m-6-2h4V4h-4m6
@@ -57,8 +57,8 @@
           <span class="ml-2">EJU</span>
         </a>
       </li>
-      <li *ngIf="this.role !== 'admin'" [ngClass]="{'bg-gray-300 font-bold text-black': router.url === '/statistic'}" (click)="onStatistic()"
-        class="mb-2 px-4 py-4 text-gray-100 flex flex-row  border-gray-300 hover:text-black   hover:bg-gray-300  hover:font-bold rounded rounded-lg cursor-pointer">
+      <li *ngIf="this.role !== 'admin'" [ngClass]="{'selected': router.url === '/statistic'}" (click)="onStatistic()"
+        class="mb-2 px-4 py-4 text-gray-100 flex flex-row  border-gray-300 hover:text-black   hover-section-hover  hover:font-bold rounded rounded-lg cursor-pointer">
         <span>
           <svg class="fill-current h-5 w-5 " viewBox="0 0 24 24">
             <path d="M16 20h4v-4h-4m0-2h4v-4h-4m-6-2h4V4h-4m6
@@ -70,8 +70,8 @@
           <span class="ml-2">Статистик</span>
         </a>
       </li>
-      <li *ngIf="this.role === 'admin'" [ngClass]="{'bg-gray-300 font-bold text-black': router.url === '/requests'}" (click)="onRequests()"
-        class="mb-2 px-4 py-4 text-gray-100 flex flex-row  border-gray-300 hover:text-black   hover:bg-gray-300  hover:font-bold rounded rounded-lg cursor-pointer">
+      <li *ngIf="this.role === 'admin'" [ngClass]="{'hover-section font-bold text-black': router.url === '/requests'}" (click)="onRequests()"
+        class="mb-2 px-4 py-4 text-gray-100 flex flex-row  border-gray-300 hover:text-black   hover-section-hover  hover:font-bold rounded rounded-lg cursor-pointer">
         <span>
           <svg class="fill-current h-5 w-5 " viewBox="0 0 24 24">
             <path d="M16 20h4v-4h-4m0-2h4v-4h-4m-6-2h4V4h-4m6

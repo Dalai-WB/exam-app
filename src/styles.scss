@@ -19,11 +19,11 @@
 }
 
 .incorrect {
-  border-bottom: 2px solid red;
+  border-bottom: 2px solid #E53935;
   border-radius: 8px
 }
 
-$--primary-color: #7ED4AD;
+$--primary-color: #42A5F5;
 
 .custom-selection.p-selectbutton.p-buttonset.p-component {
   & div:first-child {
@@ -35,8 +35,8 @@ $--primary-color: #7ED4AD;
 }
 
 .custom-selection.p-selectbutton .p-button.p-highlight {
-  background: #7ED4AD;
-  border-color: #7ED4AD;
+  background: #42A5F5;
+  border-color: #42A5F5;
   color: #ffffff;
 }
 
