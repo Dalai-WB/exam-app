@@ -110,11 +110,27 @@
             </ul>
 
             <!-- Fill in the Blank -->
-            <div *ngIf="isFill" [formGroup]="arrFormGroup" class="flex flex-col gap-2 mt-4">
-              <input pInputText formControlName="selectedAnswer" type="text" class="w-full sm:w-1/2" />
-              <div *ngIf="isReview" class="flex flex-col sm:flex-row items-start sm:items-center gap-2">
-                <label>Зөв хариу:</label>
-                <input pInputText formControlName="correctAnswer" type="text" class="w-full sm:w-1/2" />
+            <div *ngIf="isFill" [formGroup]="arrFormGroup" class="flex items-center gap-10 mt-4">
+              <div *ngIf="!isReview">
+                <div *ngFor="let item of fillTypeKeyControlsList">
+                <label>{{ item.key }} </label>: <input pInputText [formControl]="item.control" type="text">
+                </div>
+              </div>
+              <div *ngIf="isReview">
+                <div *ngFor="let item of fillTypeKeyControlsList">
+                  <label>{{ item.key }} : </label>
+                  <input
+                    pInputText
+                    [formControl]="item.control"
+                    [ngClass]="{
+                      'p-invalid': item.control.errors?.['incorrect'],
+                      'p-valid': item.control.errors?.['correct']
+                    }"
+                    type="text"
+                  />
+                  <i *ngIf="item.control.errors?.['incorrect']"  class="pi pi-times ml-1" style="color: red"></i>
+                  <i *ngIf="item.control.errors?.['correct']" class="pi pi-check ml-1" style="color: green"></i>
+                </div>
               </div>
             </div>
           </div>
