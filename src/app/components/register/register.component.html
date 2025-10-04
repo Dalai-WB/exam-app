@@ -7,9 +7,10 @@
           Бүртгүүлэх
         </h1>
         <form class="space-y-6" (ngSubmit)="onRegister()">
-          <p-selectButton 
+          <!-- <p-selectButton 
             [options]="stateOptions" 
             [(ngModel)]="role" 
+            name="role"
             optionLabel="label" 
             optionValue="value" 
             allowEmpty="false"
@@ -26,6 +27,20 @@
               optionValue="_id"
               placeholder="Багш сонгох"
               [filter]="true" />
+          </div> -->
+
+          <div>
+            <label for="firstName" class="block mb-2 text-sm font-medium register-text">Нэр</label>
+            <input [(ngModel)]="firstName" type="text" name="firstName" id="firstName"
+              class="input-style block w-full p-2.5 sm:text-sm"
+              placeholder="Нэр" required>
+          </div>
+
+          <div>
+            <label for="lastName" class="block mb-2 text-sm font-medium register-text">Овог</label>
+            <input [(ngModel)]="lastName" type="text" name="lastName" id="lastName"
+              class="input-style block w-full p-2.5 sm:text-sm"
+              placeholder="Овог" required>
           </div>
 
           <div>

@@ -30,7 +30,7 @@ export class AuthenticationService {
     private http: HttpClient,
   ) { }
 
-  createUser(params: SignIn, role: string, teacherId: String): Observable<any> {
+  createUser(params: SignIn, role: string, teacherId: String, firstName: String, lastName: String): Observable<any> {
     return from(
       createUserWithEmailAndPassword(this.auth, params.email, params.password)
     ).pipe(
@@ -43,6 +43,8 @@ export class AuthenticationService {
         // Send user data to the backend
         return this.http.post(`${this.baseUrl}user/register`, {
           username: params.email,
+          firstName: firstName,
+          lastName: lastName,
           role: role,
           fireId: fireId,
           teacherId: teacherId,
@@ -94,6 +96,9 @@ export class AuthenticationService {
             if (this.userRole) {
               localStorage.setItem('userRole', this.userRole);
             }
+            if (response.firstName) {
+              localStorage.setItem('firstName', response.firstName);
+            }
           }),
           catchError((error) => {
             this.msg.add({
@@ -125,6 +130,7 @@ export class AuthenticationService {
         this.userRole = null;
         this.signedUser = null;
         localStorage.removeItem('userRole');
+        localStorage.removeItem('firstName');
       }),
       catchError((error: FirebaseError) =>
         throwError(() => {
@@ -191,6 +197,10 @@ export class AuthenticationService {
 
   getUserRole(): string | null {
     return localStorage.getItem('userRole');
+  }
+
+  getUserFirstName(): string | null {
+    return localStorage.getItem('firstName');
   }
 }
 

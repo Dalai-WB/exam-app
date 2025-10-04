@@ -11,6 +11,8 @@ import { RegisterService } from '../../services/register.service';
   styleUrl: './register.component.scss'
 })
 export class RegisterComponent {
+  firstName: string = '';
+  lastName: string = '';
   email: string = '';
   password: string = '';
   confirmPassword: string = '';
@@ -45,18 +47,18 @@ export class RegisterComponent {
       return;
     }
 
-    if (this.selectedTeacher === '' && this.role === 'student') {
-      this.msg.add({
-        severity: 'warn',
-        summary: 'Анхааруулга',
-        detail: 'Багшаа сонгоно уу!',
-      });
-      return;
-    }
+    // if (this.selectedTeacher === '' && this.role === 'student') {
+    //   this.msg.add({
+    //     severity: 'warn',
+    //     summary: 'Анхааруулга',
+    //     detail: 'Багшаа сонгоно уу!',
+    //   });
+    //   return;
+    // }
     from(this.authenticationService.createUser({
       email: this.email,
       password: this.password,
-    }, this.role, this.selectedTeacher)).subscribe(
+    }, this.role, this.selectedTeacher, this.firstName, this.lastName)).subscribe(
       (res) => {
         console.log(res);
         console.log("-------");

@@ -8,7 +8,7 @@
     </div>
     <div class="w-full flex justify-center">
       <span [ngClass]="{'selected': router.url === '/profile'}"
-        class="py-4 font-semibold text-l text-white text-center">{{ username }}</span>
+        class="py-4 font-semibold text-l text-white text-center">{{ firstName }}</span>
     </div>
     <!-- <div class="w-full bg-neutral-200 dark:bg-neutral-600 rounded-lg">
       <div class="bg-white p-0.5 text-center text-xs font-medium leading-none text-sky-100 rounded-lg"
@@ -34,7 +34,7 @@
           <span class="ml-2">ЭЕШ</span>
         </a>
       </li>
-      <li
+      <!-- <li
         class="mb-2 px-4 py-4 text-gray-100 flex flex-row  border-gray-300 hover:text-black   hover-section-hover  hover:font-bold rounded rounded-lg cursor-pointer">
         <span>
           <svg class="fill-current h-5 w-5 " viewBox="0 0 24 24">
@@ -59,7 +59,7 @@
         <a>
           <span class="ml-2">EJU</span>
         </a>
-      </li>
+      </li> -->
       <li *ngIf="this.role !== 'admin'" [ngClass]="{'selected': router.url === '/statistic'}" (click)="onStatistic()"
         class="mb-2 px-4 py-4 text-gray-100 flex flex-row  border-gray-300 hover:text-black   hover-section-hover  hover:font-bold rounded rounded-lg cursor-pointer">
         <span>

@@ -9,18 +9,13 @@ import { Auth, user } from '@angular/fire/auth';
   styleUrl: './sidebar.component.scss',
 })
 export class SidebarComponent {
-  username: String = '';
+  firstName: String = '';
   constructor(public router: Router, private auth: AuthenticationService, private fireAuth: Auth) { }
   role: String = '';
 
   ngOnInit() {
-    user(this.fireAuth).subscribe((currentUser) => {
-      if (!currentUser?.uid) {
-        throw new Error('User not authenticated');
-      }
-      this.username = currentUser.email ?? '';
-    });
     this.role = this.auth.getUserRole() ?? '';
+    this.firstName = this.auth.getUserFirstName() ?? '';
   }
 
   onProfile() {
