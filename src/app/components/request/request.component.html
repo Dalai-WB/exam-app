@@ -23,7 +23,7 @@
                 <tr>
                   <th>Нэвтрэх нэр</th>
                   <th>Үүрэг</th>
-                  <th>Багшийн нэврэх нэр</th>
+                  <!-- <th>Багшийн нэврэх нэр</th> -->
                   <th>Төлөв</th>
                   <th>Үйлдэл</th>
                 </tr>
@@ -32,7 +32,7 @@
                 <tr>
                   <td>{{ user.username }}</td>
                   <td>{{ translations[user.role] || user.role }}</td>
-                  <td>{{ user.teacherId !== null ? user.teacherId.username : "" }}</td>
+                  <!-- <td>{{ user.teacherId !== null ? user.teacherId.username : "" }}</td> -->
                   <td>{{ translations[user.status] || user.status }}</td>
                   <td>
                     <div class="flex gap-2">
@@ -59,3 +59,16 @@
     </div>
   </div>
 </div>
+
+<p-dialog header="Зөвшөөрөл" [modal]="true" [(visible)]="isVisible" [style]="{ width: '30rem' }">
+  <div>
+    <label for="duration" class="block mb-2 text-sm font-medium login-text">Эрх олгох хугацаа сараар</label>
+    <input [(ngModel)]="duration" type="number" name="duration" id="duration"
+      class="bg-gray-50 input-style text-gray-900 sm:text-sm block p-2.5" placeholder="name@company.com"
+      required>
+  </div>
+
+  <div class="flex justify-end gap-2">
+      <p-button label="Хадгалах" (click)="onApproveWithDuration()" />
+  </div>
+</p-dialog>

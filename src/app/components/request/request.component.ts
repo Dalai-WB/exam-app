@@ -9,9 +9,11 @@ import { MessageService } from 'primeng/api';
   styleUrl: './request.component.scss'
 })
 export class RequestComponent {
-
+  isVisible: boolean = false;
   pendingUsers: any[] = [];
   loading: boolean = false;
+  duration: number = 0;
+  user: any;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -33,19 +35,8 @@ export class RequestComponent {
 
   onApprove(user: any) {
     console.log(user);
-    this.service.approveUser(user._id).subscribe(
-      (response: any) => {
-        this.msg.add({
-          severity: 'success',
-          summary: 'Амжилттай',
-          detail: 'Амжилттай зөвшөөрсөн',
-        });
-        const index = this.pendingUsers.findIndex((elm: any) => elm._id === response.user._id);
-        if (index !== -1) {
-          this.pendingUsers.splice(index, 1);
-        }
-      }
-    );
+    this.user = user;
+    this.isVisible = true;
   }
 
   onDecline(user: any) {
@@ -66,4 +57,22 @@ export class RequestComponent {
     )
   }
 
+  onApproveWithDuration() {
+    this.service.approveUser(this.user._id, this.duration).subscribe(
+      (response: any) => {
+        this.msg.add({
+          severity: 'success',
+          summary: 'Амжилттай',
+          detail: 'Амжилттай зөвшөөрсөн',
+        });
+        const index = this.pendingUsers.findIndex((elm: any) => elm._id === response.user._id);
+        if (index !== -1) {
+          this.pendingUsers.splice(index, 1);
+        }
+      }
+    );
+    this.isVisible = false
+    this.user = null;
+    this.duration = 0;
+  }
 }

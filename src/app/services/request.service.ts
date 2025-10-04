@@ -14,8 +14,8 @@ export class RequestService {
     return this.http.get(`${this.baseUrl}user/status/pending`);
   }
 
-  approveUser(userId: any) {
-    return this.http.put(`${this.baseUrl}user/approve/${userId}`, {});
+  approveUser(userId: any, duration: number) {
+    return this.http.put(`${this.baseUrl}user/approve/${userId}/${duration}`, {});
   }
 
   deleteUser(userId: string) {
