@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -9,21 +10,17 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 export class ProfileComponent implements OnInit {
   profileForm!: FormGroup;
   profilePicture: string = 'assets/images/Unknown_person.jpg'; // placeholder image
+  student: any;
 
-  student = {
-    name: 'John Doe',
-    email: 'john@example.com',
-    completedExams: 8,
-    averageScore: 92,
-    totalPoints: 735
-  };
-
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    const data = this.route.snapshot.data;
+    console.log(data['userData']);
+    this.student = data['userData'];
     this.profileForm = this.fb.group({
-      name: [this.student.name],
-      email: [{ value: this.student.email, disabled: true }]
+      name: [this.student.firstName],
+      email: [{ value: this.student.username, disabled: true }]
     });
   }
 
