@@ -4,7 +4,7 @@
   </div>
   <div class="flex justify-center p-8">
     <div class="exam-grid">
-      <app-card *ngFor="let exam of exams" [exam]="exam" [badgeValue]="exam.score"></app-card>
+      <app-card *ngFor="let exam of exams; index as i" [exam]="exam" [badgeValue]="exam.score" [isFirst]="i === 0"></app-card>
       <app-card *ngIf="isAdmin" [exam]="adminExam"></app-card>
     </div>
   </div>

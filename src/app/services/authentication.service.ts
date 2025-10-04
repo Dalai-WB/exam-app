@@ -99,6 +99,9 @@ export class AuthenticationService {
             if (response.firstName) {
               localStorage.setItem('firstName', response.firstName);
             }
+            if (response.status) {
+              localStorage.setItem('userStatus', response.status);
+            }
           }),
           catchError((error) => {
             this.msg.add({
@@ -131,6 +134,7 @@ export class AuthenticationService {
         this.signedUser = null;
         localStorage.removeItem('userRole');
         localStorage.removeItem('firstName');
+        localStorage.removeItem('userStatus');
       }),
       catchError((error: FirebaseError) =>
         throwError(() => {
@@ -197,6 +201,10 @@ export class AuthenticationService {
 
   getUserRole(): string | null {
     return localStorage.getItem('userRole');
+  }
+
+  getUserStatus(): string | null {
+    return localStorage.getItem('userStatus');
   }
 
   getUserFirstName(): string | null {
