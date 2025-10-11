@@ -8,12 +8,15 @@
   }
 
   .main-logo {
+    color: white;
+    font-weight: bold;
     position: absolute;
     top: 0;
     right: 0;
     z-index: 10;
     width: 200px;
     margin: 1rem;
+    font-size: 24px;
   }
 }
 

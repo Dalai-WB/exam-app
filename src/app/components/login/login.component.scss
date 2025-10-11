@@ -9,11 +9,14 @@
 }
 
 .main-logo {
+    color: white;
     position: absolute;
     top: 20px;
     left: 20px;
     z-index: 10;
     width: 200px;
+    font-size: 24px;
+    font-weight: bold;
 
     @media (max-width: 768px) {
         width: 150px;
