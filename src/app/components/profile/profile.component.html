@@ -4,22 +4,15 @@
     <p-card class="profile-card" header="Миний Профайл">
       <!-- Top Section -->
       <div class="profile-top">
-        <!-- Profile Image -->
-        <div class="profile-pic">
-          <img [src]="profilePicture" alt="Profile" class="profile-img" />
-          <p-button label="Зураг оруулах" (click)="fileInput.click()" severity="secondary"></p-button>
-          <input #fileInput type="file" style="display:none" accept="image/*" (change)="onFileSelect($event)" />
-        </div>
-
         <!-- Form -->
         <div class="profile-form">
-          <form [formGroup]="profileForm">
+          <form class="flex gap-4" [formGroup]="profileForm">
             <div class="form-field">
-              <label for="name">Нэр</label>
+              <label for="name">Нэр:</label>
               <input id="name" pInputText formControlName="name" />
             </div>
             <div class="form-field">
-              <label for="email">И-майл</label>
+              <label for="email">И-майл:</label>
               <input id="email" pInputText formControlName="email" [disabled]="true" />
             </div>
             <p-button label="Хадгалах" (onClick)="saveProfile()"></p-button>
@@ -35,21 +28,44 @@
       <!-- Stats Section -->
       <div class="stats-row">
         <div class="stats-card">
-          <p-card header="Дуусгасан шалгалт">
-            <h1 class="stat-value">{{ student.completedExams }}</h1>
+          <p-card header="Дуусгасан сорил">
+            <h1 class="stat-value">{{ studentStats.examCount }}</h1>
           </p-card>
         </div>
         <div class="stats-card">
           <p-card header="Дундаж оноо">
-            <h1 class="stat-value">{{ student.averageScore }}%</h1>
+            <h1 class="stat-value">{{ studentStats.avgScore | number:'1.2-2' }}%</h1>
           </p-card>
         </div>
         <div class="stats-card">
-          <p-card header="Нийт оноо">
-            <h1 class="stat-value">{{ student.totalPoints }}</h1>
+          <p-card header="Дуусах хугацаа">
+            <h1 class="stat-value">{{ student.endDate | date: 'yyyy-MM-dd' }}</h1>
           </p-card>
         </div>
       </div>
+
+      <p-divider align="center">
+        <span class="p-tag">Шилдэг 10 сурагч</span>
+      </p-divider>
+      
+      <p-table [value]="top10" [tableStyle]="{ 'min-width': '50rem' }" size="large" styleClass="mt-5">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>№</th>
+                <th>Овог</th>
+                <th>Нэр</th>
+                <th>Дундаж оноо</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+            <tr>
+                <td>{{ product.rank }}</td>
+                <td>{{ product.firstName }}</td>
+                <td>{{ product.lastName }}</td>
+                <td>{{ product.avgScore | number:'1.2-2' }}</td>
+            </tr>
+        </ng-template>
+      </p-table>
     </p-card>
   </div>
 </div>

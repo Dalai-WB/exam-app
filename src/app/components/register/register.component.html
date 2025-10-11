@@ -7,7 +7,7 @@
           Бүртгүүлэх
         </h1>
         <form class="space-y-6" (ngSubmit)="onRegister()">
-          <!-- <p-selectButton 
+          <p-selectButton 
             [options]="stateOptions" 
             [(ngModel)]="role" 
             name="role"
@@ -21,13 +21,14 @@
             <label class="block mb-2 text-sm font-medium register-text">Багш</label>
             <p-dropdown 
               styleClass="custom-drop"
+              name="selectedTeacher"
               [options]="teachers" 
               [(ngModel)]="selectedTeacher" 
               optionLabel="username"
               optionValue="_id"
               placeholder="Багш сонгох"
               [filter]="true" />
-          </div> -->
+          </div>
 
           <div>
             <label for="firstName" class="block mb-2 text-sm font-medium register-text">Нэр</label>
