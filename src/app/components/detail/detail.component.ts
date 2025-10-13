@@ -34,6 +34,7 @@ export class DetailComponent implements OnInit, OnDestroy {
   attempt: any;
   isReview: boolean = false;
   isVisible: boolean = false;
+  warningVisible: boolean = false;
   answerString: string = ''
 
   fillTypeKeyControlsList: { key: string; control: FormControl }[] = [];
@@ -175,8 +176,6 @@ export class DetailComponent implements OnInit, OnDestroy {
       this.answers = this.exam.questions[this.pageIndex - 1].choices;
       this.isFill = this.exam.questions[this.pageIndex - 1].answerType === 'fill';
       this.updateFillTypeKeyControls()
-    } else {
-      this.endExam();
     }
   }
 
@@ -360,6 +359,14 @@ export class DetailComponent implements OnInit, OnDestroy {
     const responses = this.attempt.responses as any[];
     this.answerString = responses.find(res => res.question._id === this.exam.questions[this.pageIndex - 1]['_id']).question.solution;
     this.isVisible = true;
+  }
+
+  finishExam() {
+    if (this.isReview || this.authService.getUserRole() !== 'student') {
+      this.router.navigate(['/home']);
+      return;
+    };
+    this.warningVisible = true
   }
 
 

@@ -14,6 +14,7 @@ export class CardComponent {
   @Input() isFirst: boolean | null = null;
   role: String = '';
   status: String = '';
+  warningVisible: boolean = false
 
   constructor(private router: Router, private auth: AuthenticationService, private msg: MessageService) { }
 
@@ -51,6 +52,16 @@ export class CardComponent {
       return;
     }
 
+    if (this.badgeValue) {
+      this.router.navigate(['/details'], {
+        queryParams: { id: this.exam['_id'] },
+      });
+      return;
+    }
+    this.warningVisible = true
+  }
+
+  studentExam() {
     this.router.navigate(['/details'], {
       queryParams: { id: this.exam['_id'] },
     });

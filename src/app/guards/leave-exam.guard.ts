@@ -11,7 +11,7 @@ export const leaveExamGuard: CanDeactivateFn<DetailComponent> = (
     return true;
   } else {
     return confirm(
-      'Are you sure you want to leave this page? Your progress may be lost.'
+      'Та сорилоос гарахдаа итгэлтэй байна уу? Одоог хүртэл өгсөн таны хариултуудын дагуу оноо тооцогдох болно.'
     );
   }
 };

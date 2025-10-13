@@ -29,9 +29,15 @@
   color: #374151;             /* hover:text-gray-700 */
 }
 
+.no-more {
+  background-color: #f3f4f6;
+  color: #374151;
+}
+
 .custom-li {
-  border-color: #42A5F5;
-  border-bottom-width: 1px;
+  border: solid 1px #42A5F5;
+  border-radius: 8px;
+  margin-bottom: 6px;
 }
 
 .custom-background {
@@ -46,4 +52,9 @@
 
 .page-active {
   background-color: #3584c4;
+}
+
+.end-time {
+  background-color: #42A5F5;
+
 }

@@ -8,3 +8,11 @@
 >
   <div class="text-white text-2xl">{{ exam.examName }}</div>
 </div>
+
+<p-dialog header="Анхааруулга" [modal]="true" [(visible)]="warningVisible" [style]="{ width: '30rem' }">
+  <span class="p-text-secondary block mb-8">Та сорил эхлэхэд итгэлтэй байна уу?</span>
+  <div class="flex justify-end gap-2">
+    <p-button label="Үгүй" severity="secondary" (click)="warningVisible = false" />
+    <p-button label="Тийм" (click)="warningVisible = false; studentExam()" />
+  </div>
+</p-dialog>
