@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { MessageService } from 'primeng/api';
+import { AuthenticationService } from 'src/app/services/authentication.service';
+import { ProfileService } from 'src/app/services/profile.service';
 
 @Component({
   selector: 'app-profile',
@@ -13,7 +16,13 @@ export class ProfileComponent implements OnInit {
   studentStats: any;
   top10: any[] = [];
 
-  constructor(private fb: FormBuilder, private route: ActivatedRoute) { }
+  constructor(
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private service: ProfileService,
+    private auth: AuthenticationService,
+    private msg: MessageService,
+  ) { }
 
   ngOnInit(): void {
     const data = this.route.snapshot.data;
@@ -22,16 +31,25 @@ export class ProfileComponent implements OnInit {
     this.top10 = data['userData'].top10;
     this.top10.sort((a, b) => a.rank - b.rank);
     this.profileForm = this.fb.group({
-      name: [this.student.firstName],
-      email: [{ value: this.student.username, disabled: true }]
+      firstName: [this.student.firstName],
+      username: [{ value: this.student.username, disabled: true }]
     });
   }
 
   saveProfile() {
-    console.log('Saving:', {
-      ...this.student,
-      name: this.profileForm.value.name,
-    });
-    // TODO: Call your API here
+    const body = {
+      firstName: this.profileForm.controls['firstName'].value
+    }
+    this.service.updateUserProfile(body).subscribe((response: any) => {
+      this.auth.setUserFirstName(response.user.firstName)
+      this.msg.add({
+        severity: 'success',
+        summary: 'Амжилттай',
+        detail: 'Амжилттай хадгаллаа',
+      });
+
+      // Refresh the page
+      window.location.reload();
+    })
   }
 }

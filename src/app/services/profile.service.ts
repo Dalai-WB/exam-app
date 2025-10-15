@@ -23,4 +23,15 @@ export class ProfileService {
       })
     );
   }
+
+  updateUserProfile(body: any) {
+    return from(user(this.auth)).pipe(
+      mergeMap((currentUser) => {
+        if (!currentUser?.uid) {
+          throw new Error('User not authenticated');
+        }
+        return this.http.put(`${this.baseUrl}user/profile/${currentUser.uid}`, body);
+      })
+    );
+  }
 }

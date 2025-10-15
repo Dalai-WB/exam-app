@@ -210,6 +210,10 @@ export class AuthenticationService {
   getUserFirstName(): string | null {
     return localStorage.getItem('firstName');
   }
+
+  setUserFirstName(newFirstName: string) {
+    return localStorage.setItem('firstName', newFirstName);
+  }
 }
 
 type SignIn = {

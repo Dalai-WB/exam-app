@@ -9,11 +9,11 @@
           <form class="flex gap-4" [formGroup]="profileForm">
             <div class="form-field">
               <label for="name">Нэр:</label>
-              <input id="name" pInputText formControlName="name" />
+              <input id="name" pInputText formControlName="firstName" />
             </div>
             <div class="form-field">
               <label for="email">И-майл:</label>
-              <input id="email" pInputText formControlName="email" [disabled]="true" />
+              <input id="email" pInputText formControlName="username" [disabled]="true" />
             </div>
             <p-button label="Хадгалах" (onClick)="saveProfile()"></p-button>
           </form>
@@ -52,8 +52,8 @@
         <ng-template pTemplate="header">
             <tr>
                 <th>№</th>
-                <th>Овог</th>
                 <th>Нэр</th>
+                <th>Овог</th>
                 <th>Дундаж оноо</th>
             </tr>
         </ng-template>
