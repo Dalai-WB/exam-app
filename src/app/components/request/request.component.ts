@@ -14,6 +14,11 @@ export class RequestComponent {
   loading: boolean = false;
   duration: number = 0;
   user: any;
+  stateOptions: any[] = [
+    { label: 'Хүлээгдэж буй', value: 'pending' },
+    { label: 'Зөвшөөрсөн', value: 'active' },
+  ];
+  reqState: string = 'pending';
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -75,4 +80,23 @@ export class RequestComponent {
     this.user = null;
     this.duration = 0;
   }
+
+  onStateChange() {
+    this.loading = true;
+    if (this.reqState === 'pending') {
+      this.service.getPendingRequests().subscribe(
+        (response: any) => {
+          this.pendingUsers = response;
+          this.loading = false;
+        }
+      );
+    } else {
+      this.service.getActiveRequests().subscribe(
+        (response: any) => {
+          this.pendingUsers = response;
+          this.loading = false;
+        }
+      );
+    }
+  } 
 }

@@ -14,6 +14,10 @@ export class RequestService {
     return this.http.get(`${this.baseUrl}user/status/pending`);
   }
 
+  getActiveRequests() {
+    return this.http.get(`${this.baseUrl}user/status/active`);
+  }
+
   approveUser(userId: any, duration: number) {
     return this.http.put(`${this.baseUrl}user/approve/${userId}/${duration}`, {});
   }

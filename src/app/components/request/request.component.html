@@ -17,7 +17,14 @@
         <!-- Chart Content -->
         <div class="chart-container" [style.opacity]="loading ? '0.5' : '1'">
           <div class="flex flex-col items-center gap-10">
-            <h1 class="text-2xl">Хүлээгдэж буй хүсэлтүүд</h1>
+            <p-selectButton 
+            [options]="stateOptions" 
+            [(ngModel)]="reqState" 
+            name="role"
+            optionLabel="label" 
+            optionValue="value" 
+            allowEmpty="false"
+            (click)="onStateChange()" />
             <p-table [value]="pendingUsers" [tableStyle]="{ 'min-width': '50rem' }">
               <ng-template pTemplate="header">
                 <tr>

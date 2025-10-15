@@ -258,9 +258,9 @@ export class DetailComponent implements OnInit, OnDestroy {
       this.exam.questions.forEach((questionData: any, index: number) => {
         this.questions.push(
           this.fb.group({
-            selectedAnswer: [null, Validators.required],
-            _id: [questionData._id, Validators.required],
-            answerType: [questionData.answerType, Validators.required],
+            selectedAnswer: [null],
+            _id: [questionData._id],
+            answerType: [questionData.answerType],
             fillTypeKeys: this.getFillTypeKeyFormGroup(questionData.fillTypeKeys)
           })
         );
@@ -272,7 +272,7 @@ export class DetailComponent implements OnInit, OnDestroy {
     if (fillTypeKeys.length > 0) {
       const fillTypeKeyFormGroup = this.fb.group({})
       fillTypeKeys.forEach(key => {
-        fillTypeKeyFormGroup.addControl(key, this.fb.control('', [Validators.required]))
+        fillTypeKeyFormGroup.addControl(key, this.fb.control(''))
       })
       return fillTypeKeyFormGroup
     } else {
