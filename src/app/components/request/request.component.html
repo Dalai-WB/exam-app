@@ -43,7 +43,7 @@
                   <td>{{ translations[user.status] || user.status }}</td>
                   <td>
                     <div class="flex gap-2">
-                      <p-button
+                      <p-button *ngIf="reqState === 'pending'"
                         (click)="onApprove(user)"
                         icon="pi pi-check"
                         severity="success"

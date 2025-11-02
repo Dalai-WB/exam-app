@@ -52,7 +52,6 @@ export class ExamCreateComponent {
     this.examForm = this.fb.group({
       examName: ['', Validators.required],
       duration: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
-      totalPoint: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
       questions: this.fb.array([]),
     });
   }
