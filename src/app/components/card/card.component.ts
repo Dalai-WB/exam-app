@@ -52,7 +52,7 @@ export class CardComponent {
       return;
     }
 
-    if (this.badgeValue) {
+    if (this.badgeValue !== null) {
       this.router.navigate(['/details'], {
         queryParams: { id: this.exam['_id'] },
       });
