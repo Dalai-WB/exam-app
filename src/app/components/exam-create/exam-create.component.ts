@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormControlState, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { DropdownChangeEvent } from 'primeng/dropdown';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -90,6 +90,7 @@ export class ExamCreateComponent {
             answerType: question.answerType,
             questionPoint: question.questionPoint,
             solution: question.solution,
+            fillTypeKeys: question.fillTypeKeys,
           });
 
           // Add choices
@@ -180,6 +181,7 @@ export class ExamCreateComponent {
       answerType: ['', Validators.required],
       questionPoint: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
       solution: ['', Validators.required],
+      fillTypeKeys: this.fb.array([]),
       fillTestAnswers: this.fb.array([])
     });
   }
@@ -220,8 +222,14 @@ export class ExamCreateComponent {
         const correctAnswerString = fillTestAnswers
           .map((choice: any) => `${choice.label}=${choice.answer}&${choice.point}`)
           .join(';');
+        const fillTypeKeys = fillTestAnswers
+          .map((choice: any) => choice.label)
 
         questionGroup.get('correctAnswer')?.setValue(correctAnswerString);
+        const fillTypeKeyArray = questionGroup.get('fillTypeKeys') as FormArray
+        fillTypeKeys.forEach((key: any) =>
+          fillTypeKeyArray.push(new FormControl(key))
+        );
       }
     });
     if (this.examForm.valid) {

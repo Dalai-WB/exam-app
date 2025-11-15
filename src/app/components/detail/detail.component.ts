@@ -340,10 +340,13 @@ export class DetailComponent implements OnInit, OnDestroy {
     const group = formGroup.get('fillTypeKeys') as FormGroup;
 
     if (group && group.controls) {
-      this.fillTypeKeyControlsList = Object.entries(group.controls).map(([key, control]) => ({
-        key,
-        control: control as FormControl
-      }));
+      this.fillTypeKeyControlsList = Object.entries(group.controls)
+        .map(([key, control]) => (
+          {
+            key,
+            control: control as FormControl
+          }
+        ));
     } else {
       this.fillTypeKeyControlsList = [];
     }
