@@ -131,8 +131,8 @@
 </div>
 
 <!-- Dialog -->
-<p-dialog header="Бодолт" [modal]="true" [(visible)]="isVisible" [style]="{ width: '30rem' }">
-  <app-math-jax-paragraph [mathString]="answerString"></app-math-jax-paragraph>
+<p-dialog header="Бодолт" [modal]="true" [(visible)]="isVisible" [style]="{ width: '30rem' }" (onShow)="rerenderMathjax()">
+  <app-math-jax-paragraph #solutionMath [mathString]="answerString"></app-math-jax-paragraph>
 </p-dialog>
 
 <div class="fixed inset-0 bg-black opacity-50 z-30 lg:hidden" *ngIf="isSidebarOpen" (click)="isSidebarOpen = false">

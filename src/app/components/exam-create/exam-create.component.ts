@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormControlState, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { DropdownChangeEvent } from 'primeng/dropdown';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { environment } from 'src/environments/environment';
+import { MathJaxParagraphComponent } from '../math-jax-paragraph/math-jax-paragraph.component';
 
 @Component({
   selector: 'app-exam-create',
@@ -12,6 +13,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./exam-create.component.scss']
 })
 export class ExamCreateComponent {
+  @ViewChild('solutionMath') solutionMath!: MathJaxParagraphComponent;
   private baseUrl = environment.apiUrl;
   isLoading: boolean = false;
   isFinished: boolean = false;
@@ -310,5 +312,11 @@ export class ExamCreateComponent {
   removeFillTestAnswer(questionIndex: number, choiceIndex: number): void {
     const answers = this.questions.at(questionIndex).get('fillTestAnswers') as FormArray;
     answers.removeAt(choiceIndex);
+  }
+
+  rerenderMathjax() {
+    setTimeout(() => {
+      this.solutionMath.renderMath();
+    }, 0);
   }
 }

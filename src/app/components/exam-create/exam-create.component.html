@@ -165,6 +165,6 @@
   ></p-progressSpinner>
 </div>
 
-<p-dialog header="Бодолт" [modal]="true" [(visible)]="isVisible" [style]="{ width: '30rem' }">
-  <app-math-jax-paragraph [mathString]="getQuestionSolution(activeIndex).value"></app-math-jax-paragraph>
+<p-dialog header="Бодолт" [modal]="true" [(visible)]="isVisible" [style]="{ width: '30rem' }" (onShow)="rerenderMathjax()">
+  <app-math-jax-paragraph #solutionMath [mathString]="getQuestionSolution(activeIndex).getRawValue()"></app-math-jax-paragraph>
 </p-dialog>

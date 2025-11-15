@@ -5,6 +5,7 @@ import { MessageService } from 'primeng/api';
 import { DetailService } from '../../services/detail.service';
 import { Auth } from '@angular/fire/auth';
 import { AuthenticationService } from '../../services/authentication.service';
+import { MathJaxParagraphComponent } from '../math-jax-paragraph/math-jax-paragraph.component';
 
 @Component({
   selector: 'app-detail',
@@ -12,6 +13,7 @@ import { AuthenticationService } from '../../services/authentication.service';
   styleUrls: ['./detail.component.scss'],
 })
 export class DetailComponent implements OnInit, OnDestroy {
+  @ViewChild('solutionMath') solutionMath!: MathJaxParagraphComponent;
   @ViewChild('fileInput', { static: false }) fileInput!: ElementRef;
   examForm: FormGroup;
   pageIndex: number = 1;
@@ -360,7 +362,11 @@ export class DetailComponent implements OnInit, OnDestroy {
 
   onAnswerClick() {
     const responses = this.attempt.responses as any[];
-    this.answerString = responses.find(res => res.question._id === this.exam.questions[this.pageIndex - 1]['_id']).question.solution;
+    this.answerString = 'Бодолт байхгүй.'
+    const qstn = responses.find(res => res.question._id === this.exam.questions[this.pageIndex - 1]['_id'])
+    if (qstn) {
+      this.answerString = qstn.question.solution ?? 'Бодолт байхгүй.';
+    }
     this.isVisible = true;
   }
 
@@ -377,5 +383,11 @@ export class DetailComponent implements OnInit, OnDestroy {
   isSidebarOpen: boolean = false;
   toggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;
+  }
+
+  rerenderMathjax() {
+    setTimeout(() => {
+      this.solutionMath.renderMath();
+    }, 0);
   }
 }
