@@ -180,7 +180,7 @@ export class ExamCreateComponent {
       category: ['', Validators.required],
       answerType: ['', Validators.required],
       questionPoint: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
-      solution: ['', Validators.required],
+      solution: [''],
       fillTypeKeys: this.fb.array([]),
       fillTestAnswers: this.fb.array([])
     });
