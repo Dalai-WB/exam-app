@@ -51,7 +51,7 @@
 
       <!-- Question Content -->
       <div formArrayName="questions" class="custom-background flex items-center">
-        <div>
+        <div class="w-full flex flex-col items-start py-6">
           <!-- Question Header -->
           <div
             class="w-96 sm:w-[48rem] lg:w-[56rem] mb-10 px-4 sm:px-8 lg:px-24 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
@@ -60,7 +60,7 @@
                 class="flex items-center justify-center px-3 sm:px-4 h-10 w-10 sm:w-12 border bg-white border-primary-color text-primary-color text-lg rounded-md">
                 {{ pageIndex }}
               </span>
-              <span class="break-words max-w-full">
+              <span class="break-words max-w-full text-xl">
                 <app-math-jax-paragraph
                   [mathString]="replaceDollarPairsRecursively(questionText)"></app-math-jax-paragraph>
               </span>
