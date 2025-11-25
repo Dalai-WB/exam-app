@@ -14,6 +14,7 @@ export class LoginComponent {
   remember: Boolean = false;
   showForgotPassword: boolean = false;
   resetEmail: string = '';
+  showPassword: boolean = false;
 
   constructor(
     private router: Router,

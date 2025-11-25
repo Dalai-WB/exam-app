@@ -22,9 +22,14 @@
           </div>
           <div>
             <label for="password" class="block mb-2 text-sm font-medium login-text">Нууц үг</label>
-            <input [(ngModel)]="password" [ngModelOptions]="{standalone: true}" type="password" name="password"
-              id="password" placeholder="Нууц үгээ оруулна уу"
-              class="bg-gray-50 input-style text-gray-900 sm:text-sm block w-full p-2.5" required>
+            <div class="relative">
+              <input [(ngModel)]="password" [ngModelOptions]="{standalone: true}" [type]="showPassword ? 'text' : 'password'" name="password"
+                id="password" placeholder="Нууц үгээ оруулна уу"
+                class="bg-gray-50 input-style text-gray-900 sm:text-sm block w-full p-2.5 pr-10" required>
+              <button type="button" (click)="showPassword = !showPassword" class="absolute right-3 top-1/2 transform -translate-y-1/2">
+                <i [class]="showPassword ? 'pi pi-eye-slash' : 'pi pi-eye'"></i>
+              </button>
+            </div>
           </div>
           <div class="flex items-center justify-between">
             <div class="flex items-start">
