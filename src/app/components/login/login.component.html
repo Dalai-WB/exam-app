@@ -1,50 +1,82 @@
 <section class="flex flex-col md:flex-row min-h-screen">
-    <!-- Background Section -->
-    <div class="login-background relative hidden md:block md:w-1/2">
-        <img src="../../../assets/images/login-background.png" class="background-image object-cover w-full h-full" alt="Background">
-        <h1 class="main-logo">E-SORILGO.MN</h1>
+  <!-- Background Section -->
+  <div class="login-background relative hidden md:block md:w-1/2">
+    <img src="../../../assets/images/login-background.png" class="background-image object-cover w-full h-full"
+      alt="Background">
+    <h1 class="main-logo">E-SORILGO.MN</h1>
+  </div>
+
+  <!-- Login Form Section -->
+  <div class="flex flex-col items-center justify-center px-6 py-8 w-full md:w-1/2 custom-background">
+    <div class="w-full bg-white sm:max-w-md xl:p-0 rounded-lg shadow-md">
+      <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+        <h1 class="text-xl font-bold leading-tight tracking-tight md:text-2xl login-title text-center">
+          Нэвтрэх
+        </h1>
+        <form class="space-y-4 md:space-y-6" (ngSubmit)="onLogin()">
+          <div>
+            <label for="email" class="block mb-2 text-sm font-medium login-text">И-майл</label>
+            <input [(ngModel)]="email" [ngModelOptions]="{standalone: true}" type="email" name="email" id="email"
+              class="bg-gray-50 input-style text-gray-900 sm:text-sm block w-full p-2.5" placeholder="Имэйлээ оруулна уу"
+              required>
+          </div>
+          <div>
+            <label for="password" class="block mb-2 text-sm font-medium login-text">Нууц үг</label>
+            <input [(ngModel)]="password" [ngModelOptions]="{standalone: true}" type="password" name="password"
+              id="password" placeholder="Нууц үгээ оруулна уу"
+              class="bg-gray-50 input-style text-gray-900 sm:text-sm block w-full p-2.5" required>
+          </div>
+          <div class="flex items-center justify-between">
+            <div class="flex items-start">
+              <div class="flex items-center h-5">
+                <input id="remember" [(ngModel)]="remember" [ngModelOptions]="{standalone: true}"
+                  aria-describedby="remember" type="checkbox"
+                  class="w-4 h-4 login-border rounded bg-gray-50 focus:ring-3 focus:ring-sky-500">
+              </div>
+              <div class="ml-2 text-sm">
+                <label for="remember" class="login-text">Сануулах</label>
+              </div>
+            </div>
+            <a (click)="showForgotPassword = true"
+              class="text-sm font-medium login-text hover:underline forgot-link">Нууц үг мартсан?</a>
+          </div>
+          <button type="submit"
+            class="w-full text-white login-button focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-lg px-5 py-2.5 text-center hover:cursor-pointer">
+            Нэвтрэх
+          </button>
+          <p class="text-sm font-light login-text text-center">
+            Бүртгэл байхгүй юу?
+            <span (click)="onRegister()" class="font-medium login-text underline hover:cursor-pointer">Бүртгүүлэх</span>
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+<p-dialog header="Нууц үг шинэчлэх" [(visible)]="showForgotPassword" [modal]="true" [dismissableMask]="true"
+  [style]="{ width: '25rem' }" [contentStyle]="{ 'padding-bottom': '1rem' }" [draggable]="false" class="rounded-xl">
+
+  <div class="flex flex-col gap-3">
+
+    <label class="text-sm font-medium text-gray-600">
+      И-майл
+    </label>
+
+    <input type="email" [(ngModel)]="resetEmail" [ngModelOptions]="{standalone: true}" class="p-inputtext w-full px-3 py-2 border border-gray-300 rounded-lg
+             focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Имэйлээ оруулна уу" />
+
+    <!-- Buttons -->
+    <div class="flex justify-end gap-3 mt-4">
+      <button pButton type="button" class="p-button-text text-gray-600 hover:text-gray-800"
+        (click)="showForgotPassword = false">
+        Болих
+      </button>
+
+      <button pButton type="button" label="Холбоос илгээх"
+        class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700" (click)="sendResetEmail()">
+      </button>
     </div>
 
-    <!-- Login Form Section -->
-    <div class="flex flex-col items-center justify-center px-6 py-8 w-full md:w-1/2 custom-background">
-        <div class="w-full bg-white sm:max-w-md xl:p-0 rounded-lg shadow-md">
-            <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-                <h1 class="text-xl font-bold leading-tight tracking-tight md:text-2xl login-title text-center">
-                    Нэвтрэх
-                </h1>
-                <form class="space-y-4 md:space-y-6" (ngSubmit)="onLogin()">
-                    <div>
-                        <label for="email" class="block mb-2 text-sm font-medium login-text">И-майл</label>
-                        <input [(ngModel)]="email" type="email" name="email" id="email"
-                            class="bg-gray-50 input-style text-gray-900 sm:text-sm block w-full p-2.5" placeholder="name@company.com" required>
-                    </div>
-                    <div>
-                        <label for="password" class="block mb-2 text-sm font-medium login-text">Нууц үг</label>
-                        <input [(ngModel)]="password" type="password" name="password" id="password"
-                            placeholder="••••••••" class="bg-gray-50 input-style text-gray-900 sm:text-sm block w-full p-2.5" required>
-                    </div>
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-start">
-                            <div class="flex items-center h-5">
-                                <input id="remember" aria-describedby="remember" type="checkbox"
-                                    class="w-4 h-4 login-border rounded bg-gray-50 focus:ring-3 focus:ring-sky-500">
-                            </div>
-                            <div class="ml-2 text-sm">
-                                <label for="remember" class="login-text">Сануулах</label>
-                            </div>
-                        </div>
-                        <a href="#" class="text-sm font-medium login-text hover:underline">Нууц үг мартсан?</a>
-                    </div>
-                    <button type="submit"
-                        class="w-full text-white login-button focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-lg px-5 py-2.5 text-center hover:cursor-pointer">
-                        Нэвтрэх
-                    </button>
-                    <p class="text-sm font-light login-text text-center">
-                        Бүртгэл байхгүй юу?
-                        <span (click)="onRegister()" class="font-medium login-text underline hover:cursor-pointer">Бүртгүүлэх</span>
-                    </p>
-                </form>
-            </div>
-        </div>
-    </div>
-</section>
+  </div>
+
+</p-dialog>
