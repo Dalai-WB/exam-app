@@ -44,6 +44,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { CardModule } from 'primeng/card';
 import { DividerModule } from 'primeng/divider';
 import { TagModule } from 'primeng/tag';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 
 @NgModule({
   declarations: [
@@ -90,6 +91,7 @@ import { TagModule } from 'primeng/tag';
     CardModule,
     DividerModule,
     TagModule,
+    InputTextareaModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
   ],
