@@ -1,103 +1,88 @@
-<nav class="flex flex-col w-64 px-4 tex-gray-900 navbar">
-  <div class="sidebar-main-title">E-SORILGO.MN</div>
-  <div class="mt-8 cursor-pointer" (click)="onProfile()" *ngIf="this.role === 'student'">
-    <div class="sidebar-title ml-1">Миний булан</div>
+<!-- MOBILE TOP BAR -->
+<div class="md:hidden flex items-center justify-between p-4 bg-gray-900 text-white nav-head">
+  <div class="text-lg font-bold">E-SORILGO.MN</div>
+
+  <!-- Hamburger Button -->
+  <button (click)="toggleSidebar()">
+    <!-- Open Icon -->
+    <svg *ngIf="!isOpen" class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+    </svg>
+
+    <!-- Close Icon -->
+    <svg *ngIf="isOpen" class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+    </svg>
+  </button>
+</div>
+
+<!-- SIDEBAR -->
+<nav
+  class="flex flex-col w-64 px-4 bg-gray-900 text-white navbar inset-y-0 z-40 transform transition-transform duration-300 md:translate-x-0"
+  [class.-translate-x-full]="!isOpen" [class.translate-x-0]="isOpen">
+  <div class="text-center text-xl font-bold mt-6">E-SORILGO.MN</div>
+
+  <!-- Student Section -->
+  <div class="mt-8 cursor-pointer" (click)="onProfile()" *ngIf="role === 'student'">
+    <div class="ml-1 font-semibold text-gray-300">Миний булан</div>
+
     <li [ngClass]="{'selected': router.url === '/profile'}"
-      class="mb-2 px-4 py-4 text-gray-100 flex flex-row  border-gray-300 hover:text-black hover-section-hover hover:font-bold rounded rounded-lg cursor-pointer">
+      class="mb-2 px-4 py-4 flex flex-row hover:bg-white/20 rounded-lg cursor-pointer">
       <span>
-        <svg class="fill-current h-5 w-5 " viewBox="0 0 24 24">
+        <svg class="fill-current h-5 w-5" viewBox="0 0 24 24">
           <path d="M16 20h4v-4h-4m0-2h4v-4h-4m-6-2h4V4h-4m6
-                      4h4V4h-4m-6 10h4v-4h-4m-6 4h4v-4H4m0 10h4v-4H4m6
-                      4h4v-4h-4M4 8h4V4H4v4z"></path>
+                        4h4V4h-4m-6 10h4v-4h-4m-6 4h4v-4H4m0 10h4v-4H4m6
+                        4h4v-4h-4M4 8h4V4H4v4z"></path>
         </svg>
       </span>
       <a class="ml-2">{{ firstName }}</a>
     </li>
-    <!-- <div class="w-full bg-neutral-200 dark:bg-neutral-600 rounded-lg">
-      <div class="bg-white p-0.5 text-center text-xs font-medium leading-none text-sky-100 rounded-lg"
-        style="width: 25%">
-        25%
-      </div>
-    </div> -->
   </div>
 
-  <div class="mt-3 mb-4 border-t pt-4">
+  <!-- MENU ITEMS -->
+  <div class="mt-4 mb-4 border-t border-gray-600 pt-4">
     <ul class="ml-4">
-      <li [ngClass]="{'selected': router.url === '/home'}"
-        class="mb-2 px-4 py-4 text-gray-100 flex flex-row  border-gray-300 hover:text-black hover-section-hover hover:font-bold rounded rounded-lg cursor-pointer"
-        (click)="onHome()">
-        <span>
-          <svg class="fill-current h-5 w-5 " viewBox="0 0 24 24">
-            <path d="M16 20h4v-4h-4m0-2h4v-4h-4m-6-2h4V4h-4m6
+
+      <!-- Home -->
+      <li [ngClass]="{'selected': router.url === '/home'}" (click)="onHome()"
+        class="mb-2 px-4 py-4 flex flex-row hover:bg-white/20 rounded-lg cursor-pointer">
+        <span><svg class="fill-current h-5 w-5" viewBox="0 0 24 24">
+          <path d="M16 20h4v-4h-4m0-2h4v-4h-4m-6-2h4V4h-4m6
                         4h4V4h-4m-6 10h4v-4h-4m-6 4h4v-4H4m0 10h4v-4H4m6
                         4h4v-4h-4M4 8h4V4H4v4z"></path>
-          </svg>
-        </span>
-        <a>
-          <span class="ml-2">ЭЕШ</span>
-        </a>
+        </svg></span>
+        <span class="ml-2">ЭЕШ</span>
       </li>
-      <!-- <li
-        class="mb-2 px-4 py-4 text-gray-100 flex flex-row  border-gray-300 hover:text-black   hover-section-hover  hover:font-bold rounded rounded-lg cursor-pointer">
-        <span>
-          <svg class="fill-current h-5 w-5 " viewBox="0 0 24 24">
-            <path d="M16 20h4v-4h-4m0-2h4v-4h-4m-6-2h4V4h-4m6
+
+      <!-- Statistic -->
+      <li *ngIf="role !== 'admin'" [ngClass]="{'selected': router.url === '/statistic'}" (click)="onStatistic()"
+        class="mb-2 px-4 py-4 flex flex-row hover:bg-white/20 rounded-lg cursor-pointer">
+        <span><svg class="fill-current h-5 w-5" viewBox="0 0 24 24">
+          <path d="M16 20h4v-4h-4m0-2h4v-4h-4m-6-2h4V4h-4m6
                         4h4V4h-4m-6 10h4v-4h-4m-6 4h4v-4H4m0 10h4v-4H4m6
                         4h4v-4h-4M4 8h4V4H4v4z"></path>
-          </svg>
-        </span>
-        <a>
-          <span class="ml-2">МОНБУШО</span>
-        </a>
+        </svg></span>
+        <span class="ml-2">Статистик</span>
       </li>
-      <li
-        class="mb-2 px-4 py-4 text-gray-100 flex flex-row  border-gray-300 hover:text-black   hover-section-hover  hover:font-bold rounded rounded-lg cursor-pointer">
-        <span>
-          <svg class="fill-current h-5 w-5 " viewBox="0 0 24 24">
-            <path d="M16 20h4v-4h-4m0-2h4v-4h-4m-6-2h4V4h-4m6
+
+      <!-- Requests (Admin Only) -->
+      <li *ngIf="role === 'admin'" [ngClass]="{'selected': router.url === '/requests'}" (click)="onRequests()"
+        class="mb-2 px-4 py-4 flex flex-row hover:bg-white/20 rounded-lg cursor-pointer">
+        <span><svg class="fill-current h-5 w-5" viewBox="0 0 24 24">
+          <path d="M16 20h4v-4h-4m0-2h4v-4h-4m-6-2h4V4h-4m6
                         4h4V4h-4m-6 10h4v-4h-4m-6 4h4v-4H4m0 10h4v-4H4m6
                         4h4v-4h-4M4 8h4V4H4v4z"></path>
-          </svg>
-        </span>
-        <a>
-          <span class="ml-2">EJU</span>
-        </a>
-      </li> -->
-      <li *ngIf="this.role !== 'admin'" [ngClass]="{'selected': router.url === '/statistic'}" (click)="onStatistic()"
-        class="mb-2 px-4 py-4 text-gray-100 flex flex-row  border-gray-300 hover:text-black   hover-section-hover  hover:font-bold rounded rounded-lg cursor-pointer">
-        <span>
-          <svg class="fill-current h-5 w-5 " viewBox="0 0 24 24">
-            <path d="M16 20h4v-4h-4m0-2h4v-4h-4m-6-2h4V4h-4m6
-                        4h4V4h-4m-6 10h4v-4h-4m-6 4h4v-4H4m0 10h4v-4H4m6
-                        4h4v-4h-4M4 8h4V4H4v4z"></path>
-          </svg>
-        </span>
-        <a>
-          <span class="ml-2">Статистик</span>
-        </a>
+        </svg></span>
+        <span class="ml-2">Хүсэлтүүд</span>
       </li>
-      <li *ngIf="this.role === 'admin'" [ngClass]="{'hover-section font-bold text-black': router.url === '/requests'}"
-        (click)="onRequests()"
-        class="mb-2 px-4 py-4 text-gray-100 flex flex-row  border-gray-300 hover:text-black   hover-section-hover  hover:font-bold rounded rounded-lg cursor-pointer">
-        <span>
-          <svg class="fill-current h-5 w-5 " viewBox="0 0 24 24">
-            <path d="M16 20h4v-4h-4m0-2h4v-4h-4m-6-2h4V4h-4m6
-                        4h4V4h-4m-6 10h4v-4h-4m-6 4h4v-4H4m0 10h4v-4H4m6
-                        4h4v-4h-4M4 8h4V4H4v4z"></path>
-          </svg>
-        </span>
-        <a>
-          <span class="ml-2">Хүсэлтүүд</span>
-        </a>
-      </li>
+
     </ul>
   </div>
 
-  <div class="logout-button">
-    <div class="rounded-lg px-3 py-2 hover:cursor-pointer inside-button" (click)="onLogout()">
-      <button type="button" class="text-white" id="user-exit-button" aria-expanded="false">
-        Гарах
-      </button>
+  <!-- LOGOUT -->
+  <div class="mt-auto mb-4">
+    <div class="rounded-lg px-3 py-2 cursor-pointer log-out-btn hover:bg-red-700 text-center" (click)="onLogout()">
+      Гарах
     </div>
   </div>
 </nav>

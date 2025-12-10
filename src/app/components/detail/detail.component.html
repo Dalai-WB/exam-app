@@ -1,14 +1,12 @@
 <div class="flex h-screen" [formGroup]="examForm">
   <!-- Sidebar -->
   <div [ngClass]="{
-      'block fixed z-40 top-0 left-0 h-full bg-primary-color w-64 px-4 pt-4 transition-transform duration-300': true,
+      'block fixed z-40 top-0 left-0 h-full bg-primary-color w-64 px-4 pt-4 
+      transition-transform duration-300 overflow-y-auto overscroll-contain': true,
       'translate-x-0': isSidebarOpen,
       '-translate-x-full': !isSidebarOpen,
       'lg:translate-x-0 lg:static': true
-    }" class="custom-navbar">
-    <!-- <div class="mb-2">
-      <img src="../../../assets/images/main-black 2.svg" alt="Logo" width="180px" />
-    </div> -->
+  }" class="custom-navbar">
     <nav class="p-4">
       <ul class="flex flex-wrap gap-3">
         <li *ngFor="let question of arr; let i = index" (click)="onPageClick(question)" [ngClass]="{
@@ -121,7 +119,8 @@
             <!-- Navigation Buttons -->
             <div class="flex justify-between ml-0 sm:ml-6 w-full">
               <a (click)="onPreviousClick()" class="btn-primary" [ngClass]="{'no-more': this.pageIndex === 1}">Өмнөх</a>
-              <a (click)="onNextClick()" class="btn-primary" [ngClass]="{'no-more': pageIndex === exam.questions.length}">Дараах</a>
+              <a (click)="onNextClick()" class="btn-primary"
+                [ngClass]="{'no-more': pageIndex === exam.questions.length}">Дараах</a>
             </div>
           </div>
         </div>
@@ -136,8 +135,9 @@
 </div>
 
 <!-- Dialog -->
-<p-dialog header="Бодолт" [modal]="true" [(visible)]="isVisible" [style]="{ width: '60vw' }" (onShow)="rerenderMathjax()">
-  <app-math-jax-paragraph #solutionMath [mathString]="answerString"></app-math-jax-paragraph>
+<p-dialog header="Бодолт" [modal]="true" [(visible)]="isVisible" [style]="{ width: '60vw' }"
+  (onShow)="rerenderMathjax()">
+  <app-math-jax-paragraph class="text-xl" #solutionMath [mathString]="answerString"></app-math-jax-paragraph>
 </p-dialog>
 
 <div class="fixed inset-0 bg-black opacity-50 z-30 lg:hidden" *ngIf="isSidebarOpen" (click)="isSidebarOpen = false">
