@@ -4,13 +4,13 @@
     'opacity-60': exam.status === 'locked' && this.role === 'student'
   }"
   class="h-24 w-48 max-w-sm rounded-lg shadow hover:cursor-pointer customized-card flex justify-center items-center"
-  pBadge [value]="badgeValue ?? 0" severity="warning" [badgeDisabled]="badgeValue === null" badgeStyleClass="custom-badge"
+  pBadge [value]="badgeValue ?? 0" severity="warning" [badgeDisabled]="badgeValue === null" badgeStyleClass="custom-badge-big"
 >
   <div class="text-white text-2xl">{{ exam.examName }}</div>
 </div>
 
 <p-dialog header="Анхааруулга" [modal]="true" [(visible)]="warningVisible" [style]="{ width: '30rem' }">
-  <span class="p-text-secondary block mb-8">Та сорил эхлэхэд итгэлтэй байна уу?</span>
+  <span class="p-text-secondary block mb-8">Та сорил эхлүүлэхдээ итгэлтэй байна уу?<br>Эхлүүлсэн тохиолдолд дахин эхлүүлэх боломжгүй тул сорил ажиллах 100 минутын хугацааг анхаарч эхлүүлээрэй.</span>
   <div class="flex justify-end gap-2">
     <p-button label="Үгүй" severity="secondary" (click)="warningVisible = false" />
     <p-button label="Тийм" (click)="warningVisible = false; studentExam()" />

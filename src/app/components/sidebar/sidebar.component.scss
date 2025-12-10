@@ -1,3 +1,11 @@
+.nav-head {
+  background-color: #42A5F5;
+}
+.log-out-btn {
+  background-color: #3584c4;
+  color: white;
+}
+
 .navbar {
   width: 260px;
   background-color: #42A5F5;
@@ -8,13 +16,7 @@
   flex-direction: column;
 
   @media (max-width: 768px) {
-    width: 100%;
-    height: auto;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    padding: 1rem 0;
+    position:fixed;
   }
 
   .sidebar-main-title {
@@ -72,6 +74,7 @@
 }
 
 .selected {
+  background-color: rgba(255, 255, 255, 0.25);
   font-weight: bold;
   color: black;
 }
