@@ -26,6 +26,7 @@ export class DetailComponent implements OnInit, OnDestroy {
   isFill: boolean = false;
   exam: any;
   questionText: string = '';
+  imageUrl: string = '';
   solution: string = '';
 
   timeLeft: number = 5400;
@@ -65,6 +66,7 @@ export class DetailComponent implements OnInit, OnDestroy {
     this.examForm.patchValue(this.exam);
     this.arr = this.exam.questions.map((x: any, i: any) => ++i);
     this.questionText = this.exam.questions[0].questionText;
+    this.imageUrl = this.exam.questions[0].imageUrl;
     this.answers = this.exam.questions[0].choices;
     this.isFill = this.exam.questions[0].answerType === 'fill';
 
@@ -166,6 +168,7 @@ export class DetailComponent implements OnInit, OnDestroy {
   onPageClick(question: number) {
     this.pageIndex = question;
     this.questionText = this.exam.questions[this.pageIndex - 1].questionText;
+    this.imageUrl = this.exam.questions[this.pageIndex - 1].imageUrl;
     this.answers = this.exam.questions[this.pageIndex - 1].choices;
     this.isFill = this.exam.questions[this.pageIndex - 1].answerType === 'fill';
     this.updateFillTypeKeyControls()
@@ -175,6 +178,7 @@ export class DetailComponent implements OnInit, OnDestroy {
     if (this.pageIndex != this.exam.questions.length) {
       this.pageIndex++;
       this.questionText = this.exam.questions[this.pageIndex - 1].questionText;
+      this.imageUrl = this.exam.questions[this.pageIndex - 1].imageUrl;
       this.answers = this.exam.questions[this.pageIndex - 1].choices;
       this.isFill = this.exam.questions[this.pageIndex - 1].answerType === 'fill';
       this.updateFillTypeKeyControls()
@@ -185,6 +189,7 @@ export class DetailComponent implements OnInit, OnDestroy {
     if (this.pageIndex != 1) {
       this.pageIndex--;
       this.questionText = this.exam.questions[this.pageIndex - 1].questionText;
+      this.imageUrl = this.exam.questions[this.pageIndex - 1].imageUrl;
       this.answers = this.exam.questions[this.pageIndex - 1].choices;
       this.isFill = this.exam.questions[this.pageIndex - 1].answerType === 'fill';
       this.updateFillTypeKeyControls()
@@ -250,6 +255,7 @@ export class DetailComponent implements OnInit, OnDestroy {
             selectedAnswer: [{ value: responseQuestion.selectedAnswer, disabled: true }, Validators.required],
             correctAnswer: { value: responseQuestion.question.correctAnswer.replace(/&\d/g, ''), disabled: true },
             _id: [questionData._id, Validators.required],
+            imageUrl: [questionData.imageUrl],
             isCorrect: responseQuestion.isCorrect,
             solution: responseQuestion.question.solution,
             fillTypeKeys: this.getFillTypeKeyFormGroupWithResult(responseQuestion)
@@ -263,6 +269,7 @@ export class DetailComponent implements OnInit, OnDestroy {
             selectedAnswer: [null],
             _id: [questionData._id],
             answerType: [questionData.answerType],
+            imageUrl: [questionData.imageUrl],
             fillTypeKeys: this.getFillTypeKeyFormGroup(questionData.fillTypeKeys)
           })
         );

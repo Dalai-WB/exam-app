@@ -36,6 +36,22 @@
                 <input pInputText formControlName="questionText" type="text" />
               </div>
               <div class="form-element">
+                <label>Зураг оруулах:</label>
+                <img *ngIf="getQuestionImageUrl(activeIndex)" [src]="getQuestionImageUrl(activeIndex)" alt="Question Image" width="150" class="mb-2" />
+                <p-fileUpload
+                  name="image"
+                  customUpload="true"
+                  [auto]="true"
+                  (uploadHandler)="onImageUpload($event, activeIndex)"
+                  [maxFileSize]="2e6"
+                  accept="image/*"
+                  chooseLabel="Зураг оруулах"
+                  cancelLabel="Cancel"
+                  uploadLabel="Upload"
+                >
+                </p-fileUpload>
+              </div>
+              <div class="form-element">
                 <label>Бодолт:</label>
                 <textarea rows="10" cols="30" pInputTextarea formControlName="solution"></textarea>
               </div>

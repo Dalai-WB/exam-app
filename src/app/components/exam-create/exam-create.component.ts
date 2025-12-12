@@ -92,6 +92,8 @@ export class ExamCreateComponent {
             answerType: question.answerType,
             questionPoint: question.questionPoint,
             solution: question.solution,
+            imageUrl: question.imageUrl,
+            imageKey: question.imageKey,
             fillTypeKeys: question.fillTypeKeys,
           });
 
@@ -160,6 +162,11 @@ export class ExamCreateComponent {
     return this.questions.at(index).get('answerType') as FormControl
   }
 
+  getQuestionImageUrl(index: any): String {
+    const imageUrl = this.questions.at(index).get('imageUrl') as FormControl;
+    return imageUrl.value
+  }
+
   onAnswerTypeChange(event: DropdownChangeEvent, index: number) {
     if (event.value === 'fill') {
       const formArray = this.questions.at(index).get('choices') as FormArray
@@ -183,6 +190,8 @@ export class ExamCreateComponent {
       answerType: ['', Validators.required],
       questionPoint: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
       solution: [''],
+      imageUrl: [''],
+      imageKey: [''],
       fillTypeKeys: this.fb.array([]),
       fillTestAnswers: this.fb.array([])
     });
@@ -318,5 +327,17 @@ export class ExamCreateComponent {
     setTimeout(() => {
       this.solutionMath.renderMath();
     }, 0);
+  }
+
+  onImageUpload(event: any, index: number) {
+    const file = event.files[0];
+    const formData = new FormData();
+    formData.append('file', file);
+
+    this.http.post(`${this.baseUrl}upload`, formData).subscribe((res: any) => {
+      // Save S3 URL for question
+      const fc = this.questions.at(index).get('imageKey') as FormControl;
+      fc.setValue(res.key);
+    });
   }
 }
