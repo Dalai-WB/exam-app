@@ -37,18 +37,26 @@
               </div>
               <div class="form-element">
                 <label>Зураг оруулах:</label>
-                <img *ngIf="getQuestionImageUrl(activeIndex)" [src]="getQuestionImageUrl(activeIndex)" alt="Question Image" width="150" class="mb-2" />
-                <p-fileUpload
-                  name="image"
-                  customUpload="true"
-                  [auto]="true"
-                  (uploadHandler)="onImageUpload($event, activeIndex)"
-                  [maxFileSize]="2e6"
-                  accept="image/*"
-                  chooseLabel="Зураг оруулах"
-                  cancelLabel="Cancel"
-                  uploadLabel="Upload"
-                >
+                <div *ngIf="getQuestionImageUrl(activeIndex)" class="relative inline-block group cursor-pointer
+                        w-[150px] h-[150px] overflow-hidden rounded-lg
+                        border border-gray-300 shadow-sm" (click)="onDeleteImage(activeIndex)">
+                  <img [src]="getQuestionImageUrl(activeIndex)" alt="Question Image" class="w-full h-full object-cover
+                          transition duration-200
+                          group-hover:opacity-70" />
+
+                  <!-- Overlay -->
+                  <div class="absolute inset-0 flex items-center justify-center
+                          bg-black/40
+                          opacity-0 group-hover:opacity-100
+                          transition-opacity duration-200">
+                    <span class="text-white text-sm font-semibold">
+                      🗑 Delete
+                    </span>
+                  </div>
+                </div>
+                <p-fileUpload name="image" customUpload="true" [auto]="true"
+                  (uploadHandler)="onImageUpload($event, activeIndex)" [maxFileSize]="2e6" accept="image/*"
+                  chooseLabel="Зураг оруулах" cancelLabel="Cancel" uploadLabel="Upload">
                 </p-fileUpload>
               </div>
               <div class="form-element">
@@ -61,7 +69,8 @@
               </div>
               <div class="form-element">
                 <label>Хариултын төрөл:</label>
-                <p-dropdown formControlName="answerType" [options]="answerTypes" optionLabel="label" optionValue="value" placeholder="Төрөл сонгох" (onChange)="onAnswerTypeChange($event, activeIndex)"/>
+                <p-dropdown formControlName="answerType" [options]="answerTypes" optionLabel="label" optionValue="value"
+                  placeholder="Төрөл сонгох" (onChange)="onAnswerTypeChange($event, activeIndex)" />
               </div>
               <div class="form-element">
                 <label>Бодлогын оноо:</label>
@@ -81,33 +90,35 @@
                 </div>
               </div>
 
-              <div *ngIf="getChoices(question).valid && getAnswerType(activeIndex).value !== 'fill' && getChoices(question).length !== 0" class="form-element">
+              <div
+                *ngIf="getChoices(question).valid && getAnswerType(activeIndex).value !== 'fill' && getChoices(question).length !== 0"
+                class="form-element">
                 <label>Зөв хариулт:</label>
                 <p-dropdown formControlName="correctAnswer" [options]="getChoices(question).getRawValue()"
                   placeholder="Хариулт сонгох">
                   <ng-template let-item pTemplate="item">
-                    <app-math-jax-paragraph
-                      [mathString]="item"
-                    ></app-math-jax-paragraph>
+                    <app-math-jax-paragraph [mathString]="item"></app-math-jax-paragraph>
                   </ng-template>
                   <ng-template let-item pTemplate="selectedItem">
-                    <app-math-jax-paragraph
-                      [mathString]="item"
-                    ></app-math-jax-paragraph>
+                    <app-math-jax-paragraph [mathString]="item"></app-math-jax-paragraph>
                   </ng-template>
                 </p-dropdown>
               </div>
-              <div *ngIf="getAnswerType(activeIndex).value === 'fill'" class="form-element" formArrayName="fillTestAnswers">
+              <div *ngIf="getAnswerType(activeIndex).value === 'fill'" class="form-element"
+                formArrayName="fillTestAnswers">
                 <label>Зөв хариулт:</label>
                 <!-- <input pInputText formControlName="correctAnswer" type="text" /> -->
                 <div class="choices">
                   <div class="choice-head">
                     <label>Хариултууд:</label>
-                    <p-button icon="pi pi-plus" [rounded]="true" [text]="true" (click)="addFillTestAnswer(i)"/>
+                    <p-button icon="pi pi-plus" [rounded]="true" [text]="true" (click)="addFillTestAnswer(i)" />
                   </div>
-                  <div *ngFor="let testAnswer of getFillTestAnswers(question).controls; let k = index" [formGroupName]="k">
-                    <input pInputText formControlName="label" type="text">: <input pInputText formControlName="answer" type="text"> Оноо: <input pInputText formControlName="point" type="text">
-                    <p-button icon="pi pi-times" [rounded]="true" [text]="true" severity="danger" (click)="removeFillTestAnswer(i,k)"/>
+                  <div *ngFor="let testAnswer of getFillTestAnswers(question).controls; let k = index"
+                    [formGroupName]="k">
+                    <input pInputText formControlName="label" type="text">: <input pInputText formControlName="answer"
+                      type="text"> Оноо: <input pInputText formControlName="point" type="text">
+                    <p-button icon="pi pi-times" [rounded]="true" [text]="true" severity="danger"
+                      (click)="removeFillTestAnswer(i,k)" />
                   </div>
                 </div>
               </div>
@@ -131,37 +142,21 @@
     <div>
       <div class="mb-10 flex gap-5">
         <span
-          class="flex items-center justify-center px-4 h-10 w-12 border bg-white border-primary-color text-primary-color text-lg rounded-md"
-          >{{ activeIndex + 1 }}</span
-        >
-        <span class="text-wrap"
-          ><app-math-jax-paragraph
-            [mathString]="getQuestionText(activeIndex).getRawValue()"
-          ></app-math-jax-paragraph
-        ></span>
-        <p-button class="ml-1" label="Бодолт" [text]="true" severity="info" (click)="onAnswerClick()"/>
+          class="flex items-center justify-center px-4 h-10 w-12 border bg-white border-primary-color text-primary-color text-lg rounded-md">{{
+          activeIndex + 1 }}</span>
+        <span class="text-wrap"><app-math-jax-paragraph
+            [mathString]="getQuestionText(activeIndex).getRawValue()"></app-math-jax-paragraph></span>
+        <p-button class="ml-1" label="Бодолт" [text]="true" severity="info" (click)="onAnswerClick()" />
       </div>
       <div class="">
         <ul>
-          <li
-            *ngFor="let answer of getChoices(getQuestion(activeIndex)).controls; let i = index"
-            class="flex justify-start custom-li w-full ml-12 py-2"
-          >
+          <li *ngFor="let answer of getChoices(getQuestion(activeIndex)).controls; let i = index"
+            class="flex justify-start custom-li w-full ml-12 py-2">
             <div class="flex items-center ps-3">
-              <input
-                [id]="'horizontal-list-radio-license-' + i"
-                type="radio"
-                [value]="answer"
-                name="selectedAnswer"
-                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 dark:bg-gray-600 dark:border-gray-500 focus:outline-none focus:box-shadow-none"
-              />
-              <label
-                [for]="'horizontal-list-radio-license-' + i"
-                class="w-full py-3 ms-2 text-lg"
-              >
-                <app-math-jax-paragraph
-                  [mathString]="answer.getRawValue()"
-                ></app-math-jax-paragraph>
+              <input [id]="'horizontal-list-radio-license-' + i" type="radio" [value]="answer" name="selectedAnswer"
+                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 dark:bg-gray-600 dark:border-gray-500 focus:outline-none focus:box-shadow-none" />
+              <label [for]="'horizontal-list-radio-license-' + i" class="w-full py-3 ms-2 text-lg">
+                <app-math-jax-paragraph [mathString]="answer.getRawValue()"></app-math-jax-paragraph>
               </label>
             </div>
           </li>
@@ -172,15 +167,12 @@
 </div>
 
 <div class="overlay" *ngIf="isLoading">
-  <p-progressSpinner
-    *ngIf="isLoading"
-    styleClass="w-4rem h-4rem"
-    strokeWidth="4"
-    fill="var(--surface-ground)"
-    animationDuration=".5s"
-  ></p-progressSpinner>
+  <p-progressSpinner *ngIf="isLoading" styleClass="w-4rem h-4rem" strokeWidth="4" fill="var(--surface-ground)"
+    animationDuration=".5s"></p-progressSpinner>
 </div>
 
-<p-dialog header="Бодолт" [modal]="true" [(visible)]="isVisible" [style]="{ width: '30rem' }" (onShow)="rerenderMathjax()">
-  <app-math-jax-paragraph #solutionMath [mathString]="getQuestionSolution(activeIndex).getRawValue()"></app-math-jax-paragraph>
+<p-dialog header="Бодолт" [modal]="true" [(visible)]="isVisible" [style]="{ width: '30rem' }"
+  (onShow)="rerenderMathjax()">
+  <app-math-jax-paragraph #solutionMath
+    [mathString]="getQuestionSolution(activeIndex).getRawValue()"></app-math-jax-paragraph>
 </p-dialog>

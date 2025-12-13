@@ -112,7 +112,7 @@ export class ExamCreateComponent {
               return { label: labelPart, answer, point };
             });
 
-            parsedAnswers.forEach((parsed:any) => {
+            parsedAnswers.forEach((parsed: any) => {
               fillTestAnswersArray.push(
                 this.fb.group({
                   label: [parsed.label],
@@ -339,5 +339,13 @@ export class ExamCreateComponent {
       const fc = this.questions.at(index).get('imageKey') as FormControl;
       fc.setValue(res.key);
     });
+  }
+
+  onDeleteImage(index: number) {
+    if (!confirm('Тухайн зургийг устгах уу?')) return;
+
+    const fc = this.questions.at(index).get('imageKey') as FormControl;
+    fc.setValue(null);
+    this.questions.at(index).get('imageUrl')?.setValue(null);
   }
 }
