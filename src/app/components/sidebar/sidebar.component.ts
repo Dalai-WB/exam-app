@@ -15,9 +15,6 @@ export class SidebarComponent {
   role: String = '';
 
   ngOnInit() {
-    if (window.innerWidth >= 768) {
-      this.isOpen = true;
-    }
     this.role = this.auth.getUserRole() ?? '';
     this.firstName = this.auth.getUserFirstName() ?? '';
   }

@@ -131,7 +131,7 @@
       </div>
       <div class="flex justify-end mx-6 mb-5">
         <a (click)="finishExam()" class="btn-primary">
-          Сорил дуусгах
+          Сорилго дуусгах
         </a>
       </div>
     </div>
@@ -148,7 +148,7 @@
 </div>
 
 <p-dialog header="Анхааруулга" [modal]="true" [(visible)]="warningVisible" [style]="{ width: '30rem' }">
-  <span class="p-text-secondary block mb-8">Та сорил дуусгахад итгэлтэй байна уу?</span>
+  <span class="p-text-secondary block mb-8">Та сорилго дуусгахад итгэлтэй байна уу?</span>
   <div class="flex justify-end gap-2">
     <p-button label="Үгүй" severity="secondary" (click)="warningVisible = false" />
     <p-button label="Тийм" (click)="warningVisible = false; endExam()" />

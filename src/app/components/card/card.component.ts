@@ -37,7 +37,7 @@ export class CardComponent {
       this.msg.add({
         severity: 'warn',
         summary: 'Анхааруулга',
-        detail: 'Өмнөх сорилоо өгсний дараа дараагийн сорилоо хийнэ үү!',
+        detail: 'Өмнөх сорилго өгсний дараа дараагийн сорилго хийнэ үү!',
       });
       return
     }

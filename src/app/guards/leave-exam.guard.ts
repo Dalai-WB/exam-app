@@ -10,7 +10,7 @@ export const leaveExamGuard: CanDeactivateFn<DetailComponent> = (
   if (component.isExamEnded) return true;
 
   const leave = confirm(
-    'Та сорилоос гарахдаа итгэлтэй байна уу? Одоог хүртэл өгсөн таны хариултуудын дагуу оноо тооцогдох болно.'
+    'Та сорилгоос гарахдаа итгэлтэй байна уу? Одоог хүртэл өгсөн таны хариултуудын дагуу оноо тооцогдох болно.'
   );
 
   if (leave) {
