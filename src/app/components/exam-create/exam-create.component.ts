@@ -22,23 +22,171 @@ export class ExamCreateComponent {
   isEditMode: boolean = false;
   examId: string | null = null;
   isVisible: boolean = false;
+  subCategories: any[] = [];
 
-  categories: String[] = [
-    'Тоон ба үсэгт илэрхийлэл',
-    'Функц',
-    'Тэгшитгэл ба тэнцэтгэл биш',
-    'Дараалал',
-    'Тригонометр',
-    'Функцийн уламжлал',
-    'Интеграл',
-    'Координатын систем',
-    'Вектор',
-    'Хавтгайн геометр',
-    'Огторгуйн геометр',
-    'Магадлал статистик',
-    'Комплекс тоо',
-    'Матриц'
-  ]
+  categories: any[] = [
+    {
+      title: "Бодит тоо",
+      subCategories: [
+        { title: "Натурал ба бүхэл тоо" },
+        { title: "Рационал тоо ба рационал тоон илэрхийлэл" },
+        { title: "Тооны квадрат ба куб язгуур" },
+        { title: "Тооны зэрэг" },
+      ],
+    },
+    {
+      title: "Алгебрийн илэрхийлэл",
+      subCategories: [
+        { title: "Илэрхийлэл" },
+        { title: "Хялбар тэнцэтгэл биш" },
+      ],
+    },
+    {
+      title: "Өгүүлбэртэй бодлого",
+      subCategories: [
+        { title: "Тэгшитгэл зохиох бодлого" },
+        { title: "Процентийн бодлого" },
+        { title: "Хольц ба хайлшийн бодлого" },
+        { title: "Ажлын бодлого" },
+        { title: "Хөдөлгөөний бодлого" },
+      ],
+    },
+    {
+      title: "Функц",
+      subCategories: [
+        { title: "Функцийн үндсэн чанар, ангилал" },
+        { title: "Функцийн график" },
+      ],
+    },
+    {
+      title: "Олон гишүүнт",
+      subCategories: [
+        { title: "Тодорхойлолт, үндсэн ойлголтууд" },
+        { title: "Безугийн теорем, Рационал язгуурын теорем" },
+        { title: "Рационал бутархайг задлах" },
+        { title: "Виетийн теорем" },
+      ],
+    },
+    {
+      title: "Тэгшитгэл",
+      subCategories: [
+        { title: "Шугаман тэгшитгэл" },
+        { title: "Квадрат тэгшитгэл" },
+        { title: "Рационал тэгшитгэл" },
+        { title: "Иррационал тэгшитгэл" },
+        { title: "Илтгэгч тэгшитгэл" },
+        { title: "Логарифм тэгшитгэл" },
+        { title: "Тригонометр тэгшитгэл" },
+      ],
+    },
+    {
+      title: "Тэнцэтгэл биш",
+      subCategories: [
+        { title: "Шугаман тэнцэтгэл биш" },
+        { title: "Квадрат тэнцэтгэл биш" },
+        { title: "Рационал тэнцэтгэл биш" },
+        { title: "Иррационал тэнцэтгэл биш" },
+        { title: "Илтгэгч тэнцэтгэл биш" },
+        { title: "Логарифм тэнцэтгэл биш" },
+        { title: "Тригонометр тэнцэтгэл биш" },
+      ],
+    },
+    {
+      title: "Дараалал ба цуваа",
+      subCategories: [
+        { title: "Дарааллын ерөнхий чанар" },
+        { title: "Прогресс" },
+        { title: "Төгсгөлөг нийлбэр, Σ тэмдэглэгээ" },
+        { title: "Рекуррент дараалал" },
+        { title: "Цуваа" },
+        { title: "Математик индукцийн зарчим" },
+      ],
+    },
+    {
+      title: "Комбинаторик",
+      subCategories: [
+        { title: "Бином" },
+        { title: "Комбинаторик" },
+      ],
+    },
+    {
+      title: "Магадлал, статистик",
+      subCategories: [
+        { title: "Магадлал" },
+        { title: "Статистик" },
+      ],
+    },
+    {
+      title: "Хавтгайн геометр",
+      subCategories: [
+        { title: "Гурвалжин" },
+        { title: "Дөрвөн өнцөгт" },
+        { title: "Олон өнцөгт" },
+        { title: "Тойрог" },
+      ],
+    },
+    {
+      title: "Огторгуйн геометр",
+      subCategories: [
+        { title: "Пирамид" },
+        { title: "Цилиндр" },
+        { title: "Призм" },
+        { title: "Бөмбөрцөг" },
+        { title: "Конус" },
+      ],
+    },
+    {
+      title: "Координатын систем ба вектор",
+      subCategories: [
+        { title: "Цэгийн координат" },
+        { title: "Вектор түүн дээрх үйлдлүүд" },
+        { title: "Хавтгай дээрх шулуун ба тойргийн тэгшитгэл" },
+        { title: "Хоёр векторын хоорондох өнцөг" },
+        { title: "Огторгуй дахь шулууны тэгшитгэл" },
+        { title: "Огторгуй дахь хавтгайн тэгшитгэл" },
+      ],
+    },
+    {
+      title: "Матриц",
+      subCategories: [
+        { title: "Матриц дээрх үйлдлүүд" },
+        { title: "Матрицын тодорхойлогч ба урвуу" },
+        { title: "Матрицан тэгшитгэл ба систем" },
+        { title: "Геометр хувиргалт" },
+      ],
+    },
+    {
+      title: "Функцийн уламжлал",
+      subCategories: [
+        { title: "Функцийн уламжлал" },
+        { title: "Уламжлалын хэрэглээ" },
+      ],
+    },
+    {
+      title: "Интеграл",
+      subCategories: [
+        { title: "Тодорхой биш интеграл" },
+        { title: "Тодорхой интеграл" },
+        { title: "Интегралын хэрэглээ" },
+      ],
+    },
+    {
+      title: "Дифференциал тэгшитгэл",
+      subCategories: [
+        { title: "Үндсэн ойлголт" },
+        { title: "Хувьсагч нь ялгагдах тэгшитгэл" },
+        { title: "Анхны нөхцөлтэй бодлого" },
+      ],
+    },
+    {
+      title: "Комплекс тоо",
+      subCategories: [
+        { title: "Комплекс тоо түүн дээрх үйлдлүүд" },
+        { title: "Тэгшитгэл" },
+      ],
+    },
+  ];
+
   answerTypes: any[] = [
     { label: 'Тест', value: 'test' },
     { label: 'Нөхөх хэсэг', value: 'fill' },
@@ -72,8 +220,10 @@ export class ExamCreateComponent {
 
   loadExamDetails(id: string): void {
     const apiUrl = `${this.baseUrl}exam/admin/${id}`; // Update with your endpoint
+    this.isLoading = true;
     this.http.get<any>(apiUrl).subscribe({
       next: (exam) => {
+        this.isLoading = false;
         // Patch form with exam details
         this.examForm.patchValue({
           examName: exam.examName,
@@ -89,6 +239,7 @@ export class ExamCreateComponent {
             questionText: question.questionText,
             correctAnswer: question.correctAnswer,
             category: question.category,
+            subCategory: question.subCategory,
             answerType: question.answerType,
             questionPoint: question.questionPoint,
             solution: question.solution,
@@ -125,8 +276,11 @@ export class ExamCreateComponent {
 
           this.questions.push(questionGroup);
         });
+        const selectedCategory = this.questions.at(0)?.get('category')?.value;
+        this.subCategories = this.categories.find(cat => cat.title === selectedCategory)?.subCategories || [];
       },
       error: (error) => {
+        this.isLoading = false;
         console.error('Error loading exam details:', error);
         this.msg.add({
           severity: 'error',
@@ -151,7 +305,10 @@ export class ExamCreateComponent {
   }
 
   getQuestionSolution(index: any): FormControl {
-    return this.questions.at(index).get('solution') as FormControl
+    if (this.questions.at(index)) {
+      return this.questions.at(index).get('solution') as FormControl;
+    }
+    return new FormControl('');
   }
 
   getQuestion(index: any): FormGroup {
@@ -187,6 +344,7 @@ export class ExamCreateComponent {
         ]),
       correctAnswer: ['', Validators.required],
       category: ['', Validators.required],
+      subCategory: ['', Validators.required],
       answerType: ['', Validators.required],
       questionPoint: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
       solution: [''],
@@ -271,6 +429,7 @@ export class ExamCreateComponent {
         },
       });
     } else {
+      this.isLoading = false;
       this.msg.add({
         severity: 'warn',
         summary: 'Анхааруулга',
@@ -297,7 +456,8 @@ export class ExamCreateComponent {
   }
 
   activeIndexChange(event: any) {
-    // console.log(event);
+    const selectedCategory = this.questions.at(event)?.get('category')?.value;
+    this.subCategories = this.categories.find(cat => cat.title === selectedCategory)?.subCategories || [];
     this.activeIndex = event ?? this.activeIndex;
   }
 
@@ -347,5 +507,11 @@ export class ExamCreateComponent {
     const fc = this.questions.at(index).get('imageKey') as FormControl;
     fc.setValue(null);
     this.questions.at(index).get('imageUrl')?.setValue(null);
+  }
+
+  onCategoryChange(selectedCategory: any) {
+    this.subCategories = this.categories.find(cat => cat.title === selectedCategory)?.subCategories || [];
+    console.log('Subcategories:', this.subCategories);
+    this.examForm.get('subCategory')?.reset();
   }
 }

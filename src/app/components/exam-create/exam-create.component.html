@@ -65,7 +65,14 @@
               </div>
               <div class="form-element">
                 <label>Бодлогын төрөл:</label>
-                <p-dropdown formControlName="category" [options]="categories" placeholder="Төрөл сонгох" />
+                <p-dropdown formControlName="category" [options]="categories" optionLabel="title" optionValue="title" placeholder="Төрөл сонгох"
+                  (onChange)="onCategoryChange($event.value)" />
+              </div>
+              <div class="form-element">
+                <label>Дэд төрөл:</label>
+                <p-dropdown formControlName="subCategory" [options]="subCategories" optionLabel="title" optionValue="title" placeholder="Дэд төрөл сонгох"
+                  [disabled]="!subCategories.length">
+                </p-dropdown>
               </div>
               <div class="form-element">
                 <label>Хариултын төрөл:</label>
