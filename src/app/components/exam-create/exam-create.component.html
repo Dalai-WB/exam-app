@@ -35,7 +35,7 @@
                 <label>Бодлогын өгүүлбэр:</label>
                 <input pInputText formControlName="questionText" type="text" />
               </div>
-              <div class="form-element">
+              <div class="form-element mt-3">
                 <label>Зураг оруулах:</label>
                 <div *ngIf="getQuestionImageUrl(activeIndex)" class="relative inline-block group cursor-pointer
                         w-[150px] h-[150px] overflow-hidden rounded-lg
@@ -59,32 +59,35 @@
                   chooseLabel="Зураг оруулах" cancelLabel="Cancel" uploadLabel="Upload">
                 </p-fileUpload>
               </div>
-              <div class="form-element">
+              <div class="form-element mt-3">
                 <label>Бодолт:</label>
                 <textarea rows="10" cols="30" pInputTextarea formControlName="solution"></textarea>
               </div>
-              <div class="form-element">
-                <label>Бодлогын төрөл:</label>
-                <p-dropdown formControlName="category" [options]="categories" optionLabel="title" optionValue="title" placeholder="Төрөл сонгох"
-                  (onChange)="onCategoryChange($event.value)" />
+              <div class="form-row mt-3">
+                <div class="form-element">
+                  <label>Бодлогын төрөл:</label>
+                  <p-dropdown formControlName="category" [options]="categories" optionLabel="title" optionValue="title" placeholder="Төрөл сонгох"
+                    (onChange)="onCategoryChange($event.value)" />
+                </div>
+                <div class="form-element">
+                  <label>Дэд төрөл:</label>
+                  <p-dropdown formControlName="subCategory" [options]="subCategories" optionLabel="title" optionValue="title" placeholder="Дэд төрөл сонгох"
+                    [disabled]="!subCategories.length">
+                  </p-dropdown>
+                </div>
               </div>
-              <div class="form-element">
-                <label>Дэд төрөл:</label>
-                <p-dropdown formControlName="subCategory" [options]="subCategories" optionLabel="title" optionValue="title" placeholder="Дэд төрөл сонгох"
-                  [disabled]="!subCategories.length">
-                </p-dropdown>
+              <div class="form-row mt-3">
+                <div class="form-element">
+                  <label>Хариултын төрөл:</label>
+                  <p-dropdown formControlName="answerType" [options]="answerTypes" optionLabel="label" optionValue="value"
+                    placeholder="Төрөл сонгох" (onChange)="onAnswerTypeChange($event, activeIndex)" />
+                </div>
+                <div class="form-element">
+                  <label>Бодлогын оноо:</label>
+                  <p-inputNumber formControlName="questionPoint" />
+                </div>
               </div>
-              <div class="form-element">
-                <label>Хариултын төрөл:</label>
-                <p-dropdown formControlName="answerType" [options]="answerTypes" optionLabel="label" optionValue="value"
-                  placeholder="Төрөл сонгох" (onChange)="onAnswerTypeChange($event, activeIndex)" />
-              </div>
-              <div class="form-element">
-                <label>Бодлогын оноо:</label>
-                <p-inputNumber formControlName="questionPoint" />
-              </div>
-
-              <div *ngIf="getAnswerType(activeIndex).value === 'test'" formArrayName="choices" class="choices">
+              <div *ngIf="getAnswerType(activeIndex).value === 'test'" formArrayName="choices" class="choices mt-3">
                 <div class="choice-head">
                   <label>Хариултууд:</label>
                   <p-button icon="pi pi-plus" [rounded]="true" [text]="true" (click)="addChoice(i)" />
@@ -99,7 +102,7 @@
 
               <div
                 *ngIf="getChoices(question).valid && getAnswerType(activeIndex).value !== 'fill' && getChoices(question).length !== 0"
-                class="form-element">
+                class="form-element mt-3">
                 <label>Зөв хариулт:</label>
                 <p-dropdown formControlName="correctAnswer" [options]="getChoices(question).getRawValue()"
                   placeholder="Хариулт сонгох">
@@ -111,7 +114,7 @@
                   </ng-template>
                 </p-dropdown>
               </div>
-              <div *ngIf="getAnswerType(activeIndex).value === 'fill'" class="form-element"
+              <div *ngIf="getAnswerType(activeIndex).value === 'fill'" class="form-element mt-3"
                 formArrayName="fillTestAnswers">
                 <label>Зөв хариулт:</label>
                 <!-- <input pInputText formControlName="correctAnswer" type="text" /> -->
@@ -146,7 +149,7 @@
 
 
   <div class="res-cont" *ngIf="this.questions.length && activeIndex !== null">
-    <div>
+    <div class="res-cont-border">
       <div class="mb-10 flex gap-5">
         <span
           class="flex items-center justify-center px-4 h-10 w-12 border bg-white border-primary-color text-primary-color text-lg rounded-md">{{
