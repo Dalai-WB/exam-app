@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { ProfileService } from 'src/app/services/profile.service';
+import { RegisterService } from 'src/app/services/register.service';
 
 @Component({
   selector: 'app-profile',
@@ -15,16 +16,26 @@ export class ProfileComponent implements OnInit {
   student: any;
   studentStats: any;
   top10: any[] = [];
+  teachers: any[] = [];
+  isLoading: boolean = false;
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private service: ProfileService,
+    private registerService: RegisterService,
     private auth: AuthenticationService,
     private msg: MessageService,
   ) { }
 
   ngOnInit(): void {
+    this.isLoading = true;
+    this.registerService.getTeachers().subscribe(
+      (res: any) => {
+        this.isLoading = false;
+        this.teachers = res;
+      }
+    )
     const data = this.route.snapshot.data;
     this.student = data['userData'].user;
     this.studentStats = data['userData'].userStats;
@@ -32,13 +43,15 @@ export class ProfileComponent implements OnInit {
     this.top10.sort((a, b) => a.rank - b.rank);
     this.profileForm = this.fb.group({
       firstName: [this.student.firstName],
-      username: [{ value: this.student.username, disabled: true }]
+      username: [{ value: this.student.username, disabled: true }],
+      teacherId: [this.student.teacherId || ''],
     });
   }
 
   saveProfile() {
     const body = {
-      firstName: this.profileForm.controls['firstName'].value
+      firstName: this.profileForm.controls['firstName'].value,
+      teacherId: this.profileForm.controls['teacherId'].value,
     }
     this.service.updateUserProfile(body).subscribe((response: any) => {
       this.auth.setUserFirstName(response.user.firstName)

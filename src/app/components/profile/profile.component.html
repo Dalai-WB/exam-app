@@ -1,20 +1,35 @@
 <div class="app-layout">
+  <!-- Sidebar -->
   <app-sidebar></app-sidebar>
+
+  <!-- Main Content -->
   <div class="profile-container">
     <p-card class="profile-card" header="Миний Профайл">
+
       <!-- Top Section -->
       <div class="profile-top">
-        <!-- Form -->
         <div class="profile-form">
-          <form class="flex gap-4" [formGroup]="profileForm">
+          <form class="flex items-end flex-wrap gap-4" [formGroup]="profileForm">
             <div class="form-field">
               <label for="name">Нэр:</label>
               <input id="name" pInputText formControlName="firstName" />
             </div>
+
             <div class="form-field">
               <label for="email">И-мэйл:</label>
               <input id="email" pInputText formControlName="username" [disabled]="true" />
             </div>
+
+            <div class="form-field w-full">
+              <label class="block mb-2 text-sm font-medium register-text">
+                Багш
+              </label>
+              <p-dropdown name="selectedTeacher" styleClass="custom-drop w-full" [options]="teachers"
+                formControlName="teacherId" optionLabel="username" optionValue="_id" placeholder="Багш сонгох"
+                [filter]="true">
+              </p-dropdown>
+            </div>
+
             <p-button label="Хадгалах" (onClick)="saveProfile()"></p-button>
           </form>
         </div>
@@ -32,40 +47,55 @@
             <h1 class="stat-value">{{ studentStats.examCount }}</h1>
           </p-card>
         </div>
+
         <div class="stats-card">
           <p-card header="Дундаж оноо">
-            <h1 class="stat-value">{{ studentStats.avgScore | number:'1.2-2' }}%</h1>
+            <h1 class="stat-value">
+              {{ studentStats.avgScore | number:'1.2-2' }}%
+            </h1>
           </p-card>
         </div>
+
         <div class="stats-card">
           <p-card header="Дуусах хугацаа">
-            <h1 class="stat-value">{{ student.endDate | date: 'yyyy-MM-dd' }}</h1>
+            <h1 class="stat-value">
+              {{ student.endDate | date: 'yyyy-MM-dd' }}
+            </h1>
           </p-card>
         </div>
       </div>
 
+      <!-- Divider -->
       <p-divider align="center">
         <span class="p-tag">Шилдэг 10 сурагч</span>
       </p-divider>
-      
-      <p-table [value]="top10" [tableStyle]="{ 'min-width': '50rem' }" size="large" styleClass="mt-5">
+
+      <!-- Table -->
+      <p-table [value]="top10" size="large" styleClass="mt-5" [scrollable]="true" scrollHeight="400px">
         <ng-template pTemplate="header">
-            <tr>
-                <th>№</th>
-                <th>Нэр</th>
-                <th>Овог</th>
-                <th>Дундаж оноо</th>
-            </tr>
+          <tr>
+            <th>№</th>
+            <th>Нэр</th>
+            <th>Овог</th>
+            <th>Дундаж оноо</th>
+          </tr>
         </ng-template>
+
         <ng-template pTemplate="body" let-product>
-            <tr>
-                <td>{{ product.rank }}</td>
-                <td>{{ product.firstName }}</td>
-                <td>{{ product.lastName }}</td>
-                <td>{{ product.avgScore | number:'1.2-2' }}</td>
-            </tr>
+          <tr>
+            <td>{{ product.rank }}</td>
+            <td>{{ product.firstName }}</td>
+            <td>{{ product.lastName }}</td>
+            <td>{{ product.avgScore | number:'1.2-2' }}</td>
+          </tr>
         </ng-template>
       </p-table>
+
     </p-card>
   </div>
+</div>
+
+<div class="overlay" *ngIf="isLoading">
+  <p-progressSpinner *ngIf="isLoading" styleClass="w-4rem h-4rem" strokeWidth="4" fill="var(--surface-ground)"
+    animationDuration=".5s"></p-progressSpinner>
 </div>
