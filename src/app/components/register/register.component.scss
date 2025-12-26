@@ -1,36 +1,33 @@
 .register-background {
   height: 100vh;
+  position: relative;
 
-  .background-image {
-    object-fit: cover;
+  img {
     width: 100%;
     height: 100%;
+    object-fit: cover;
   }
 
   .main-logo {
-    color: white;
-    font-weight: bold;
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 1rem;
+    right: 1rem;
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: bold;
     z-index: 10;
-    width: 200px;
-    margin: 1rem;
-    font-size: 24px;
   }
 }
 
 .custom-background {
-    flex: 1;
-    padding: 1.5rem;
+  height: 100vh;
+  background-color: #f8fafc;
 }
 
 .register-title {
   background: linear-gradient(to right, #42A5F5, #426e5a);
   -webkit-background-clip: text;
-  background-clip: text;
   -webkit-text-fill-color: transparent;
-  text-fill-color: transparent;
 }
 
 .register-text {
@@ -47,4 +44,19 @@
 .register-button {
   background-color: #42A5F5;
   transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #2b8bdc;
+  }
+}
+
+/* SMALL DEVICES */
+@media (max-width: 640px) {
+  .register-background {
+    display: none;
+  }
+}
+
+.custom-background {
+  scroll-behavior: smooth;
 }
