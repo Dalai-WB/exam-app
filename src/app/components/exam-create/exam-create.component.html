@@ -15,6 +15,10 @@
               <label for="duration">Үргэлжлэх хугацаа (минутаар):</label>
               <p-inputNumber inputId="duration" formControlName="duration" />
             </div>
+            <div class="form-element">
+              <label for="variant">Вариант:</label>
+              <p-dropdown formControlName="variant" [options]="['A','B']" placeholder="Вариант сонгох"></p-dropdown>
+            </div>
           </div>
         </div>
 
