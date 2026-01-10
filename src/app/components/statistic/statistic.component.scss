@@ -5,18 +5,31 @@
   box-sizing: border-box;
 
   .statistic-container {
-    flex: 1;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;   /* stack dropdown + dashboard vertically */
+    width: 100%;
+    height: 100vh;            /* fill viewport exactly */
     padding: 1rem;
+    box-sizing: border-box;
+    overflow: hidden;         /* prevent child from overflowing */
+  }
+
+  .statistic-container > * {
+    flex-shrink: 0;           /* prevent shrinking */
+  }
+
+  /* make dashboard fill remaining space */
+  .statistic-container app-dashboard {
+    flex: 1;                  /* fill all remaining height */
+    min-height: 0;            /* required for flex children to shrink properly */
+    overflow-y: auto;         /* allow scrolling inside dashboard if content is bigger */
   }
 
   // Card Styles
   .card {
     width: 100%;
-    min-height: 300px; // Ensure the card has a minimum height
-    max-width: 800px;  // Limit max width for large screens
+    min-height: 90vh;
+    max-width: 80vw;
     display: flex;
     flex-direction: column;
     gap: 3rem;  // Adjusted for better spacing

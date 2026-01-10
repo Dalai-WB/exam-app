@@ -1,7 +1,6 @@
 <div class="app-layout">
   <app-sidebar></app-sidebar>
   <div class="statistic-container">
-    <div class="card">
       <div *ngIf="isTeacher" class="dropdown-container">
         <label class="register-text">Сурагч:</label>
         <p-dropdown
@@ -12,9 +11,9 @@
           (onChange)="onStudentSelected($event)"
           filter="true"/>
       </div>
-      <div class="chart-container">
+      <!-- <div class="chart-container">
         <p-chart type="bar" [data]="basicData" [options]="basicOptions" />
-      </div>
-    </div>
+      </div> -->
+      <app-dashboard></app-dashboard>
   </div>
 </div>

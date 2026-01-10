@@ -45,6 +45,7 @@ import { CardModule } from 'primeng/card';
 import { DividerModule } from 'primeng/divider';
 import { TagModule } from 'primeng/tag';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
     StatisticComponent,
     RequestComponent,
     ProfileComponent,
+    DashboardComponent,
   ],
   imports: [
     BrowserModule,

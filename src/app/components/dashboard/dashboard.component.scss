@@ -1,0 +1,93 @@
+/* dashboard.component.scss */
+
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  height: 100%;             /* fill parent container */
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.filters {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 16px;
+}
+
+.left, .right {
+  background: white;
+  padding: 16px;
+  border-radius: 6px;
+}
+
+.sub-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.percent {
+  color: red;
+  font-weight: bold;
+}
+
+.bottom {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.summary {
+  display: flex;
+  gap: 8px;
+}
+
+.box {
+  flex: 1;
+  color: white;
+  padding: 16px;
+  text-align: center;
+  border-radius: 6px;
+}
+
+.correct { background: #2f9e44; }
+.wrong { background: #e03131; }
+.skipped { background: #f08c00; }
+
+.trend {
+  background: white;
+  padding: 16px;
+  border-radius: 6px;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+    /* Semi-transparent white */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    /* Ensure it overlays all other content */
+}
+
+.left, .right, .trend {
+  height: 100%;            /* fill parent flex/grid cell */
+}
+
+.left p-chart, .right p-chart, .trend p-chart {
+  width: 100% !important;
+  height: 100% !important; /* make chart fill container */
+}

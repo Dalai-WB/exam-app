@@ -1,0 +1,84 @@
+<!-- dashboard.component.html -->
+
+<div class="dashboard">
+
+    <!-- TOP FILTERS -->
+    <div class="mb-4">
+        <h1 class="mb-4 text-2xl">Статистик</h1>
+        <p-selectButton [options]="filterOptions" [(ngModel)]="filters" name="filters" optionLabel="label"
+            optionValue="value" allowEmpty="false" styleClass="custom-filter-selection w-full"
+            (click)="onSelectFilter()">
+        </p-selectButton>
+    </div>
+
+    <!-- MAIN -->
+    <div class="content">
+
+        <!-- LEFT -->
+        <div>
+            <div class="bg-blue-500 mb-4">
+                <h3 class="text-white">БҮЛЭГ СЭДВЭЭР</h3>
+            </div>
+            <div class="left">
+                <p-chart #chart type="bar" [data]="categoryChart" [options]="{ indexAxis: 'y' }"
+                    (onDataSelect)="onBarClick($event)">>
+                </p-chart>
+            </div>
+        </div>
+
+        <!-- RIGHT -->
+        <div>
+            <div class="bg-blue-500 mb-4">
+                <h3 class="text-white">БҮЛГИЙН ДЭД СЭДВЭЭР</h3>
+            </div>
+            <div class="right">
+                <div *ngFor="let s of subCategories" class="sub-row">
+                    <span>{{s.subCategory}}</span>
+                    <span class="percent">{{s.percentage}}%</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- BOTTOM -->
+    <div class="bottom">
+
+        <!-- SUMMARY -->
+        <div>
+            <div class="bg-blue-500 mb-4">
+                <h3 class="text-white">СОНГОСОН ХАРИУЛТ</h3>
+            </div>
+
+            <div class="summary">
+                <div class="box correct">
+                    Зөв<br><b>{{summary[0]?.count || 0}}%</b>
+                </div>
+                <div class="box wrong">
+                    Буруу<br><b>{{summary[1]?.count || 0}}%</b>
+                </div>
+                <div class="box skipped">
+                    Алгассан<br><b>{{summary[2]?.count || 0}}%</b>
+                </div>
+            </div>
+        </div>
+
+        <!-- TREND -->
+        <div>
+            <div class="bg-blue-500 mb-4">
+                <h3 class="text-white">СОРИЛГЫН ДҮН</h3>
+            </div>
+
+            <div class="trend">
+                <p-chart type="line" [data]="trendChart"></p-chart>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="overlay" *ngIf="isLoading">
+    <p-progressSpinner *ngIf="isLoading" styleClass="w-4rem h-4rem" strokeWidth="4" fill="var(--surface-ground)"
+        animationDuration=".5s"></p-progressSpinner>
+</div>
