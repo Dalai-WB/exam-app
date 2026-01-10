@@ -230,6 +230,7 @@ export class ExamCreateComponent {
           examName: exam.examName,
           duration: exam.duration,
           totalPoint: exam.totalPoint,
+          variant: exam.variant,
         });
 
         // Add questions to the form
