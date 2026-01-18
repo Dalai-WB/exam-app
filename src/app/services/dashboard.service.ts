@@ -13,6 +13,12 @@ export class DashboardService {
     return this.http.get<any[]>(`${this.BASE}/${userId}/categories`);
   }
 
+  categories5Var(userId: string, variant: string) {
+    return this.http.get<any[]>(`${this.BASE}/${userId}/categories`,
+      { params: { variant } }
+    );
+  }
+
   subCategories(userId: string) {
     return this.http.get<any[]>(`${this.BASE}/${userId}/subcategories`);
   }
@@ -28,6 +34,13 @@ export class DashboardService {
   subCategoriesByCategory(userId: string, category: string) {
     return this.http.get<any[]>(
       `${this.BASE}/${userId}/subcategories`,
+      { params: { category } }
+    );
+  }
+
+  summaryByCategory(userId: string, category: string) {
+    return this.http.get<any[]>(
+      `${this.BASE}/${userId}/summary`,
       { params: { category } }
     );
   }

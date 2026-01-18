@@ -67,6 +67,30 @@
                 <label>Бодолт:</label>
                 <textarea rows="10" cols="30" pInputTextarea formControlName="solution"></textarea>
               </div>
+              <div class="form-element mt-3">
+                <label>Бодолт зураг оруулах:</label>
+                <div *ngIf="getQuestionSolutionImageUrl(activeIndex)" class="relative inline-block group cursor-pointer
+                        w-[150px] h-[150px] overflow-hidden rounded-lg
+                        border border-gray-300 shadow-sm" (click)="onDeleteSolutionImage(activeIndex)">
+                  <img [src]="getQuestionSolutionImageUrl(activeIndex)" alt="Question Image" class="w-full h-full object-cover
+                          transition duration-200
+                          group-hover:opacity-70" />
+
+                  <!-- Overlay -->
+                  <div class="absolute inset-0 flex items-center justify-center
+                          bg-black/40
+                          opacity-0 group-hover:opacity-100
+                          transition-opacity duration-200">
+                    <span class="text-white text-sm font-semibold">
+                      🗑 Устгах
+                    </span>
+                  </div>
+                </div>
+                <p-fileUpload name="image" customUpload="true" [auto]="true"
+                  (uploadHandler)="onSolutionImageUpload($event, activeIndex)" [maxFileSize]="2e6" accept="image/*"
+                  chooseLabel="Зураг оруулах" cancelLabel="Cancel" uploadLabel="Upload">
+                </p-fileUpload>
+              </div>
               <div class="form-row mt-3">
                 <div class="form-element">
                   <label>Бодлогын төрөл:</label>

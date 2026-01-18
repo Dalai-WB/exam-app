@@ -397,4 +397,10 @@ export class DetailComponent implements OnInit, OnDestroy {
       this.solutionMath.renderMath();
     }, 0);
   }
+
+  getSolutionImageUrl(): string {
+    const responses = this.attempt.responses as any[];
+    const qstn = responses.find(res => res.question._id === this.exam.questions[this.pageIndex - 1]['_id'])
+    return qstn.question.solutionImageUrl;
+  }
 }

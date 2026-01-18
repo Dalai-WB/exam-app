@@ -247,6 +247,8 @@ export class ExamCreateComponent {
             solution: question.solution,
             imageUrl: question.imageUrl,
             imageKey: question.imageKey,
+            solutionImageUrl: question.solutionImageUrl,
+            solutionImageKey: question.solutionImageKey,
             fillTypeKeys: question.fillTypeKeys,
           });
 
@@ -326,6 +328,11 @@ export class ExamCreateComponent {
     return imageUrl.value
   }
 
+  getQuestionSolutionImageUrl(index: any): String {
+    const imageUrl = this.questions.at(index).get('solutionImageUrl') as FormControl;
+    return imageUrl.value
+  }
+
   onAnswerTypeChange(event: DropdownChangeEvent, index: number) {
     if (event.value === 'fill') {
       const formArray = this.questions.at(index).get('choices') as FormArray
@@ -352,6 +359,8 @@ export class ExamCreateComponent {
       solution: [''],
       imageUrl: [''],
       imageKey: [''],
+      solutionImageUrl: [''],
+      solutionImageKey: [''],
       fillTypeKeys: this.fb.array([]),
       fillTestAnswers: this.fb.array([])
     });
@@ -381,6 +390,7 @@ export class ExamCreateComponent {
 
   // Submit the form
   submit(): void {
+    console.log('Submitting form', this.examForm.value);
     this.isLoading = true;
     const questionsFormArray = this.examForm.get('questions') as FormArray;
 
@@ -503,12 +513,32 @@ export class ExamCreateComponent {
     });
   }
 
+  onSolutionImageUpload(event: any, index: number) {
+    const file = event.files[0];
+    const formData = new FormData();
+    formData.append('file', file);
+
+    this.http.post(`${this.baseUrl}upload`, formData).subscribe((res: any) => {
+      // Save S3 URL for question
+      const fc = this.questions.at(index).get('solutionImageKey') as FormControl;
+      fc.setValue(res.key);
+    });
+  }
+
   onDeleteImage(index: number) {
     if (!confirm('Тухайн зургийг устгах уу?')) return;
 
     const fc = this.questions.at(index).get('imageKey') as FormControl;
     fc.setValue(null);
     this.questions.at(index).get('imageUrl')?.setValue(null);
+  }
+
+  onDeleteSolutionImage(index: number) {
+    if (!confirm('Тухайн зургийг устгах уу?')) return;
+
+    const fc = this.questions.at(index).get('solutionImageKey') as FormControl;
+    fc.setValue(null);
+    this.questions.at(index).get('solutionImageUrl')?.setValue(null);
   }
 
   onCategoryChange(selectedCategory: any) {

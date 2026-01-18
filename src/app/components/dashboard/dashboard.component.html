@@ -7,7 +7,7 @@
         <h1 class="mb-4 text-2xl">Статистик</h1>
         <p-selectButton [options]="filterOptions" [(ngModel)]="filters" name="filters" optionLabel="label"
             optionValue="value" allowEmpty="false" styleClass="custom-filter-selection w-full"
-            (click)="onSelectFilter()">
+            (click)="onSelectFilter($event)">
         </p-selectButton>
     </div>
 
@@ -52,13 +52,13 @@
 
             <div class="summary">
                 <div class="box correct">
-                    Зөв<br><b>{{summary[0]?.count || 0}}%</b>
+                    Зөв<br><b>{{ summary?.Correct || 0 }}</b>
                 </div>
                 <div class="box wrong">
-                    Буруу<br><b>{{summary[1]?.count || 0}}%</b>
+                    Буруу<br><b>{{ summary?.Wrong || 0 }}</b>
                 </div>
                 <div class="box skipped">
-                    Алгассан<br><b>{{summary[2]?.count || 0}}%</b>
+                    Алгассан<br><b>{{ summary?.Skipped || 0 }}</b>
                 </div>
             </div>
         </div>
