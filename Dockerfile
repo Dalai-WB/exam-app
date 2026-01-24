@@ -6,6 +6,10 @@ RUN npm install
 COPY . .
 RUN npm run build -- --configuration production
 
+# Optional: debug
+RUN ls -l /app/dist
+RUN ls -l /app/dist/exam-app
+
 # Production stage
 FROM nginx:alpine
 COPY --from=build /app/dist/exam-app /usr/share/nginx/html
