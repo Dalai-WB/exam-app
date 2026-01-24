@@ -4,7 +4,7 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci
 COPY . .
-RUN ng build exam-app --configuration production
+RUN npm run build --configuration=production
 
 # Optional: debug
 RUN ls -l /app/dist
