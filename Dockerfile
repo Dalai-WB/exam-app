@@ -12,5 +12,6 @@ RUN ls -l /app/dist/exam-app
 
 # Production stage
 FROM nginx:alpine
+RUN rm -rf /usr/share/nginx/html/*
 COPY --from=build /app/dist/exam-app /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
