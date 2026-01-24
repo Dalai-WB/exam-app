@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://exam-app-backend-9f57.onrender.com/',
+  apiUrl: 'https://e-sorilgo.mn/api/',
   firebase: {
     apiKey: 'AIzaSyAq5z__fMXIVGbx47WIJzhrLz-oGcc5-Cg',
     authDomain: 'exam-app-784a9.firebaseapp.com',
