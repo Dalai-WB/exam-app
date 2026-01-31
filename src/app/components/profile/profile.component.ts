@@ -19,6 +19,7 @@ export class ProfileComponent implements OnInit {
   teachers: any[] = [];
   isLoading: boolean = false;
   isExpiringSoon: boolean = false;
+  isExpired: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -77,6 +78,8 @@ export class ProfileComponent implements OnInit {
       const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
       if (daysDiff <= 7) {
         this.isExpiringSoon = true;
+      } else if (daysDiff < 0) {
+        this.isExpired = true;
       }
     }
   }

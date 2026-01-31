@@ -49,12 +49,16 @@
       <div class="payment-section">
         <p-card header="Төлбөрийн төлөв">
           <div class="payment-content">
-            <p class="payment-text">
+            <p class="payment-text" *ngIf="student && student.endDate">
               Таны эрх {{ student.endDate | date:'yyyy-MM-dd' }} хүртэл хүчинтэй.
             </p>
 
             <p class="payment-text warning" *ngIf="isExpiringSoon">
               ⚠️ Төлбөрийн хугацаа дуусах дөхөж байна.
+            </p>
+
+            <p class="payment-text warning" *ngIf="isExpired">
+              ⚠️ Төлбөрийн хугацаа дууссан байна.
             </p>
 
             <p class="payment-text">
