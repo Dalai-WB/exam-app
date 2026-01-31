@@ -30,7 +30,7 @@ export class AuthenticationService {
     private http: HttpClient,
   ) { }
 
-  createUser(params: SignIn, role: string, teacherId: String, firstName: String, lastName: String): Observable<any> {
+  createUser(params: SignIn, role: string, teacherId: String, firstName: String, lastName: String, phoneNumber: String): Observable<any> {
     return from(
       createUserWithEmailAndPassword(this.auth, params.email, params.password)
     ).pipe(
@@ -48,6 +48,7 @@ export class AuthenticationService {
           role: role,
           fireId: fireId,
           teacherId: teacherId,
+          phoneNumber: phoneNumber,
         }, {
           headers: {
             'Content-Type': 'application/json'

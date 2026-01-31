@@ -46,6 +46,7 @@ export class ProfileComponent implements OnInit {
       firstName: [this.student.firstName],
       username: [{ value: this.student.username, disabled: true }],
       teacherId: [this.student.teacherId || ''],
+      phoneNumber: [{ value: this.student.phoneNumber, disabled: true }],
     });
     this.handleExpiringDate()
   }

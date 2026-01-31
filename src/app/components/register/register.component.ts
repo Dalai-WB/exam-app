@@ -23,6 +23,7 @@ export class RegisterComponent {
   role: string = 'student';
   teachers: any[] = [];
   selectedTeacher: String = '';
+  phoneNumber: String = '';
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -58,7 +59,7 @@ export class RegisterComponent {
     from(this.authenticationService.createUser({
       email: this.email,
       password: this.password,
-    }, this.role, this.selectedTeacher, this.firstName, this.lastName)).subscribe(
+    }, this.role, this.selectedTeacher, this.firstName, this.lastName, this.phoneNumber)).subscribe(
       (res) => {
         console.log(res);
         console.log("-------");
