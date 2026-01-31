@@ -37,6 +37,39 @@
 
       <!-- Divider -->
       <p-divider align="center">
+        <span class="p-tag">Төлбөрийн мэдээлэл</span>
+      </p-divider>
+
+      <!-- Payment Section -->
+      <div class="payment-section">
+        <p-card header="Төлбөрийн төлөв">
+          <div class="payment-content">
+            <p class="payment-text">
+              Таны эрх {{ student.endDate | date:'yyyy-MM-dd' }} хүртэл хүчинтэй.
+            </p>
+
+            <p class="payment-text warning" *ngIf="isExpiringSoon">
+              ⚠️ Төлбөрийн хугацаа дуусах дөхөж байна.
+            </p>
+
+            <p class="payment-text info">
+              Төлбөр төлөх бол багш эсвэл админтай холбогдоно уу.
+            </p>
+
+            <!-- Future-safe: button can be added later -->
+            <!--
+            <p-button
+              label="Төлбөр төлөх"
+              severity="success"
+              (onClick)="goToPayment()">
+            </p-button>
+            -->
+          </div>
+        </p-card>
+      </div>
+
+      <!-- Divider -->
+      <p-divider align="center">
         <span class="p-tag">Шалгалтын үзүүлэлт</span>
       </p-divider>
 
