@@ -9,6 +9,7 @@ import {
   authState,
   User,
   UserCredential,
+  sendEmailVerification,
 } from '@angular/fire/auth';
 import { MessageService } from 'primeng/api';
 import { catchError, from, map, Observable, switchMap, tap, throwError } from 'rxjs';
@@ -35,6 +36,13 @@ export class AuthenticationService {
       createUserWithEmailAndPassword(this.auth, params.email, params.password)
     ).pipe(
       switchMap((userCredential) => {
+        sendEmailVerification(userCredential.user).then(() => {
+          this.msg.add({
+            severity: 'success',
+            summary: 'Амжилттай',
+            detail: 'Баталгаажуулах имэйл илгээгдлээ. И-мэйлээ шалгана уу.',
+          });
+        });
         this.userRole = role;
         localStorage.setItem('userRole', this.userRole);
         const fireId = userCredential.user.uid;
@@ -89,6 +97,17 @@ export class AuthenticationService {
       signInWithEmailAndPassword(this.auth, params.email, params.password)
     ).pipe(
       switchMap((userCredential) => {
+        if (!userCredential.user.emailVerified) {
+          sendEmailVerification(userCredential.user).then(() => {
+            this.msg.add({
+              severity: 'error',
+              summary: 'Алдаа',
+              detail: 'Шинэ баталгаажуулах имэйл илгээгдлээ. И-мэйлээ шалгана уу.',
+            });
+          });
+          this.logOut().subscribe();
+          throw new Error('И-мэйл баталгаажаагүй байна.');
+        }
         const fireId = userCredential.user.uid;
         this.signedUser = userCredential;
         return this.http.get(`${this.baseUrl}user/role-status/${fireId}`).pipe(
