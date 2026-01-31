@@ -20,7 +20,7 @@
 <nav
   class="flex flex-col w-64 px-4 bg-gray-900 text-white navbar inset-y-0 z-40 transform transition-transform duration-300 md:translate-x-0"
   [class.-translate-x-full]="!isOpen" [class.translate-x-0]="isOpen">
-  <div class="text-center text-xl font-bold mt-6">E-SORILGO.MN</div>
+  <div class="text-center text-xl font-bold mt-6 cursor-pointer" (click)="onHome()">E-SORILGO.MN</div>
 
   <!-- Student Section -->
   <div class="mt-8 cursor-pointer" (click)="onProfile()" *ngIf="role === 'student'">
