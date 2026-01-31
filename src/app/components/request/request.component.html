@@ -40,6 +40,9 @@
             <ng-template pTemplate="header">
               <tr>
                 <th>Нэвтрэх нэр</th>
+                <th>Овог</th>
+                <th>Нэр</th>
+                <th>Утасны дугаар</th>
                 <th>Үүрэг</th>
                 <th>Төлөв</th>
                 <th>Үйлдэл</th>
@@ -49,6 +52,9 @@
             <ng-template pTemplate="body" let-user>
               <tr>
                 <td>{{ user.username }}</td>
+                <td>{{ user.lastName }}</td>
+                <td>{{ user.firstName }}</td>
+                <td>{{ user.phoneNumber }}</td>
                 <td>{{ translations[user.role] || user.role }}</td>
                 <td>{{ translations[user.status] || user.status }}</td>
                 <td>

@@ -1,7 +1,7 @@
 export const environment = {
   production: false,
-  // apiUrl: 'https://exam-app-backend-9f57.onrender.com/',
-  apiUrl: 'http://localhost:3000/',
+  apiUrl: 'https://exam-app-backend-9f57.onrender.com/',
+  // apiUrl: 'http://localhost:3000/',
   firebase: {
     apiKey: 'AIzaSyAq5z__fMXIVGbx47WIJzhrLz-oGcc5-Cg',
     authDomain: 'exam-app-784a9.firebaseapp.com',
