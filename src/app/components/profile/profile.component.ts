@@ -18,6 +18,8 @@ export class ProfileComponent implements OnInit {
   top10: any[] = [];
   teachers: any[] = [];
   isLoading: boolean = false;
+  isExpiringSoon: boolean = false;
+  isExpired: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -45,7 +47,9 @@ export class ProfileComponent implements OnInit {
       firstName: [this.student.firstName],
       username: [{ value: this.student.username, disabled: true }],
       teacherId: [this.student.teacherId || ''],
+      phoneNumber: [{ value: this.student.phoneNumber, disabled: true }],
     });
+    this.handleExpiringDate()
   }
 
   saveProfile() {
@@ -64,5 +68,19 @@ export class ProfileComponent implements OnInit {
       // Refresh the page
       window.location.reload();
     })
+  }
+
+  handleExpiringDate() {
+    if (this.student.endDate) {
+      const expiringDate = new Date(this.student.endDate);
+      const currentDate = new Date();
+      const timeDiff = expiringDate.getTime() - currentDate.getTime();
+      const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+      if (daysDiff <= 7) {
+        this.isExpiringSoon = true;
+      } else if (daysDiff < 0) {
+        this.isExpired = true;
+      }
+    }
   }
 }
