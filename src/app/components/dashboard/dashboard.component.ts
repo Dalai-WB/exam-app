@@ -1,5 +1,5 @@
 // dashboard.component.ts
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { DashboardService } from '../../services/dashboard.service';
 
 @Component({
@@ -7,7 +7,7 @@ import { DashboardService } from '../../services/dashboard.service';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent {
   @ViewChild('chart') chart: any;
   @Input() userIdInput: string = '';
 
@@ -36,7 +36,7 @@ export class DashboardComponent implements OnInit {
 
   constructor(private api: DashboardService) { }
 
-  ngOnInit() {
+  ngOnChanges() {
     this.isLoading = true;
     this.userId = this.userIdInput;
     this.loadAll();
