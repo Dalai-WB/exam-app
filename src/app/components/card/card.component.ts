@@ -19,7 +19,6 @@ export class CardComponent {
   constructor(private router: Router, private auth: AuthenticationService, private msg: MessageService) { }
 
   ngOnInit() {
-    console.log(this.badgeValue);
     this.role = this.auth.getUserRole() ?? '';
     this.status = this.auth.getUserStatus() ?? '';
   }

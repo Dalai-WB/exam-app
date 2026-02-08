@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication.service';
-import { Auth, user } from '@angular/fire/auth';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-sidebar',
@@ -11,11 +11,18 @@ import { Auth, user } from '@angular/fire/auth';
 export class SidebarComponent {
   firstName: String = '';
   isOpen: boolean = false;
-  constructor(public router: Router, private auth: AuthenticationService, private fireAuth: Auth) { }
   role: String = '';
+  status: String = '';
+
+  constructor(
+    public router: Router,
+    private auth: AuthenticationService,
+    private msg: MessageService,
+  ) { }
 
   ngOnInit() {
     this.role = this.auth.getUserRole() ?? '';
+    this.status = this.auth.getUserStatus() ?? '';
     this.firstName = this.auth.getUserFirstName() ?? '';
   }
 
@@ -29,6 +36,14 @@ export class SidebarComponent {
   }
 
   onStatistic() {
+    if (this.status === 'pending') {
+      this.msg.add({
+        severity: 'warn',
+        summary: 'Анхааруулга',
+        detail: 'Таны бүртгэл одоогоор идэвхгүй байна. Төлбөрөө төлж бүртгэлээ идэвхжүүлнэ үү.',
+      });
+      return
+    }
     this.router.navigate(['statistic']);
     this.isOpen = false;
   }

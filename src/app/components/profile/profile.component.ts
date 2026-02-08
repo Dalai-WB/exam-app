@@ -35,7 +35,10 @@ export class ProfileComponent implements OnInit {
     this.registerService.getTeachers().subscribe(
       (res: any) => {
         this.isLoading = false;
-        this.teachers = res;
+        this.teachers = res.map((teacher: any) => {
+          teacher.display = teacher.firstName + ' ' + teacher.lastName + ' - ' + teacher.username;
+          return teacher;
+        });;
       }
     )
     const data = this.route.snapshot.data;

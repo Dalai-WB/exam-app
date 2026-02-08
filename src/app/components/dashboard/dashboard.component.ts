@@ -1,7 +1,6 @@
 // dashboard.component.ts
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { DashboardService } from '../../services/dashboard.service';
-import { Auth, user } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,6 +9,7 @@ import { Auth, user } from '@angular/fire/auth';
 })
 export class DashboardComponent implements OnInit {
   @ViewChild('chart') chart: any;
+  @Input() userIdInput: string = '';
 
   userId = 'PUT_USER_ID_HERE';
   isLoading = false;
@@ -34,16 +34,12 @@ export class DashboardComponent implements OnInit {
   ];
   filters: any = 'all';
 
-  constructor(private api: DashboardService, private auth: Auth) { }
+  constructor(private api: DashboardService) { }
 
   ngOnInit() {
     this.isLoading = true;
-    user(this.auth).subscribe((currentUser) => {
-      if (currentUser?.uid) {
-        this.userId = currentUser.uid;
-        this.loadAll();
-      }
-    });
+    this.userId = this.userIdInput;
+    this.loadAll();
   }
 
   loadAll() {
@@ -140,7 +136,7 @@ export class DashboardComponent implements OnInit {
   }
 
   buildTrendChart() {
-    const maxLength = Math.max(this.trendA.length, this.trendB.length);
+    const maxLength = Math.max(this.trendA?.length || 0, this.trendB?.length || 0);
 
     const labels = Array.from({ length: maxLength }, (_, i) => `${i + 1}`);
 
@@ -149,13 +145,13 @@ export class DashboardComponent implements OnInit {
       datasets: [
         {
           label: 'A',
-          data: this.trendA.map(x => x.score),
+          data: this.trendA?.map(x => x.score),
           tension: 0.4,
           fill: false
         },
         {
           label: 'B',
-          data: this.trendB.map(x => x.score),
+          data: this.trendB?.map(x => x.score),
           tension: 0.4,
           fill: false
         }
