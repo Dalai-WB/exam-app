@@ -53,7 +53,7 @@
           </ng-template>
           <div class="payment-content">
             <p class="payment-text" *ngIf="student && student.endDate">
-              Таны эрх {{ student.endDate | date:'yyyy-MM-dd' }} хүртэл хүчинтэй.
+              Таны эрх <b class="text-red-600">{{ student.endDate | date:'yyyy-MM-dd' }}</b> хүртэл хүчинтэй.
             </p>
 
             <p class="payment-text warning" *ngIf="isExpiringSoon">
