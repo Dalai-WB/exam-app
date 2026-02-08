@@ -47,7 +47,10 @@
 
       <!-- Payment Section -->
       <div class="payment-section">
-        <p-card header="Төлбөрийн төлөв">
+        <p-card>
+          <ng-template pTemplate="header">
+              <h1 class="text-red-600 ml-5 text-2xl">Төлбөрийн төлөв</h1>
+          </ng-template>
           <div class="payment-content">
             <p class="payment-text" *ngIf="student && student.endDate">
               Таны эрх {{ student.endDate | date:'yyyy-MM-dd' }} хүртэл хүчинтэй.
