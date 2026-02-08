@@ -35,6 +35,15 @@ export class LoginComponent {
   }
 
   onLogin() {
+    if (!this.email || !this.password) {
+      this.msg.add({
+        severity: 'error',
+        summary: 'Алдаа',
+        detail: 'Имэйл хаяг болон нууц үгээ оруулна уу.',
+      });
+      return;
+    }
+
     this.auth
       .signIn({
         email: this.email,

@@ -28,6 +28,7 @@ export class RequestComponent {
 
   ngOnInit() {
     this.pendingUsers = this.activatedRoute.snapshot.data['users'];
+    this.pendingUsers = this.pendingUsers.filter((user: any) => user.status === 'pending' && user.role !== 'admin');
   }
 
   translations: { [key: string]: string } = {
