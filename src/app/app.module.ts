@@ -46,6 +46,7 @@ import { DividerModule } from 'primeng/divider';
 import { TagModule } from 'primeng/tag';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { ImageModule } from 'primeng/image';
 
 @NgModule({
   declarations: [
@@ -94,6 +95,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     DividerModule,
     TagModule,
     InputTextareaModule,
+    ImageModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
   ],
