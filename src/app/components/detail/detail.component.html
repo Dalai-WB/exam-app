@@ -59,7 +59,7 @@
                   class="flex items-center justify-center px-3 sm:px-4 h-10 w-10 sm:w-12 border bg-white border-primary-color text-primary-color text-lg rounded-md">
                   {{ pageIndex }}
                 </span>
-                <span class="break-words max-w-full text-xl">
+                <span class="break-words max-w-full">
                   <app-math-jax-paragraph
                     [mathString]="replaceDollarPairsRecursively(questionText)"></app-math-jax-paragraph>
                 </span>
@@ -149,7 +149,7 @@
   <div class="mb-8">
     <img class="pl-4 sm:pl-8 lg:pl-24 mb-2" *ngIf="getSolutionImageUrl()" [src]="getSolutionImageUrl()" alt="Question Image" width="250" />
   </div>
-  <app-math-jax-paragraph class="text-xl" #solutionMath [mathString]="answerString"></app-math-jax-paragraph>
+  <app-math-jax-paragraph #solutionMath [mathString]="answerString"></app-math-jax-paragraph>
 </p-dialog>
 
 <div class="fixed inset-0 bg-black opacity-50 z-30 lg:hidden" *ngIf="isSidebarOpen" (click)="isSidebarOpen = false">

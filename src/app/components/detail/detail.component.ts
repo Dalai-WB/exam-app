@@ -3,6 +3,7 @@ import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Valida
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { DetailService } from '../../services/detail.service';
+import { ExamStateService } from '../../services/exam-state.service';
 import { Auth } from '@angular/fire/auth';
 import { AuthenticationService } from '../../services/authentication.service';
 import { MathJaxParagraphComponent } from '../math-jax-paragraph/math-jax-paragraph.component';
@@ -41,6 +42,8 @@ export class DetailComponent implements OnInit, OnDestroy {
   answerString: string = ''
 
   fillTypeKeyControlsList: { key: string; control: FormControl }[] = [];
+  private stateAutoSaveInterval: any;
+  private savedExamState: any = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -50,6 +53,7 @@ export class DetailComponent implements OnInit, OnDestroy {
     private auth: Auth,
     private authService: AuthenticationService,
     private service: DetailService,
+    private examStateService: ExamStateService,
   ) {
     this.examForm = this.fb.group({
       _id: '',
@@ -62,13 +66,25 @@ export class DetailComponent implements OnInit, OnDestroy {
     const data = this.route.snapshot.data;
     this.exam = data['exam']['exam'];
     this.attempt = data['exam']['userAttempt']
-    this.timeLeft = this.exam.duration * 60;
     this.examForm.patchValue(this.exam);
     this.arr = this.exam.questions.map((x: any, i: any) => ++i);
-    this.questionText = this.exam.questions[0].questionText;
-    this.imageUrl = this.exam.questions[0].imageUrl;
-    this.answers = this.exam.questions[0].choices;
-    this.isFill = this.exam.questions[0].answerType === 'fill';
+    
+    // Try to restore exam state for students
+    const isStudent = this.authService.getUserRole() === 'student';
+    this.savedExamState = isStudent ? this.examStateService.loadExamState(this.exam._id) : null;
+
+    if (this.savedExamState && !this.attempt) {
+      // Restore from saved state
+      this.timeLeft = this.savedExamState.timeLeft;
+      this.pageIndex = this.savedExamState.pageIndex;
+    } else {
+      // Initialize fresh
+      this.timeLeft = this.exam.duration * 60;
+      this.pageIndex = 1;
+    }
+
+    // Set initial question display
+    this.updateCurrentQuestionDisplay();
 
     if (this.authService.getUserRole() === 'admin' || this.authService.getUserRole() === 'teacher') {
       this.adminStart();
@@ -79,6 +95,8 @@ export class DetailComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     clearInterval(this.timerInterval);
+    clearInterval(this.stateAutoSaveInterval);
+    // Don't clear state on destroy - user might navigate back
   }
 
   adminStart() {
@@ -92,7 +110,17 @@ export class DetailComponent implements OnInit, OnDestroy {
     if (this.attempt === null) {
       this.populateQuestions(false);
       this.updateFillTypeKeyControls()
+      
+      // Restore form answers if state was saved
+      if (this.savedExamState && this.savedExamState.formData) {
+        this.restoreFormData(this.savedExamState.formData);
+      }
+      
       this.startTimer();
+      // Auto-save state every 5 seconds
+      this.stateAutoSaveInterval = setInterval(() => {
+        this.saveCurrentExamState();
+      }, 5000);
     } else {
       this.isReview = true;
       this.isExamEnded = true;
@@ -119,6 +147,69 @@ export class DetailComponent implements OnInit, OnDestroy {
     this.saveResponses();
   }
 
+  /**
+   * Save current exam state to sessionStorage
+   */
+  private saveCurrentExamState(): void {
+    try {
+      const formData = this.examForm.getRawValue();
+      this.examStateService.saveExamState(
+        this.exam._id,
+        formData,
+        this.timeLeft,
+        this.pageIndex
+      );
+    } catch (error) {
+      console.warn('Failed to auto-save exam state:', error);
+    }
+  }
+
+  /**
+   * Restore form data from saved state
+   */
+  private restoreFormData(formData: any): void {
+    try {
+      if (formData.questions && Array.isArray(formData.questions)) {
+        formData.questions.forEach((savedQuestion: any, index: number) => {
+          const formQuestion = this.questions.at(index) as FormGroup;
+          if (formQuestion) {
+            // Restore selectedAnswer
+            if (savedQuestion.selectedAnswer !== undefined) {
+              formQuestion.get('selectedAnswer')?.setValue(savedQuestion.selectedAnswer);
+            }
+            // Restore fill type keys if applicable
+            if (savedQuestion.fillTypeKeys) {
+              const fillGroup = formQuestion.get('fillTypeKeys') as FormGroup;
+              if (fillGroup) {
+                Object.entries(savedQuestion.fillTypeKeys).forEach(([key, value]: [string, any]) => {
+                  const control = fillGroup.get(key);
+                  if (control) {
+                    control.setValue(value.value ?? value);
+                  }
+                });
+              }
+            }
+          }
+        });
+      }
+    } catch (error) {
+      console.warn('Failed to restore form data:', error);
+    }
+  }
+
+  /**
+   * Update current question display based on pageIndex
+   */
+  private updateCurrentQuestionDisplay(): void {
+    const question = this.exam.questions[this.pageIndex - 1];
+    if (question) {
+      this.questionText = question.questionText;
+      this.imageUrl = question.imageUrl;
+      this.answers = question.choices;
+      this.isFill = question.answerType === 'fill';
+    }
+  }
+
   saveResponses() {
     this.questions.controls.forEach((questionGroup: AbstractControl) => {
       const group = questionGroup as FormGroup;
@@ -136,11 +227,14 @@ export class DetailComponent implements OnInit, OnDestroy {
     console.log(this.examForm);
     if (this.examForm.valid) {
       clearInterval(this.timerInterval);
+      clearInterval(this.stateAutoSaveInterval);
       const body = this.examForm.getRawValue();
       const fireId = this.auth.currentUser?.uid
       this.service.saveExamAttempt(fireId ?? '', body).subscribe(
         respones => {
           this.isExamEnded = true;
+          // Clear saved state after successful submission
+          this.examStateService.clearExamState();
           this.router.navigate(['/home']);
           this.msg.add({
             severity: 'success',
@@ -167,20 +261,14 @@ export class DetailComponent implements OnInit, OnDestroy {
 
   onPageClick(question: number) {
     this.pageIndex = question;
-    this.questionText = this.exam.questions[this.pageIndex - 1].questionText;
-    this.imageUrl = this.exam.questions[this.pageIndex - 1].imageUrl;
-    this.answers = this.exam.questions[this.pageIndex - 1].choices;
-    this.isFill = this.exam.questions[this.pageIndex - 1].answerType === 'fill';
+    this.updateCurrentQuestionDisplay();
     this.updateFillTypeKeyControls()
   }
 
   onNextClick() {
     if (this.pageIndex != this.exam.questions.length) {
       this.pageIndex++;
-      this.questionText = this.exam.questions[this.pageIndex - 1].questionText;
-      this.imageUrl = this.exam.questions[this.pageIndex - 1].imageUrl;
-      this.answers = this.exam.questions[this.pageIndex - 1].choices;
-      this.isFill = this.exam.questions[this.pageIndex - 1].answerType === 'fill';
+      this.updateCurrentQuestionDisplay();
       this.updateFillTypeKeyControls()
     }
   }
@@ -188,10 +276,7 @@ export class DetailComponent implements OnInit, OnDestroy {
   onPreviousClick() {
     if (this.pageIndex != 1) {
       this.pageIndex--;
-      this.questionText = this.exam.questions[this.pageIndex - 1].questionText;
-      this.imageUrl = this.exam.questions[this.pageIndex - 1].imageUrl;
-      this.answers = this.exam.questions[this.pageIndex - 1].choices;
-      this.isFill = this.exam.questions[this.pageIndex - 1].answerType === 'fill';
+      this.updateCurrentQuestionDisplay();
       this.updateFillTypeKeyControls()
     }
   }
