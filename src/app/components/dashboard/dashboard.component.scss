@@ -3,51 +3,129 @@
 .dashboard {
   display: flex;
   flex-direction: column;
-  height: 100%;             /* fill parent container */
+  height: 100%;
   width: 100%;
   box-sizing: border-box;
+  padding: 0;
 }
 
 .filters {
   display: flex;
   gap: 12px;
   margin-bottom: 16px;
+  flex-wrap: wrap;
 }
 
+/* MAIN CONTENT - Responsive Grid */
 .content {
   display: grid;
-  grid-template-columns: 2fr 1fr;
   gap: 16px;
+  margin-bottom: 16px;
+
+  /* Mobile: 1 column */
+  grid-template-columns: 1fr;
+
+  @media (min-width: 768px) {
+    /* Tablet: adjust */
+    grid-template-columns: 1.5fr 1fr;
+  }
+
+  @media (min-width: 1024px) {
+    /* Desktop: 2fr 1fr */
+    grid-template-columns: 2fr 1fr;
+  }
+}
+
+.content-item {
+  min-height: 400px;
+
+  @media (min-width: 768px) {
+    min-height: 350px;
+  }
+
+  @media (min-width: 1024px) {
+    min-height: 400px;
+  }
 }
 
 .left, .right {
   background: white;
   padding: 16px;
   border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  @media (max-width: 640px) {
+    padding: 12px;
+  }
 }
 
 .sub-row {
   display: flex;
   justify-content: space-between;
-  padding: 6px 0;
+  align-items: center;
+  padding: 8px 0;
   border-bottom: 1px solid #eee;
+  flex-wrap: nowrap;
+  gap: 8px;
+
+  span:first-child {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 0.9rem;
+
+    @media (max-width: 640px) {
+      font-size: 0.85rem;
+    }
+  }
 }
 
 .percent {
   color: red;
   font-weight: bold;
+  white-space: nowrap;
+  font-size: 0.95rem;
+
+  @media (max-width: 640px) {
+    font-size: 0.85rem;
+  }
 }
 
+/* BOTTOM SECTION - Responsive Grid */
 .bottom {
   display: grid;
-  grid-template-columns: 1fr 1fr;
   gap: 16px;
   margin-top: 16px;
+
+  /* Mobile: 1 column */
+  grid-template-columns: 1fr;
+
+  @media (min-width: 768px) {
+    /* Tablet and above: 2 columns */
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.bottom-item {
+  min-height: 300px;
+
+  @media (min-width: 768px) {
+    min-height: 350px;
+  }
 }
 
 .summary {
   display: flex;
   gap: 8px;
+  flex-wrap: nowrap;
+
+  @media (max-width: 640px) {
+    gap: 6px;
+    flex-direction: column;
+  }
 }
 
 .box {
@@ -56,38 +134,74 @@
   padding: 16px;
   text-align: center;
   border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.95rem;
+
+  b {
+    font-size: 1.5rem;
+    margin-top: 4px;
+
+    @media (max-width: 640px) {
+      font-size: 1.2rem;
+    }
+  }
+
+  @media (max-width: 640px) {
+    padding: 12px;
+    font-size: 0.85rem;
+  }
 }
 
-.correct { background: #2f9e44; }
-.wrong { background: #e03131; }
-.skipped { background: #f08c00; }
+.correct {
+  background: #2f9e44;
+}
+
+.wrong {
+  background: #e03131;
+}
+
+.skipped {
+  background: #f08c00;
+}
 
 .trend {
   background: white;
   padding: 16px;
   border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  @media (max-width: 640px) {
+    padding: 12px;
+  }
+}
+
+.left,
+.right,
+.trend {
+  height: 100%;
+}
+
+.left p-chart,
+.right p-chart,
+.trend p-chart {
+  width: 100% !important;
+  height: 100% !important;
 }
 
 .overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(255, 255, 255, 0.8);
-    /* Semi-transparent white */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    /* Ensure it overlays all other content */
-}
-
-.left, .right, .trend {
-  height: 100%;            /* fill parent flex/grid cell */
-}
-
-.left p-chart, .right p-chart, .trend p-chart {
-  width: 100% !important;
-  height: 100% !important; /* make chart fill container */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
