@@ -1,4 +1,41 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { first } from 'rxjs/operators';
+import { UserStateService } from './services/user-state.service';
+import { Auth, authState } from '@angular/fire/auth';
+import { HttpClient } from '@angular/common/http';
+
+function initUserState(
+  auth: Auth,
+  http: HttpClient,
+  userState: UserStateService,
+) {
+  return () =>
+    new Promise<void>((resolve) => {
+      authState(auth).pipe(first()).subscribe((firebaseUser) => {
+        if (!firebaseUser?.uid) {
+          resolve();
+          return;
+        }
+        http
+          .get<any>(`${environment.apiUrl}user/role-status/${firebaseUser.uid}`)
+          .pipe(first())
+          .subscribe({
+            next: (response) => {
+              if (response?.role && response?.status && response?.firstName) {
+                userState.setProfile({
+                  uid: firebaseUser.uid,
+                  role: response.role,
+                  status: response.status,
+                  firstName: response.firstName,
+                });
+              }
+              resolve();
+            },
+            error: () => resolve(),
+          });
+      });
+    });
+}
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -101,6 +138,12 @@ import { ImageModule } from 'primeng/image';
   ],
   providers: [
     MessageService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initUserState,
+      deps: [Auth, HttpClient, UserStateService],
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent],
 })
