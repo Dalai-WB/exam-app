@@ -1,9 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Auth, user } from '@angular/fire/auth';
-import { from } from 'rxjs';
-import { mergeMap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { UserStateService } from './user-state.service';
 
 @Injectable({
   providedIn: 'root',
@@ -11,16 +10,11 @@ import { environment } from 'src/environments/environment';
 export class HomeService {
   private baseUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient, private auth: Auth) {}
+  constructor(private http: HttpClient, private userState: UserStateService) {}
 
   getAllExam() {
-    return from(user(this.auth)).pipe(
-      mergeMap((currentUser) => {
-        if (!currentUser?.uid) {
-          throw new Error('User not authenticated');
-        }
-        return this.http.get(`${this.baseUrl}exam/all/${currentUser.uid}`);
-      })
+    return this.userState.uid$.pipe(
+      switchMap(uid => this.http.get(`${this.baseUrl}exam/all/${uid}`))
     );
   }
 }
