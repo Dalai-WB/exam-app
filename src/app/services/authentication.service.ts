@@ -14,6 +14,7 @@ import {
 import { MessageService } from 'primeng/api';
 import { catchError, from, map, Observable, switchMap, tap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { UserStateService, UserRole, UserStatus } from './user-state.service';
 
 @Injectable({
   providedIn: 'root',
@@ -29,6 +30,7 @@ export class AuthenticationService {
     private auth: Auth,
     private msg: MessageService,
     private http: HttpClient,
+    private userState: UserStateService,
   ) { }
 
   createUser(params: SignIn, role: string, teacherId: String, firstName: String, lastName: String, phoneNumber: String): Observable<any> {
@@ -113,14 +115,13 @@ export class AuthenticationService {
         return this.http.get(`${this.baseUrl}user/role-status/${fireId}`).pipe(
           tap((response: any) => {
             this.userRole = response.role;
-            if (this.userRole) {
-              localStorage.setItem('userRole', this.userRole);
-            }
-            if (response.firstName) {
-              localStorage.setItem('firstName', response.firstName);
-            }
-            if (response.status) {
-              localStorage.setItem('userStatus', response.status);
+            if (response.role && response.status && response.firstName) {
+              this.userState.setProfile({
+                uid: fireId,
+                role: response.role as UserRole,
+                status: response.status as UserStatus,
+                firstName: response.firstName,
+              });
             }
           }),
           catchError((error) => {
@@ -152,9 +153,7 @@ export class AuthenticationService {
         this.currentUser = null;
         this.userRole = null;
         this.signedUser = null;
-        localStorage.removeItem('userRole');
-        localStorage.removeItem('firstName');
-        localStorage.removeItem('userStatus');
+        this.userState.clearProfile();
       }),
       catchError((error: FirebaseError) =>
         throwError(() => {
