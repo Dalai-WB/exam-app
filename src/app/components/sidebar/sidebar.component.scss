@@ -10,13 +10,16 @@
   width: 260px;
   background-color: #42A5F5;
   height: 100vh;
+  position: sticky;
+  top: 0;
   padding: 1rem;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
 
   @media (max-width: 768px) {
-    position:fixed;
+    position: fixed;
+    height: 100vh;
   }
 
   .sidebar-main-title {

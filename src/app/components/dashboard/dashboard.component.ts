@@ -188,9 +188,56 @@ export class DashboardComponent {
   summary: any = null;
   trendA: any[] = [];
   trendB: any[] = [];
+  selectedCategory: string = '';
 
   categoryChart: any;
   trendChart: any;
+
+  categoryChartOptions = {
+    indexAxis: 'y' as const,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'top' as const },
+      tooltip: {
+        callbacks: {
+          label: (ctx: any) => `${ctx.dataset.label}: ${ctx.parsed.x}%`
+        }
+      }
+    },
+    scales: {
+      x: {
+        stacked: true,
+        min: 0,
+        max: 100,
+        ticks: { callback: (v: any) => `${v}%` }
+      },
+      y: {
+        stacked: true,
+        ticks: {
+          autoSkip: false,
+          font: { size: 11 }
+        },
+        afterFit: (axis: any) => { axis.width = 200; }
+      }
+    }
+  };
+
+  trendChartOptions = {
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'top' as const }
+    },
+    scales: {
+      y: {
+        min: 0,
+        max: 100,
+        title: { display: true, text: 'Оноо (%)' }
+      },
+      x: {
+        title: { display: true, text: 'Сорилын дугаар' }
+      }
+    }
+  };
   filterOptions: any[] = [
     { label: 'БҮГД', value: 'all' },
     { label: 'СҮҮЛИЙН 5 СОРИЛ (А)', value: 'last5A' },
@@ -239,32 +286,31 @@ export class DashboardComponent {
     this.loadAll();
   }
 
+  private processCategories(data: any[]) {
+    this.categories = this.mergeWithHardcodedCategories(data);
+    this.categoryChart = this.buildCategoryChart(this.categories);
+    this.highlightBar(0);
+    const firstCategory = this.categories[0]?.category || this.categories[0]?.title;
+    this.selectedCategory = firstCategory;
+    this.loadSubCategories(firstCategory);
+    this.loadSummaryByCategory(firstCategory);
+  }
+
+  private highlightBar(index: number) {
+    this.categoryChart.datasets[0].backgroundColor =
+      this.categoryChart.datasets[0].data.map((_: any, i: any) =>
+        i === index ? '#27567c' : '#4dabf7'
+      );
+    this.categoryChart.datasets[1].backgroundColor =
+      this.categoryChart.datasets[1].data.map((_: any, i: any) =>
+        i === index ? '#803636' : '#ff6b6b'
+      );
+  }
+
   loadAll() {
     this.api.categories(this.userId).subscribe((d: any) => {
-      // Merge backend data with hardcoded categories
-      this.categories = this.mergeWithHardcodedCategories(d);
-      this.categoryChart = this.buildCategoryChart(this.categories);
-
-      this.categoryChart.datasets[0].backgroundColor =
-        this.categoryChart.datasets[0].data.map((_: any, i: any) =>
-          i === 0 ? '#27567c' : '#4dabf7'
-        );
-      this.categoryChart.datasets[1].backgroundColor =
-        this.categoryChart.datasets[1].data.map((_: any, i: any) =>
-          i === 0 ? '#803636' : '#ff6b6b'
-        );
-
-      this.loadSubCategories(this.categories[0]?.category || this.categories[0]?.title);
-      this.loadSummaryByCategory(this.categories[0]?.category || this.categories[0]?.title);
+      this.processCategories(d);
     });
-
-    // this.api.summary(this.userId).subscribe((d: any) => {
-    //   const summary = d.reduce((acc: any, item: any) => {
-    //     acc[item._id] = item.count;
-    //     return acc;
-    //   }, {});
-    //   this.summary = summary
-    // });
 
     this.api.trend(this.userId).subscribe((d: any) => {
       this.trendA = d.A;
@@ -275,41 +321,13 @@ export class DashboardComponent {
 
   load5A() {
     this.api.categories5Var(this.userId, 'A').subscribe((d: any) => {
-      // Merge backend data with hardcoded categories
-      this.categories = this.mergeWithHardcodedCategories(d);
-      this.categoryChart = this.buildCategoryChart(this.categories);
-
-      this.categoryChart.datasets[0].backgroundColor =
-        this.categoryChart.datasets[0].data.map((_: any, i: any) =>
-          i === 0 ? '#27567c' : '#4dabf7'
-        );
-      this.categoryChart.datasets[1].backgroundColor =
-        this.categoryChart.datasets[1].data.map((_: any, i: any) =>
-          i === 0 ? '#803636' : '#ff6b6b'
-        );
-
-      this.loadSubCategories(this.categories[0]?.category || this.categories[0]?.title);
-      this.loadSummaryByCategory(this.categories[0]?.category || this.categories[0]?.title);
+      this.processCategories(d);
     });
   }
 
   load5B() {
     this.api.categories5Var(this.userId, 'B').subscribe((d: any) => {
-      // Merge backend data with hardcoded categories
-      this.categories = this.mergeWithHardcodedCategories(d);
-      this.categoryChart = this.buildCategoryChart(this.categories);
-
-      this.categoryChart.datasets[0].backgroundColor =
-        this.categoryChart.datasets[0].data.map((_: any, i: any) =>
-          i === 0 ? '#27567c' : '#4dabf7'
-        );
-      this.categoryChart.datasets[1].backgroundColor =
-        this.categoryChart.datasets[1].data.map((_: any, i: any) =>
-          i === 0 ? '#803636' : '#ff6b6b'
-        );
-
-      this.loadSubCategories(this.categories[0]?.category || this.categories[0]?.title);
-      this.loadSummaryByCategory(this.categories[0]?.category || this.categories[0]?.title);
+      this.processCategories(d);
     });
   }
 
@@ -361,38 +379,11 @@ export class DashboardComponent {
 
   onBarClick(event: any) {
     const index = event.element.index;
-
-    this.categoryChart.datasets[0].backgroundColor =
-      this.categoryChart.datasets[0].data.map((_: any, i: any) =>
-        i === index ? '#27567c' : '#4dabf7'
-      );      
-    this.categoryChart.datasets[1].backgroundColor =
-      this.categoryChart.datasets[1].data.map((_: any, i: any) =>
-        i === index ? '#803636' : '#ff6b6b'
-      );
-
+    this.highlightBar(index);
     this.chart?.chart?.update();
 
-    // index of bar
-    const dataIndex = event.element.index;
-
-    // dataset index (usually 0)
-    const datasetIndex = event.element.datasetIndex;
-
-    // label (CATEGORY NAME)
-    const label = this.categoryChart.labels[dataIndex];
-
-    // value (PERCENTAGE)
-    const value = this.categoryChart.datasets[datasetIndex].data[dataIndex];
-
-    console.log('Clicked bar:', {
-      label,
-      value,
-      dataIndex,
-      datasetIndex
-    });
-
-    // Example: load subcategories for this category
+    const label = this.categoryChart.labels[index];
+    this.selectedCategory = label;
     this.loadSubCategories(label);
     this.loadSummaryByCategory(label);
   }
@@ -400,28 +391,31 @@ export class DashboardComponent {
   loadSubCategories(category: string) {
     this.api.subCategoriesByCategory(this.userId, category)
       .subscribe((data: any) => {
-        // Get hardcoded subcategories for reference
         const hardcodedCategory = this.hardcodedCategories.find(
           cat => cat.title === category
         );
         const hardcodedSubCats = hardcodedCategory?.subCategories || [];
 
-        // Merge backend data with hardcoded structure
-        const mergedSubCats = data.map((subCat: any) => {
-          const hardcoded = hardcodedSubCats.find(
-            (h: any) => h.title === subCat.subCategory
-          );
+        // Build a lookup from backend results
+        const backendMap = new Map(
+          (data || []).map((s: any) => [s.subCategory, s])
+        );
+
+        // Always show all hardcoded subcategories; overlay backend data where available
+        const mergedSubCats = hardcodedSubCats.map((h: any) => {
+          const backendData: any = backendMap.get(h.title) || {};
           return {
-            ...subCat,
-            ...hardcoded
+            subCategory: h.title,
+            percentage: 0,
+            ...backendData,
           };
         });
 
         this.subCategories = mergedSubCats.sort((a: any, b: any) => {
           if (b.percentage !== a.percentage) {
-            return b.percentage - a.percentage; // primary: percentage DESC
+            return b.percentage - a.percentage;
           }
-          return a.subCategory.localeCompare(b.subCategory); // secondary: name ASC
+          return a.subCategory.localeCompare(b.subCategory);
         });
         this.isLoading = false;
       });

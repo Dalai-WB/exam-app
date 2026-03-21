@@ -7,7 +7,7 @@
         <h1 class="mb-4 text-2xl">Статистик</h1>
         <p-selectButton [options]="filterOptions" [(ngModel)]="filters" name="filters" optionLabel="label"
             optionValue="value" allowEmpty="false" styleClass="custom-filter-selection w-full"
-            (click)="onSelectFilter($event)">
+            (onChange)="onSelectFilter($event)">
         </p-selectButton>
     </div>
 
@@ -20,8 +20,8 @@
                 <h3 class="text-white">БҮЛЭГ СЭДВЭЭР</h3>
             </div>
             <div class="left">
-                <p-chart #chart type="bar" [data]="categoryChart" [options]="{ indexAxis: 'y' }"
-                    (onDataSelect)="onBarClick($event)">>
+                <p-chart #chart type="bar" [data]="categoryChart" [options]="categoryChartOptions"
+                    height="700px" (onDataSelect)="onBarClick($event)">
                 </p-chart>
             </div>
         </div>
@@ -29,12 +29,15 @@
         <!-- RIGHT -->
         <div class="content-item">
             <div class="bg-blue-500 mb-4">
-                <h3 class="text-white">БҮЛГИЙН ДЭД СЭДВЭЭР</h3>
+                <h3 class="text-white">{{ selectedCategory ? selectedCategory + ' — ДЭД СЭДВЭЭР' : 'БҮЛГИЙН ДЭД СЭДВЭЭР' }}</h3>
             </div>
             <div class="right">
                 <div *ngFor="let s of subCategories" class="sub-row">
                     <span>{{s.subCategory}}</span>
                     <span class="percent">{{s.percentage}}%</span>
+                </div>
+                <div *ngIf="subCategories?.length === 0 && !isLoading" class="empty-state">
+                    Дэд сэдэв олдсонгүй
                 </div>
             </div>
         </div>
@@ -70,7 +73,7 @@
             </div>
 
             <div class="trend">
-                <p-chart type="line" [data]="trendChart"></p-chart>
+                <p-chart type="line" [data]="trendChart" [options]="trendChartOptions" height="280px"></p-chart>
             </div>
         </div>
 
