@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, filter, map, take } from 'rxjs';
 
 export type UserRole = 'admin' | 'student';
-export type UserStatus = 'active' | 'inactive';
+export type UserStatus = 'active' | 'inactive' | 'pending';
 
 export interface UserProfile {
   uid: string;

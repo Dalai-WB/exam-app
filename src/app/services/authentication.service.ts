@@ -46,7 +46,6 @@ export class AuthenticationService {
           });
         });
         this.userRole = role;
-        localStorage.setItem('userRole', this.userRole);
         const fireId = userCredential.user.uid;
         this.signedUser = userCredential;
 
@@ -66,7 +65,6 @@ export class AuthenticationService {
         }).pipe(
           catchError((error) => {
             this.userRole = null;
-            localStorage.removeItem('userRole');
             userCredential.user.delete().catch((deleteError) => {
               console.error('Error deleting user from Firebase', deleteError);
             });
@@ -225,19 +223,19 @@ export class AuthenticationService {
   }
 
   getUserRole(): string | null {
-    return localStorage.getItem('userRole');
+    return this.userState.snapshot?.role ?? null;
   }
 
   getUserStatus(): string | null {
-    return localStorage.getItem('userStatus');
+    return this.userState.snapshot?.status ?? null;
   }
 
   getUserFirstName(): string | null {
-    return localStorage.getItem('firstName');
+    return this.userState.snapshot?.firstName ?? null;
   }
 
   setUserFirstName(newFirstName: string) {
-    return localStorage.setItem('firstName', newFirstName);
+    return this.userState.patch({ firstName: newFirstName });
   }
 }
 
