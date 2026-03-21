@@ -211,6 +211,12 @@ export class AuthenticationService {
     if (code === 'auth/wrong-password') {
       return 'User not found.';
     }
+    if (code === 'auth/email-already-in-use') {
+      return 'И-мэйл аль хэдийн ашиглагдаж байна.';
+    }
+    if (code === 'auth/missing-password') {
+      return 'Нууц үг оруулна уу.';
+    }
     return message;
   }
 
