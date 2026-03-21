@@ -3,7 +3,8 @@ import { Injectable } from '@angular/core';
 declare global {
   interface Window {
     MathJax: {
-      typesetPromise: () => void;
+      typesetPromise: (elements?: HTMLElement[]) => Promise<void>;
+      typesetClear: (elements?: HTMLElement[]) => void;
       startup: {
         promise: Promise<any>;
       };
@@ -50,9 +51,9 @@ export class MathJaxService {
     });
   }
 
-  render(nativeElement: any) {
-    window.MathJax.startup.promise.then(() => {
-      window.MathJax.typesetPromise();
-    });
+  async render(nativeElement: HTMLElement): Promise<void> {
+    await window.MathJax.startup.promise;
+    window.MathJax.typesetClear([nativeElement]);
+    await window.MathJax.typesetPromise([nativeElement]);
   }
 }
