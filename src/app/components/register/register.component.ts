@@ -24,6 +24,8 @@ export class RegisterComponent {
   teachers: any[] = [];
   selectedTeacher: String = '';
   phoneNumber: String = '';
+  showPasswordFirst: Boolean = false;
+  showPasswordSecond: Boolean = false;
 
   constructor(
     private authenticationService: AuthenticationService,

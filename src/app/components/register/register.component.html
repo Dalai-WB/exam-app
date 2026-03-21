@@ -114,13 +114,19 @@
             <label class="block mb-2 text-sm font-medium register-text">
               Нууц үг
             </label>
-            <input
-              [(ngModel)]="password"
-              type="password"
-              name="password"
-              class="input-style w-full p-2.5 text-sm sm:text-base"
-              placeholder="Нууц үгээ оруулна уу"
-              required>
+            <div class="relative">
+              <input
+                [(ngModel)]="password"
+                [type]="showPasswordFirst ? 'text' : 'password'"
+                name="password"
+                class="bg-gray-50 input-style text-gray-900 sm:text-sm block w-full p-2.5 pr-10"
+                placeholder="Нууц үгээ оруулна уу"
+                required>
+              <button type="button" (click)="showPasswordFirst = !showPasswordFirst" class="absolute right-3 top-1/2 transform -translate-y-1/2">
+                <i [class]="showPasswordFirst ? 'pi pi-eye-slash' : 'pi pi-eye'"></i>
+              </button>
+            </div>
+            
           </div>
 
           <!-- CONFIRM PASSWORD -->
@@ -128,13 +134,18 @@
             <label class="block mb-2 text-sm font-medium register-text">
               Нууц үг баталгаажуулах
             </label>
-            <input
-              [(ngModel)]="confirmPassword"
-              type="password"
-              name="confirmPassword"
-              class="input-style w-full p-2.5 text-sm sm:text-base"
-              placeholder="Нууц үгээ баталгаажуулна уу"
-              required>
+            <div class="relative">
+              <input
+                [(ngModel)]="confirmPassword"
+                [type]="showPasswordSecond ? 'text' : 'password'"
+                name="confirmPassword"
+                class="bg-gray-50 input-style text-gray-900 sm:text-sm block w-full p-2.5 pr-10"
+                placeholder="Нууц үгээ баталгаажуулна уу"
+                required>
+              <button type="button" (click)="showPasswordSecond = !showPasswordSecond" class="absolute right-3 top-1/2 transform -translate-y-1/2">
+                <i [class]="showPasswordSecond ? 'pi pi-eye-slash' : 'pi pi-eye'"></i>
+              </button>
+            </div>
           </div>
 
           <!-- SUBMIT -->
