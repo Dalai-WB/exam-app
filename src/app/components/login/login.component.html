@@ -45,8 +45,9 @@
               class="text-sm font-medium login-text hover:underline forgot-link">Нууц үг мартсан?</a>
           </div>
           <button type="submit"
+            [disabled]="isSubmitting"
             class="w-full text-white login-button focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-lg px-5 py-2.5 text-center hover:cursor-pointer">
-            Нэвтрэх
+            {{ isSubmitting ? 'Нэвтрэх...' : 'Нэвтрэх' }}
           </button>
           <p class="text-sm font-light login-text text-center">
             Бүртгэл байхгүй юу?

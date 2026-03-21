@@ -15,6 +15,7 @@ export class LoginComponent {
   showForgotPassword: boolean = false;
   resetEmail: string = '';
   showPassword: boolean = false;
+  isSubmitting: boolean = false;
 
   constructor(
     private router: Router,
@@ -35,6 +36,7 @@ export class LoginComponent {
   }
 
   onLogin() {
+    if (this.isSubmitting) return;
     if (!this.email || !this.password) {
       this.msg.add({
         severity: 'error',
@@ -44,6 +46,8 @@ export class LoginComponent {
       return;
     }
 
+    this.isSubmitting = true;
+
     this.auth
       .signIn({
         email: this.email,
@@ -51,6 +55,8 @@ export class LoginComponent {
       })
       .subscribe(
         (res) => {
+          this.isSubmitting = false;
+
           // if (res.status === undefined || res.status === 'pending') {
           //   this.auth.logOut().subscribe(
           //     response => {
@@ -78,6 +84,9 @@ export class LoginComponent {
             localStorage.removeItem('rememberValue');
           }
           this.router.navigate(['home']);
+        },
+        (error) => {
+          this.isSubmitting = false;
         }
       );
   }
