@@ -26,6 +26,7 @@ export class RegisterComponent {
   phoneNumber: String = '';
   showPasswordFirst: Boolean = false;
   showPasswordSecond: Boolean = false;
+  isSubmitting: Boolean = false;
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -41,6 +42,8 @@ export class RegisterComponent {
   }
 
   onRegister() {
+    if (this.isSubmitting) return;
+
     if (this.password !== this.confirmPassword) {
       this.msg.add({
         severity: 'warn',
@@ -49,6 +52,8 @@ export class RegisterComponent {
       });
       return;
     }
+
+    this.isSubmitting = true;
 
     // if (this.selectedTeacher === '' && this.role === 'student') {
     //   this.msg.add({
@@ -63,6 +68,7 @@ export class RegisterComponent {
       password: this.password,
     }, this.role, this.selectedTeacher, this.firstName, this.lastName, this.phoneNumber)).subscribe(
       (res) => {
+        this.isSubmitting = false;
         console.log(res);
         console.log("-------");
         this.msg.add({
@@ -75,6 +81,9 @@ export class RegisterComponent {
             this.router.navigate(['login']);
           }
         );
+      },
+      (error) => {
+        this.isSubmitting = false;
       }
     );
   }
